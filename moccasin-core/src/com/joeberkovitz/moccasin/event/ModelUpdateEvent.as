@@ -1,0 +1,28 @@
+package com.joeberkovitz.moccasin.event
+{
+    import flash.events.Event;
+    
+    public class ModelUpdateEvent extends Event
+    {
+        public static const MODEL_UPDATE:String = "modelUpdate";
+
+        public var property:Object;
+        public var oldValue:Object;
+        public var newValue:Object;
+        public var source:Object;
+        
+        public function ModelUpdateEvent(type:String, property:Object, oldValue:Object, newValue:Object, source:Object)
+        {
+            super(type);
+            this.property = property;
+            this.oldValue = oldValue;
+            this.newValue = newValue;
+            this.source = source;
+        }
+        
+        override public function clone():Event
+        {
+            return new ModelUpdateEvent(type, property, oldValue, newValue, source);
+        }
+    }
+}
