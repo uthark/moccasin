@@ -1,0 +1,21 @@
+<project name="Antennae" default="build" basedir=".">
+
+    <import file="buildtools/build-master-targets.xml" />
+    <import file="build-imports.xml" />
+
+    <filelist id="children.filelist" dir=".">
+        <file name="standingwave"/>
+        <file name="noteflight"/>
+        <file name="noteflightStyle"/>
+        <file name="sonataVector"/>
+        <file name="notationTest"/>
+        <file name="noteflightApp"/>
+        <file name="webflight"/>
+    </filelist>
+
+    <filelist id="testChildren.filelist" dir=".">
+        <file name="standingwaveTest"/>
+        <file name="noteflightTest"/>
+    </filelist>
+
+</project>

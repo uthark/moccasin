@@ -1,0 +1,6 @@
+<project name="moccasin-core.assets">
+    <dirname property="moccasin-core.assets.dir" file="${ant.file.moccasin-core.assets}"/>
+
+    <!-- Define SWC exported by this library. -->
+    <property name="moccasin-core.swc" location="${moccasin-core.assets.dir}/${build.compc.dir}/moccasin-core.swc"/>
+</project>

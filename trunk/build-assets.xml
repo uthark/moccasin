@@ -1,0 +1,13 @@
+<project name="flashmusic.assets">
+    <dirname property="flashmusic.assets.dir" file="${ant.file.flashmusic.assets}"/>
+
+    <import file="buildlib/build-assets.xml"/>
+    <import file="standingwave/build-assets.xml"/>
+    <import file="noteflight/build-assets.xml"/>
+    <import file="noteflightStyle/build-assets.xml"/>
+    <import file="sonataVector/build-assets.xml"/>
+    <import file="simpleInstrument/build-assets.xml"/>
+    <import file="notationTest/build-assets.xml"/>
+
+    <property name="instrument.library.dir" location="${flashmusic.assets.dir}/instruments"/>
+</project>
