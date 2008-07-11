@@ -1,9 +1,13 @@
 package com.joeberkovitz.moccasin.view
 {
+    import com.joeberkovitz.moccasin.event.ModelEvent;
+    import com.joeberkovitz.moccasin.event.ModelStatusEvent;
+    import com.joeberkovitz.moccasin.event.ModelUpdateEvent;
     import com.joeberkovitz.moccasin.model.MoccasinModel;
     
     import flash.display.Sprite;
     import flash.geom.ColorTransform;
+    import flash.utils.getQualifiedClassName;
 
     public class MoccasinView extends Sprite
     {
@@ -28,7 +32,18 @@ package com.joeberkovitz.moccasin.view
             return _model;
         }
 
-        protected function initializeView():void
+        public function initialize():void
+        {
+            initializeView();
+            if (model != null)
+            {
+                model.addEventListener(ModelStatusEvent.STATUS_CHANGE, handleStatusChange, false, 0, true);
+                model.addEventListener(ModelEvent.MODEL_CHANGE, handleModelChange, false, 0, true);
+                model.addEventListener(ModelUpdateEvent.MODEL_UPDATE, handleModelUpdate, false, 0, true);
+            }
+        }
+        
+        public function initializeView():void
         {
             graphics.clear();
             updateView();
@@ -41,14 +56,23 @@ package com.joeberkovitz.moccasin.view
          * Called to initialize the view's contents, typically by consulting its layout and constructing its children. 
          */
         protected function updateView():void
-        {
+        {            
         }
 
-        protected function createChildView(child:MoccasinModel):MoccasinView
+        public function createChildView(child:MoccasinModel):MoccasinView
         {
-            return null;
+            throw new Error("createChildView not overridden by " + getQualifiedClassName(this));
         }
         
+        /**
+         * Handle a specific property change by some incremental adjustment and return true,
+         * otherwise return false to reinitialize the view. 
+         */
+        public function updateModelProperty(property:Object, oldValue:Object, newValue:Object):Boolean
+        {
+            return false;
+        }
+
         /**
          * Update the geometry of this object by redrawing graphics, adjusting child positions, etc. 
          */
@@ -64,6 +88,12 @@ package com.joeberkovitz.moccasin.view
             transform.colorTransform = getColorTransform();
         }
         
+        /** Determine whether an element in the view appears selected or not. */
+        public function get selected():Boolean
+        {
+            return false;
+        }
+
         protected function getColorTransform():ColorTransform
         {
             if (feedback)
@@ -91,10 +121,44 @@ package com.joeberkovitz.moccasin.view
             return new ColorTransform((color >> 16) / 255.0, ((color >> 8) & 0xFF) / 255.0, (color & 0xFF) / 255.0);
         }
 
-        /** Determine whether an element in the view appears selected or not. */
-        public function get selected():Boolean
+        private function handleStatusChange(e:ModelStatusEvent):void
         {
-            return false;
+            if (stage != null)
+            {
+                updateStatus();
+            }
+        }
+        
+        private function handleModelChange(e:ModelEvent):void
+        {
+            if (e.target != model || stage == null)
+            {
+                return;
+            }
+
+            switch (e.kind)
+            {
+                case ModelEvent.ADD_CHILD_MODEL:
+                    addChildAt(createChildView(e.child), e.index);
+                    break;
+    
+                case ModelEvent.REMOVE_CHILD_MODEL:
+                    removeChildAt(e.index);
+                    break;
+            }
+        }
+        
+        private function handleModelUpdate(e:ModelUpdateEvent):void
+        {
+            if (e.source != model || stage == null)
+            {
+                return;
+            }
+ 
+            if (!updateModelProperty(e.property, e.oldValue, e.newValue))
+            {
+                initializeView();
+            }
         }
     }
 }

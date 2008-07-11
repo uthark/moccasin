@@ -23,10 +23,17 @@ package com.joeberkovitz.moccasin.controller
         
         public function handleMouseDown(e:MouseEvent):void
         {
-            // Permit pitch dragging if selecting a single note on mouse down
+            if (e.ctrlKey || e.shiftKey)
+            {
+                return;
+            }
+            
+            _dragStarted = false;
+            
             _dragPoint = new Point(_context.stage.mouseX, _context.stage.mouseY);
             _context.stage.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
             _context.stage.addEventListener(MouseEvent.MOUSE_UP, handleMouseUp);
+            e.stopPropagation();
         }
 
         protected function get context():ViewContext
@@ -39,6 +46,11 @@ package com.joeberkovitz.moccasin.controller
             return _dragPoint;
         }
         
+        protected function get dragDelta():Point
+        {
+            return new Point(_context.stage.mouseX, _context.stage.mouseY).subtract(_dragPoint);
+        }
+        
         protected function handleMouseMove(e:MouseEvent):void
         {
             if (!_dragStarted
@@ -48,12 +60,14 @@ package com.joeberkovitz.moccasin.controller
                     || Math.abs(_context.stage.mouseY -_dragPoint.y) >= minimumDrag))
             {
                 _dragStarted = true;
+                handleDragStart(e);
             }
             
             if (_dragStarted)
             {
                 handleDragMove(e);
             }
+            e.stopPropagation();
         }
         
         protected function handleMouseUp(e:MouseEvent):void
@@ -69,6 +83,11 @@ package com.joeberkovitz.moccasin.controller
             }
             _context.stage.removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
             _context.stage.removeEventListener(MouseEvent.MOUSE_UP, handleMouseUp);
+            e.stopPropagation();
+        }
+
+        protected function handleDragStart(e:MouseEvent):void
+        {
         }
 
         protected function handleDragMove(e:MouseEvent):void

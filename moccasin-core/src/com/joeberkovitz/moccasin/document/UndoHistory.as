@@ -54,6 +54,16 @@ package com.joeberkovitz.moccasin.document
             return canRedo ? getGroupAt(_cursor).name : "";
         }
         
+        public function get enabled():Boolean
+        {
+            return _enabled;
+        }
+        
+        public function set enabled(value:Boolean):void
+        {
+            _enabled = value;
+        }
+        
         public function clear():void
         {
             _groupOpen = false;
@@ -123,6 +133,9 @@ package com.joeberkovitz.moccasin.document
          */
         public function openGroup(name:String):void
         {
+            // force the history to be enabled at this point
+            _enabled = true;
+            
             _groups = _groups.slice(0, _cursor);
             _groupOpen = false;
             if (numGroups == _maxGroups)
@@ -142,6 +155,9 @@ package com.joeberkovitz.moccasin.document
          */
         public function setGroupName(name:String):void
         {
+            // force the history to be enabled at this point
+            _enabled = true;
+
             getGroupAt(_groups.length - 1).name = name;
             dispatchEvent(new UndoEvent(UndoEvent.UNDO_HISTORY_CHANGE));
         }

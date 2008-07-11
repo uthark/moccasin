@@ -30,7 +30,7 @@ package com.joeberkovitz.simpleworld.editor
             
             menuBarDefinition +=
                 <menuitem id="simpleWorld" label="SimpleWorld">
-                    <menuitem id="addObject" label="Add Object"/>
+                    <menuitem id="addSquare" label="Add Square"/>
                 </menuitem>;
         }
         
@@ -46,7 +46,8 @@ package com.joeberkovitz.simpleworld.editor
                 airEditor.saveAsFile();
                 break;
 
-            case "addObject":
+            case "addSquare":
+                simpleController.document.undoHistory.openGroup("Add Square");
                 simpleController.addObject();           
                
             default:

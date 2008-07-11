@@ -102,7 +102,7 @@ package com.joeberkovitz.moccasin.controller
         {
             if (selection != null)
             {
-                return selection.selectedModels();
+                return selection.selectedModels;
             }
             else
             {

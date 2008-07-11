@@ -39,7 +39,7 @@ package com.joeberkovitz.moccasin.editor
         public var viewInfo:ViewInfo = new ViewInfo();
         
         [Bindable]
-        public var viewScale:Number = 1.5;
+        public var viewScale:Number = 1;
 
         [Bindable]
         public var configurationService:IConfigurationService = null;

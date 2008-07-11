@@ -22,7 +22,7 @@ package com.joeberkovitz.moccasin.document
         /**
          * Coerce this selection to an array of individual models. 
          */
-        function selectedModels():Array;
+        function get selectedModels():Array;
 
         /**
          * The ModelRoot object to which this selection applies. 
