@@ -1,5 +1,6 @@
 package com.joeberkovitz.moccasin.view
 {
+    import com.joeberkovitz.moccasin.controller.SelectionMediator;
     import com.joeberkovitz.moccasin.document.ObjectSelection;
     import com.joeberkovitz.moccasin.model.MoccasinModel;
     
@@ -16,6 +17,12 @@ package com.joeberkovitz.moccasin.view
             super(context, model);
             addEventListener(MouseEvent.ROLL_OVER, addRollHighlight);
             addEventListener(MouseEvent.ROLL_OUT, removeRollHighlight);
+        }
+        
+        override public function initialize():void
+        {
+            super.initialize();
+            new SelectionMediator().handleViewEvents(this);
         }
 
         override public function get selected():Boolean

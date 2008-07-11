@@ -28,7 +28,7 @@ package com.joeberkovitz.moccasin.document
             }
         }
         
-        public function selectedModels():Array
+        public function get selectedModels():Array
         {
             return _selectedModels;
         }
@@ -81,7 +81,7 @@ package com.joeberkovitz.moccasin.document
             // For an object selection, dispatch status change events off the actual model objects
             // in the selection so that they will be redrawn in their changed selection status.
             // 
-            for each (var obj:MoccasinModel in selectedModels)
+            for each (var obj:MoccasinModel in _selectedModels)
             {
                 obj.dispatchEvent(new ModelStatusEvent(ModelStatusEvent.STATUS_CHANGE));
             }
