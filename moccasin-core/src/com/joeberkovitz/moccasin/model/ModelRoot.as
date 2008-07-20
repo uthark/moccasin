@@ -5,5 +5,9 @@ package com.joeberkovitz.moccasin.model
      */
     public class ModelRoot extends MoccasinModel
     {
+        public function ModelRoot(model:Object)
+        {
+            super(model);
+        }
     }
 }

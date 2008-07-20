@@ -20,12 +20,12 @@ package com.joeberkovitz.moccasin.document
         
         public function redo():void
         {
-            model[_event.property] = _event.newValue;
+            model.value[_event.property] = _event.newValue;
         }
 
         public function undo():void
         {
-            model[_event.property] = _event.oldValue;
+            model.value[_event.property] = _event.oldValue;
        }
     }
 }

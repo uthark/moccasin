@@ -17,11 +17,11 @@ package com.joeberkovitz.moccasin.document
             switch (_event.kind)
             {
             case ModelEvent.ADD_CHILD_MODEL:
-                _event.parent.addChildAt(_event.child, _event.index);
+                _event.parent.valueChildren.addItemAt(_event.child.value, _event.index);
                 break;
             
             case ModelEvent.REMOVE_CHILD_MODEL:
-                _event.parent.removeChildAt(_event.index);
+                _event.parent.valueChildren.removeItemAt(_event.index);
                 break;
             }
         }
@@ -31,11 +31,11 @@ package com.joeberkovitz.moccasin.document
             switch (_event.kind)
             {
             case ModelEvent.ADD_CHILD_MODEL:
-                _event.parent.removeChildAt(_event.index);
+                _event.parent.valueChildren.removeItemAt(_event.index);
                 break;
 
             case ModelEvent.REMOVE_CHILD_MODEL:
-                _event.parent.addChildAt(_event.child, _event.index); 
+                _event.parent.valueChildren.addItemAt(_event.child.value, _event.index);
                 break;
             }
         }

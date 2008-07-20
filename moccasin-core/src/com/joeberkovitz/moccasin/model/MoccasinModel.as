@@ -4,33 +4,104 @@ package com.joeberkovitz.moccasin.model
     import com.joeberkovitz.moccasin.event.ModelUpdateEvent;
     
     import flash.events.EventDispatcher;
-    import flash.utils.getQualifiedClassName;
+    import flash.events.IEventDispatcher;
+    import flash.utils.Dictionary;
     import flash.utils.getDefinitionByName;
+    import flash.utils.getQualifiedClassName;
     
     import mx.collections.ArrayCollection;
+    import mx.collections.IList;
+    import mx.events.CollectionEvent;
+    import mx.events.CollectionEventKind;
     import mx.events.PropertyChangeEvent;
     import mx.events.PropertyChangeEventKind;
+    import mx.utils.ObjectUtil;
     
     [Event(type="mx.events.PropertyChangeEvent",name="propertyChange")]
     [Event(type="com.joeberkovitz.moccasin.event.ModelEvent",name="modelChange")]
     [Event(type="com.joeberkovitz.moccasin.event.ModelUpdateEvent",name="modelUpdate")]
     
     /**
-     * A Model represents an element of the hierarchical score model with child nodes and a parent node. 
+     * <p>A MoccasinModel represents an element of a hierarchical model with child nodes and a parent node.
+     * It is a wrapper around a pure value object in the underlying application model that need not expose
+     * any methods, only properties.   There is a single, distinguished MoccasinModel for each single value
+     * object in the underlying application model.</p>
+     *   
+     * <p>Any property of a value object that can trigger a view change is required to be Bindable.
+     * Also, there is a special property of a value object that is presumed to be its child value objects
+     * in the application model, and which must implement the mx.collections.IList interface.
+     * By default, this property's name is "children", but may be overridden
+     * by defining a static constant MOCCASIN_CHILDREN_PROPERTY to reference some other property name.</p>
      */
     public class MoccasinModel extends EventDispatcher
     {
         /** The parent of this model object. */
-        protected var _parent:MoccasinModel;
+        private var _parent:MoccasinModel;
         
         /** The set of children of this model object. */
-        protected var _children:ArrayCollection;
+        private var _children:ArrayCollection;
         
-        public function MoccasinModel()
+        /** The underlying value object */
+        private var _value:Object;
+        
+        /** A reverse-lookup weak dictionary from models to their wrappers. */
+        private static var _valueMap:Dictionary = new Dictionary(true);
+        
+        public function MoccasinModel(value:Object)
         {
             super();
             _children = new ArrayCollection();
-            addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, handlePropertyChange);
+            _value = value;
+            
+            if (_value in _valueMap)
+            {
+                throw new Error("Attempt to create duplicate wrapper for " + value);
+            }
+            _valueMap[_value] = this;
+            
+            if (_value is IEventDispatcher)
+            {
+                IEventDispatcher(_value).addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, handlePropertyChange);
+                if (valueChildrenProperty in _value)
+                {
+                    var children:IList = valueChildren;
+                    if (valueChildren != null)
+                    {
+                        valueChildren.addEventListener(CollectionEvent.COLLECTION_CHANGE, handleCollectionChange);
+                    }
+                }
+            }
+        }
+        
+        public static function forValue(value:Object):MoccasinModel
+        {
+            var proxy:MoccasinModel = _valueMap[value];
+            if (proxy == null)
+            {
+                proxy = new MoccasinModel(value);
+                _valueMap[value] = proxy;
+            }
+            return proxy;
+        }
+
+        public function get value():Object
+        {
+            return _value;
+        }
+        
+        private function get valueChildrenProperty():String
+        {
+            var cls:Object = getDefinitionByName(getQualifiedClassName(_value));
+            if ("MOCCASIN_CHILDREN_PROPERTY" in cls)
+            {
+                return cls["MOCCASIN_CHILDREN_PROPERTY"];
+            }
+            return "children";
+        }
+        
+        public function get valueChildren():IList
+        {
+            return value[valueChildrenProperty] as IList;
         }
 
         public function addChild(child:MoccasinModel):void
@@ -123,7 +194,7 @@ package com.joeberkovitz.moccasin.model
             return parent.path + "/" + parent.pathToChild(this);
         }
         
-        protected function pathToChild(m:MoccasinModel):String
+        private function pathToChild(m:MoccasinModel):String
         {
             var className:String = getQualifiedClassName(m);
             className = className.substring(className.lastIndexOf(":") + 1);
@@ -148,7 +219,7 @@ package com.joeberkovitz.moccasin.model
             return resolvePathComponent(childSpec).resolvePath(descendantSpec);
         }
         
-        protected function resolvePathComponent(childSpec:String):MoccasinModel
+        private function resolvePathComponent(childSpec:String):MoccasinModel
         {
             var dashIndex:int = childSpec.indexOf("-");
             var type:String = childSpec.substring(0, dashIndex);
@@ -163,66 +234,78 @@ package com.joeberkovitz.moccasin.model
             return m;
         }
         
-        protected function handlePropertyChange(e:PropertyChangeEvent):void
+        private function handlePropertyChange(e:PropertyChangeEvent):void
         {
             if (e.kind == PropertyChangeEventKind.UPDATE)
             {
                 var e2:ModelUpdateEvent =
                     new ModelUpdateEvent(ModelUpdateEvent.MODEL_UPDATE,
-                                         e.property, e.oldValue, e.newValue, e.source);
+                                         e.property, e.oldValue, e.newValue, this);
                  dispatchModelUpdateEvent(e2);
             }
         }
         
-        protected function handleChildModelChange(e:ModelEvent):void
+        private function handleCollectionChange(e:CollectionEvent):void
+        {
+            var i:int;
+
+            switch (e.kind)
+            {
+            case CollectionEventKind.ADD:
+                for (i = 0; i < e.items.length; i++)
+                {
+                    addChildAt(MoccasinModel.forValue(e.items[i]), e.location + i);
+                }
+                break;
+
+            case CollectionEventKind.REMOVE:
+                for (i = e.items.length - 1; i >= 0; i--)
+                {
+                    removeChildAt(e.location + i);
+                }
+                break;
+
+            case CollectionEventKind.REPLACE:
+                removeChildAt(e.location);
+                addChildAt(MoccasinModel.forValue(valueChildren.getItemAt(e.location)), e.location);
+                break;
+                
+            case CollectionEventKind.UPDATE:
+                // we don't care
+                break;
+                
+            default:
+                throw new Error("Unexpected CollectionEventKind: " + e.kind);
+            }
+            
+            return;
+        }
+        
+        private function handleChildModelChange(e:ModelEvent):void
         {
             // do event bubbling to our parent model
             dispatchModelEvent(e);
         }
         
-        protected function handleChildModelUpdate(e:ModelUpdateEvent):void
+        private function handleChildModelUpdate(e:ModelUpdateEvent):void
         {
             // do event bubbling to our parent model
             dispatchModelUpdateEvent(e);
         }
         
-        protected function dispatchModelEvent(e:ModelEvent):void
+        private function dispatchModelEvent(e:ModelEvent):void
         { 
             dispatchEvent(e);
         }
 
-        protected function dispatchModelUpdateEvent(e:ModelUpdateEvent):void
+        private function dispatchModelUpdateEvent(e:ModelUpdateEvent):void
         {
             dispatchEvent(e);
         }
 
         public function clone():MoccasinModel
         {
-            var m:MoccasinModel = new (getDefinitionByName(getQualifiedClassName(this)) as Class)();
-            for each (var child:MoccasinModel in _children)
-            {
-                m.addChild(child.clone());
-            }
-            return m;
+            return new MoccasinModel(ObjectUtil.copy(value));
         }
-        
-        public static function cloneModel(m:MoccasinModel):MoccasinModel
-        {
-            return (m == null) ? null : m.clone();
-        }
-        
-        public static function cloneArray(a:Array):Array
-        {
-            if (a == null)
-            {
-                return null;
-            }
-            var result:Array = [];
-            for (var i:* in a)
-            {
-                result[i] = a[i];
-            } 
-            return result;
-        }
-   }
+    }
 }

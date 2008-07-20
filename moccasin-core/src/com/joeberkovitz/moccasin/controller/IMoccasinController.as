@@ -61,8 +61,8 @@ package com.joeberkovitz.moccasin.controller
         function selectSingleModel(m:MoccasinModel):void;
 
         /**
-         * Extend an existing selection to include/exclude a MoccasinModel. 
-         * @param n the MoccasinModel whose selected status is to be modified.
+         * Extend an existing selection to include/exclude a model. 
+         * @param n the model object whose selected status is to be modified.
          */
         function modifySelection(m:MoccasinModel):void;
 
