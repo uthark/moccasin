@@ -22,7 +22,7 @@ package com.joeberkovitz.simpleworld.controller
             var square:SquareModel = new SquareModel();
             square.x = square.y = 100;
             square.size = 25;
-            world.addChild(square);
+            world.shapes.addItem(square);
         }
     }
 }

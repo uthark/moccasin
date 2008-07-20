@@ -11,7 +11,7 @@ package com.joeberkovitz.simpleworld.view
 
     public class WorldView extends MoccasinView
     {
-        public function WorldView(context:ViewContext, model:WorldModel=null)
+        public function WorldView(context:ViewContext, model:MoccasinModel=null)
         {
             super(context, model);
             initialize();
@@ -19,7 +19,7 @@ package com.joeberkovitz.simpleworld.view
         
         public function get world():WorldModel
         {
-            return model as WorldModel;
+            return model.value as WorldModel;
         }
         
         override public function initialize():void
@@ -37,9 +37,9 @@ package com.joeberkovitz.simpleworld.view
 
         override public function createChildView(child:MoccasinModel):MoccasinView
         {
-            if (child is SquareModel)
+            if (child.value is SquareModel)
             {
-                return new SquareView(context, child as SquareModel);
+                return new SquareView(context, child);
             }
             else
             {

@@ -1,11 +1,12 @@
 package com.joeberkovitz.simpleworld.view
 {
+    import com.joeberkovitz.moccasin.model.MoccasinModel;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.model.SquareModel;
 
     public class SquareView extends ShapeView
     {
-        public function SquareView(context:ViewContext, model:SquareModel=null)
+        public function SquareView(context:ViewContext, model:MoccasinModel=null)
         {
             super(context, model);
             initialize();
@@ -13,7 +14,7 @@ package com.joeberkovitz.simpleworld.view
         
         public function get square():SquareModel
         {
-            return model as SquareModel;
+            return model.value as SquareModel;
         }
         
         override protected function updateView():void

@@ -1,6 +1,7 @@
 package com.joeberkovitz.simpleworld.controller
 {
     import com.joeberkovitz.moccasin.controller.DragMediator;
+    import com.joeberkovitz.moccasin.model.MoccasinModel;
     import com.joeberkovitz.moccasin.view.MoccasinView;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.model.SquareModel;
@@ -27,8 +28,8 @@ package com.joeberkovitz.simpleworld.controller
             square.x = e.localX;
             square.y = e.localY;
             square.size = 25;
-            WorldView(e.target).world.addChild(square);
-            context.controller.selectSingleModel(square);
+            WorldView(e.target).world.shapes.addItem(square);
+            context.controller.selectSingleModel(MoccasinModel.forValue(square));
         }
         
     }

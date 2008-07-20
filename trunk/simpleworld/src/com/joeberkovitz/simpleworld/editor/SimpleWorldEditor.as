@@ -4,6 +4,7 @@ package com.joeberkovitz.simpleworld.editor
     import com.joeberkovitz.moccasin.document.MoccasinDocument;
     import com.joeberkovitz.moccasin.editor.EditorKeyMediator;
     import com.joeberkovitz.moccasin.editor.MoccasinEditor;
+    import com.joeberkovitz.moccasin.model.ModelRoot;
     import com.joeberkovitz.moccasin.view.MoccasinView;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.SimpleController;
@@ -20,7 +21,7 @@ package com.joeberkovitz.simpleworld.editor
         {
             super.initializeEditor();
             
-            controller.document = new MoccasinDocument(new WorldModel());
+            controller.document = new MoccasinDocument(new ModelRoot(new WorldModel()));
             updateLayout();
         }
         
@@ -39,7 +40,7 @@ package com.joeberkovitz.simpleworld.editor
         
         override protected function createDocumentView(context:ViewContext):MoccasinView
         {
-            return new WorldView(context, controller.document.root as WorldModel);
+            return new WorldView(context, controller.document.root);
         } 
         
         /**
