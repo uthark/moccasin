@@ -111,9 +111,8 @@ package com.joeberkovitz.moccasin.controller
         }
         
         /**
-         * Select exactly one notation in the score. 
-         * @param n the Notation to be selected.
-         * @param alwaysEnterAtSelection true to force next note entry to occur at selection
+         * Select exactly one object in the document 
+         * @param m the object to be selected.
          */
         public function selectSingleModel(m:MoccasinModel):void
         {
@@ -121,8 +120,8 @@ package com.joeberkovitz.moccasin.controller
         }
 
         /**
-         * Extend an existing selection to include a notation. 
-         * @param n the Notation whose selected status is to be modified.
+         * Extend an existing selection to include a model object 
+         * @param n the object whose selected status is to be modified.
          */
         public function modifySelection(m:MoccasinModel):void
         {

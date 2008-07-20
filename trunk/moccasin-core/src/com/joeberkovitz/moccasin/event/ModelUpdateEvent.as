@@ -1,5 +1,7 @@
 package com.joeberkovitz.moccasin.event
 {
+    import com.joeberkovitz.moccasin.model.MoccasinModel;
+    
     import flash.events.Event;
     
     public class ModelUpdateEvent extends Event
@@ -9,9 +11,9 @@ package com.joeberkovitz.moccasin.event
         public var property:Object;
         public var oldValue:Object;
         public var newValue:Object;
-        public var source:Object;
+        public var source:MoccasinModel;
         
-        public function ModelUpdateEvent(type:String, property:Object, oldValue:Object, newValue:Object, source:Object)
+        public function ModelUpdateEvent(type:String, property:Object, oldValue:Object, newValue:Object, source:MoccasinModel)
         {
             super(type);
             this.property = property;
