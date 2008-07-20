@@ -7,6 +7,8 @@ package com.joeberkovitz.simpleworld.controller
     
     import flash.events.MouseEvent;
     import flash.geom.Point;
+    
+    import mx.utils.ObjectUtil;
 
     public class ShapeDragMediator extends DragMediator
     {
@@ -27,8 +29,8 @@ package com.joeberkovitz.simpleworld.controller
         override protected function handleDragStart(e:MouseEvent):void
         {
             context.controller.document.undoHistory.openGroup("Move Shapes");
-            context.controller.selectSingleModel(_shapeView.shape);
-            _oldShape = _shapeView.shape.clone() as ShapeModel;
+            context.controller.selectSingleModel(_shapeView.model);
+            _oldShape = ObjectUtil.copy(_shapeView.shape) as ShapeModel;
         }
         
         override protected function handleDragMove(e:MouseEvent):void

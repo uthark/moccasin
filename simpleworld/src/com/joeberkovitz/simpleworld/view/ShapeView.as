@@ -1,5 +1,6 @@
 package com.joeberkovitz.simpleworld.view
 {
+    import com.joeberkovitz.moccasin.model.MoccasinModel;
     import com.joeberkovitz.moccasin.view.SelectableView;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.ShapeDragMediator;
@@ -7,14 +8,14 @@ package com.joeberkovitz.simpleworld.view
 
     public class ShapeView extends SelectableView
     {
-        public function ShapeView(context:ViewContext, model:ShapeModel=null)
+        public function ShapeView(context:ViewContext, model:MoccasinModel)
         {
             super(context, model);
         }
         
         public function get shape():ShapeModel
         {
-            return model as ShapeModel;
+            return model.value as ShapeModel;
         }
         
         override public function initialize():void
