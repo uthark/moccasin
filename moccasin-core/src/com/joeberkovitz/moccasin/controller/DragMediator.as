@@ -63,6 +63,15 @@ package com.joeberkovitz.moccasin.controller
         }
         
         /**
+         * The vector from the start of the drag to its endpoint in documentViewUnits. 
+         */        
+        protected function get documentDragDelta():Point
+        {
+            return new Point((_context.stage.mouseX - _dragPoint.x) / context.info.displayScale,
+                             (_context.stage.mouseY - _dragPoint.y) / context.info.displayScale);
+        }
+        
+        /**
          * Handle mouse motion during the drag by initiating it if necessary when the mouse
          * exceeds the distance threshold, and then calling the move-handling function. 
          */
