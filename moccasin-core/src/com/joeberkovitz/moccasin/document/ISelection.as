@@ -2,6 +2,12 @@ package com.joeberkovitz.moccasin.document
 {
     import com.joeberkovitz.moccasin.model.ModelRoot;
     
+    /**
+     * Interface exposed by any object representing a selection of some kind.  Some applications
+     * may have rule-based or geometric selections that are defined in terms of more than just a
+     * set of objects (i.e. ObjectSelection).  
+     * 
+     */
     public interface ISelection
     {
         /**

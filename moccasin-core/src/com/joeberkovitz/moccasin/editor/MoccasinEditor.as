@@ -65,16 +65,25 @@ package com.joeberkovitz.moccasin.editor
             super();
         }
         
+        /**
+         * Global controller instance for this application (although multiple controllers are allowed).
+         */
         public function get controller():IMoccasinController
         {
             return _controller;
         }
 
+        /**
+         * Top level view of document's root model.
+         */
         public function get documentView():MoccasinView
         {
             return _documentView;
         }
         
+        /**
+         * Name of a cursor mode that affects how mouse gestures are interpreted. 
+         */
         [Bindable]
         public function get pointerTool():String
         {
@@ -90,17 +99,27 @@ package com.joeberkovitz.moccasin.editor
             }
         }
         
-        [Bindable]
-        public function get notationScale():Number
+        /**
+         * Initialize this editor. 
+         * 
+         */
+        public function initializeEditor():void
         {
-            return viewLayer.scaleX;
+            _controller = createController();
+            var keyMediator:EditorKeyMediator = createKeyMediator(_controller);
+
+            // aggressively funnel keystrokes into our key mediator
+            Application.application.addEventListener(KeyboardEvent.KEY_DOWN, keyMediator.handleKey);
+            addEventListener(KeyboardEvent.KEY_DOWN, keyMediator.handleKey);
+
+            viewLayer.scaleX = viewLayer.scaleY = viewScale;
+            
+            setFocus();
         }
         
-        public function set notationScale(s:Number):void
-        {
-            setScale(s);
-        }
-        
+        /**
+         * Initialize the child components of this editor.
+         */
         override protected function createChildren():void
         {
             super.createChildren();
@@ -118,30 +137,25 @@ package com.joeberkovitz.moccasin.editor
             addChild(overlayLayer);
         }
         
-        public function initializeEditor():void
-        {
-            _controller = createController();
-            var keyMediator:EditorKeyMediator = createKeyMediator(_controller);
-
-            // aggressively funnel keystrokes into our key mediator
-            Application.application.addEventListener(KeyboardEvent.KEY_DOWN, keyMediator.handleKey);
-            addEventListener(KeyboardEvent.KEY_DOWN, keyMediator.handleKey);
-
-            viewLayer.scaleX = viewLayer.scaleY = viewScale;
-            
-            setFocus();
-        }
-        
+        /**
+         * Abstract factory method to create this application's controller instance.
+         */
         protected function createController():IMoccasinController
         {
             throw new Error("createController() must be overridden");
         }
         
+        /**
+         * Abstract factory method to create this application's top level view.
+         */
         protected function createDocumentView(context:ViewContext):MoccasinView
         {
             throw new Error("createDocumentView() must be overridden");
         } 
         
+        /**
+         * Abstract factory method to create this application's keystroke mediator.
+         */
         protected function createKeyMediator(controller:IMoccasinController):EditorKeyMediator
         {
             return new EditorKeyMediator(controller, this);
@@ -173,6 +187,9 @@ package com.joeberkovitz.moccasin.editor
             }
  */        }
         
+        /**
+         * Load a document, given its ID. 
+         */
         public function loadDocument(documentId:String):void
         {
             var operation:IOperation = documentService.loadDocument(documentId);
@@ -183,6 +200,21 @@ package com.joeberkovitz.moccasin.editor
             operation.execute();
         }
         
+        /**
+         * Handler for the completion of a document's ;pad operation.
+         */
+        protected function documentLoaded(e:Event):void
+        {
+            documentData = MoccasinDocumentData(IOperation(e.target).result);
+            
+            _document = new MoccasinDocument(documentData.root);
+            _controller.document = _document;
+            updateLayout();
+        }
+        
+        /**
+         * Save this document, using the same ID with which it was loaded.
+         */
         public function saveDocument():void
         {
             documentData.root = _document.root;
@@ -195,34 +227,33 @@ package com.joeberkovitz.moccasin.editor
             operation.execute();
         }
     
-        private function documentSaved(e:Event):void
+        /**
+         * Handler for the completion of a document's save operation.
+         */
+        protected function documentSaved(e:Event):void
         {
         }
         
-        protected function documentLoaded(e:Event):void
+        /**
+         * Handler for faults occurring during the save or load of a document.
+         */
+        protected function documentFault(e:OperationFaultEvent):void
         {
-            documentData = MoccasinDocumentData(IOperation(e.target).result);
-            
-            _document = new MoccasinDocument(documentData.root);
-            _controller.document = _document;
-            updateLayout();
-        }
-        
-        private function documentFault(e:OperationFaultEvent):void
-        {
-            statusText = e.error.text;
         }
         
             
+        /**
+         * Adjust the document's current layout.
+         */
         public function updateLayout():void
         {
-            validateScoreLayout();
+            validateDocumentLayout();
         }
         
         /**
          * Print the current score document on the printer. 
          */
-        public function printScore():void
+        public function printDocument():void
         {
         }
         
@@ -235,7 +266,7 @@ package com.joeberkovitz.moccasin.editor
             return [];
         }
         
-        private function validateScoreLayout():void
+        private function validateDocumentLayout():void
         {
             while (documentLayer.numChildren > 0)
                 documentLayer.removeChildAt(0);

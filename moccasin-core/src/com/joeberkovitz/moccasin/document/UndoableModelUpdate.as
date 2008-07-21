@@ -3,9 +3,11 @@ package com.joeberkovitz.moccasin.document
     import com.joeberkovitz.moccasin.event.ModelUpdateEvent;
     import com.joeberkovitz.moccasin.model.MoccasinModel;
     
+    /**
+     * An undoable edit representing an update to a model object's property.
+     */
     public class UndoableModelUpdate implements IUndoableEdit
     {
-        // Set of edits that constitute the group 
         private var _event:ModelUpdateEvent;
         
         public function UndoableModelUpdate(e:ModelUpdateEvent)

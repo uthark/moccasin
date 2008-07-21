@@ -4,6 +4,14 @@ package com.joeberkovitz.moccasin.document
     
     import flash.events.EventDispatcher;
     
+    /**
+     * Undo history associated with a MoccasinDocument.  This history does not record commands, but records
+     * IUndoableEdit instances that are in turn wrappers around change events.  These edits are in turn
+     * organized into "groups".  Any action in the user interface will generally begin by opening a group
+     * with a call to openGroup().  From there on, all subsequent changes to the model are automatically captured
+     * and added to this group, to be undone/redone as a unit.  There is no explicit use of the Command pattern
+     * on the callers' part, and no need to create Command classes.
+     */
     public class UndoHistory extends EventDispatcher
     {
         // Set of UndoableEditGroups that constitute the history 
@@ -29,31 +37,49 @@ package com.joeberkovitz.moccasin.document
             clear();
         }
 
+        /**
+         * The number of complete edit groups recorded in the history.
+         */
         public function get numGroups():uint
         {
             return _groupOpen ? (_groups.length - 1) : _groups.length;
         }
         
+        /**
+         * A flag indicating whether there is a most-recent edit to be undone. 
+         */
         public function get canUndo():Boolean
         {
             return _cursor > 0;
         }
         
-        public function get canRedo():Boolean
-        {
-            return _cursor < numGroups;
-        }
-        
+        /**
+         * The name of the edit that will be undone by undo().
+         */
         public function get undoName():String
         {
             return canUndo ? getGroupAt(_cursor - 1).name : "";
         }
         
+        /**
+         * A flag indicating whether there is an adjacent future edit to be redone. 
+         */
+        public function get canRedo():Boolean
+        {
+            return _cursor < numGroups;
+        }
+        
+        /**
+         * The name of the edit that will be undone by redo().
+         */
         public function get redoName():String
         {
             return canRedo ? getGroupAt(_cursor).name : "";
         }
         
+        /**
+         * Flag controlling whether the undo history actively collects edits into the current group. 
+         */
         public function get enabled():Boolean
         {
             return _enabled;
@@ -64,6 +90,9 @@ package com.joeberkovitz.moccasin.document
             _enabled = value;
         }
         
+        /**
+         * Clear the undo history completely.
+         */
         public function clear():void
         {
             _groupOpen = false;
@@ -74,11 +103,17 @@ package com.joeberkovitz.moccasin.document
             dispatchEvent(new UndoEvent(UndoEvent.UNDO_HISTORY_CHANGE));
         }
         
+        /**
+         * Retrieve the edit group with the given index.
+         */
         public function getGroupAt(index:uint):UndoableEditGroup
         {
             return _groups[index] as UndoableEditGroup;
         }
         
+        /**
+         * Undo the edit prior to the cursor. 
+         */
         public function undo():void
         {
             if (canUndo)
@@ -92,6 +127,9 @@ package com.joeberkovitz.moccasin.document
             }
         }
         
+        /**
+         * Redo the edit just after the cursor.
+         */
         public function redo():void
         {
             if (canRedo)
@@ -105,6 +143,10 @@ package com.joeberkovitz.moccasin.document
             }
         }
         
+        /**
+         * Add an edit to the currently open edit group.  Normally the MoccasinDocument
+         * takes care of this and there is no need to explicitly call this function.
+         */
         public function addEdit(edit:IUndoableEdit):void
         {
             if (_enabled)

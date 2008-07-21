@@ -7,6 +7,10 @@ package com.joeberkovitz.moccasin.view
     import flash.display.Stage;
     import flash.events.EventDispatcher;
     
+    /**
+     * A ViewContext houses data and references to objects that must be accessible
+     * to all views relating to some MoccasinDocument. 
+     */
     public class ViewContext extends EventDispatcher
     {
         public var info:ViewInfo;
@@ -31,16 +35,6 @@ package com.joeberkovitz.moccasin.view
         public function get document():MoccasinDocument
         {
             return (controller != null) ? controller.document : null;
-        }
-        
-        public function registerView(view:MoccasinView):void
-        {
-/*             if (controller != null)
-            {
-                var mediator:BeamMediator = new BeamMediator();
-                mediator.handleViewEvents(view);
-            } 
- */
         }
     }
 }

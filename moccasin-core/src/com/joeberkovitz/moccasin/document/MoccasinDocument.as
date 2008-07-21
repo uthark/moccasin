@@ -13,7 +13,11 @@ package com.joeberkovitz.moccasin.document
     [Event(name="removeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     [Event(name="documentUpdate",type="com.joeberkovitz.moccasin.event.DocumentUpdateEvent")]
      
-    [Bindable]
+    /**
+     * A MoccasinDocument is a container for the top level or "root" model in the application,
+     * accompanying that model with the additional state of a current selection and a history
+     * of undoable edits.
+     */
     public class MoccasinDocument extends EventDispatcher
     {
         private var _root:ModelRoot;
@@ -59,6 +63,9 @@ package com.joeberkovitz.moccasin.document
             }
         }
 
+        /**
+         * The current selection, or null if there is none.
+         */
         public function get selection():ISelection
         {
             return _selection;
@@ -80,6 +87,9 @@ package com.joeberkovitz.moccasin.document
                 }
                 else if ((oldSelection is ObjectSelection) && (newSelection is ObjectSelection))
                 {
+                    // This case is optimized to dispatch only the deltas in the selection, so we don't do
+                    // a lot of work unhighlighting and then rehighlighting the same objects.
+                    //
                     var oSel:ObjectSelection = oldSelection as ObjectSelection; 
                     var nSel:ObjectSelection = newSelection as ObjectSelection; 
                     dispatchSelectEvent(SelectEvent.REMOVE_SELECTION, oSel.difference(nSel));
@@ -93,6 +103,9 @@ package com.joeberkovitz.moccasin.document
             }
         }
         
+        /**
+         * Add a selection to the set of already-selected objects. 
+         */
         public function select(sel:ISelection):void
         {
             if (selection == null || selection.empty)
@@ -110,6 +123,9 @@ package com.joeberkovitz.moccasin.document
             }
         } 
         
+        /**
+         * Remove a selection from the set of already-selected objects. 
+         */
         public function deselect(sel:ISelection):void
         {
             if ((selection is ObjectSelection) && (sel is ObjectSelection))
@@ -123,6 +139,9 @@ package com.joeberkovitz.moccasin.document
             }
         }
         
+        /**
+         * Deselect all descendants of a model.
+         */
         public function deselectDescendants(model:MoccasinModel):void
         {
             if (selection is ObjectSelection)
@@ -136,6 +155,10 @@ package com.joeberkovitz.moccasin.document
             }
         }
         
+        /**
+         * Handle a structural change in the model by recording it in the undo history and
+         * sanitizing the selection if an object is about to disappear.
+         */
         private function handleModelChange(e:ModelEvent):void
         {
             // All model updates are routed to the undo history.
@@ -148,6 +171,9 @@ package com.joeberkovitz.moccasin.document
             }
         }
         
+        /**
+         * Handle a property change in the model.
+         */
         private function handleModelUpdate(e:ModelUpdateEvent):void
         {
             // All model updates are routed to the undo history.
@@ -170,8 +196,8 @@ package com.joeberkovitz.moccasin.document
                 // Add the selection change to the undo history
                 _undoHistory.addEdit(new UndoableSelectionChange(selEvent));
                 
-                // Dispatch status change events off of all objects in the model hierarchy that
-                // have views who would care.
+                // Dispatch status change events off of all objects in the model hierarchy so
+                // that views will change their highlighting, etc.
                 sel.dispatchStatusChange();
             }
         }

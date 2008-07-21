@@ -2,9 +2,11 @@ package com.joeberkovitz.moccasin.document
 {
     import com.joeberkovitz.moccasin.event.SelectEvent;
     
+    /**
+     * An undoable edit representing a selection change as represented by a SelectEvent.
+     */
     public class UndoableSelectionChange implements IUndoableEdit
     {
-        // Set of edits that constitute the group 
         private var _event:SelectEvent;
         
         public function UndoableSelectionChange(e:SelectEvent)

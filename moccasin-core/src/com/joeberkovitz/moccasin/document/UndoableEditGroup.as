@@ -1,5 +1,8 @@
 package com.joeberkovitz.moccasin.document
 {
+    /**
+     * A Composite edit composed of other granular edits. 
+     */
     public class UndoableEditGroup implements IUndoableEdit
     {
         // Set of edits that constitute the group 

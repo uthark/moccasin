@@ -4,6 +4,9 @@ package com.joeberkovitz.moccasin.event
     
     import flash.events.Event;
     
+    /**
+     * Event representing a property change on some value object associated with a MoccasinModel.
+     */
     public class ModelUpdateEvent extends Event
     {
         public static const MODEL_UPDATE:String = "modelUpdate";
