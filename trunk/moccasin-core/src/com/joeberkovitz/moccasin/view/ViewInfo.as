@@ -2,6 +2,9 @@ package com.joeberkovitz.moccasin.view
 {
     import com.joeberkovitz.moccasin.model.ModelRoot;
     
+    /**
+     * A ViewInfo encapsulates all information that globally drives presentation.
+     */
     [Bindable]
     public class ViewInfo
     {

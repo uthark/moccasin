@@ -4,6 +4,9 @@ package com.joeberkovitz.moccasin.editor
     
     import flash.events.KeyboardEvent;
     
+    /**
+     * Keyboard mediator for basic Moccasin application functionality.
+     */
     public class EditorKeyMediator
     {
         private var _controller:IMoccasinController;

@@ -1,15 +1,16 @@
 package com.joeberkovitz.moccasin.controller
 {
-    import com.joeberkovitz.moccasin.event.ModelEvent;
-    import com.joeberkovitz.moccasin.event.ModelStatusEvent;
-    import com.joeberkovitz.moccasin.event.ModelUpdateEvent;
     import com.joeberkovitz.moccasin.model.MoccasinModel;
     import com.joeberkovitz.moccasin.view.MoccasinView;
     
     import flash.events.MouseEvent;
     import flash.utils.getTimer;
 
-    public class SelectionMediator
+    /**
+     * This Mediator-type object takes on responsibility for all mouse interaction
+     * involving click-based selection.
+     */
+    public class SelectionMediator implements IMoccasinMediator
     {
         private var _view:MoccasinView;
 
@@ -34,7 +35,7 @@ package com.joeberkovitz.moccasin.controller
 
             if (!_view.model.enabled)
             {
-                // some notations don't permit interaction
+                // some models don't permit interaction
                 return;
             }
             
@@ -49,23 +50,24 @@ package com.joeberkovitz.moccasin.controller
 
             if (e.ctrlKey)
             {
-                // extend an object selection to include the clicked model.
+                // Ctrl-click extends an object selection to include the clicked model.
                 _view.context.document.undoHistory.openGroup("Select Object");
                 _view.context.controller.modifySelection(model);
             }
             else if (doubleClick)
             {
-                // hook for editing
+                // TODO: add hook for editing
             }
             else if (_view.context.document.selection == null
                      || !_view.context.document.selection.includes(model))
             {
-                // select the single model that was just clicked
+                // Regular click: select the single model that was just clicked
                 //
                 _view.context.document.undoHistory.openGroup("Select Object");
                 _view.context.controller.selectSingleModel(model);
             }
             e.stopPropagation();
+            
             _view.context.editor.setFocus();
         }
     }

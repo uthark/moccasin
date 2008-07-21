@@ -31,8 +31,7 @@ package com.joeberkovitz.moccasin.service
         
         /**
          * Initiate this operation by performing the HTTP request.
-         * If any value among the parameters is XML, it is prettyprinted and the
-         * method is automatically changed to a POST.
+         * If any value among the parameters is XML, it is prettyprinted.
          */
         override public function execute():void
         {

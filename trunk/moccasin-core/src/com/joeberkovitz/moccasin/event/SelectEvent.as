@@ -4,6 +4,10 @@ package com.joeberkovitz.moccasin.event
     
     import flash.events.Event;
     
+    /**
+     * Event indicating the incremental addition or removal of objects from the selection associated
+     * with some document.
+     */
     public class SelectEvent extends Event
     {
         public static const ADD_SELECTION:String = "addSelection";

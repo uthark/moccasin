@@ -47,6 +47,25 @@ package com.joeberkovitz.moccasin.model
         /** A reverse-lookup weak dictionary from models to their wrappers. */
         private static var _valueMap:Dictionary = new Dictionary(true);
         
+        /**
+         * Either retrieve or create the distinguished MoccasinModel for the given value object.
+         */
+        public static function forValue(value:Object):MoccasinModel
+        {
+            var proxy:MoccasinModel = _valueMap[value];
+            if (proxy == null)
+            {
+                proxy = new MoccasinModel(value);
+                _valueMap[value] = proxy;
+            }
+            return proxy;
+        }
+
+        /**
+         * Create a MoccasinModel that wraps an underlying value object in the application domain.
+         * In practice, callers should almost always call MoccasinModel.forValue() rather than
+         * invoking this constructor.
+         */
         public function MoccasinModel(value:Object)
         {
             super();
@@ -73,17 +92,6 @@ package com.joeberkovitz.moccasin.model
             }
         }
         
-        public static function forValue(value:Object):MoccasinModel
-        {
-            var proxy:MoccasinModel = _valueMap[value];
-            if (proxy == null)
-            {
-                proxy = new MoccasinModel(value);
-                _valueMap[value] = proxy;
-            }
-            return proxy;
-        }
-
         public function get value():Object
         {
             return _value;
@@ -103,13 +111,13 @@ package com.joeberkovitz.moccasin.model
         {
             return value[valueChildrenProperty] as IList;
         }
-
-        public function addChild(child:MoccasinModel):void
+        
+        private function addChild(child:MoccasinModel):void
         {
             addChildAt(child, _children.length);
         }
         
-        public function addChildAt(child:MoccasinModel, index:uint):void
+        private function addChildAt(child:MoccasinModel, index:uint):void
         {
             child._parent = this;
             child.addEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
@@ -130,7 +138,7 @@ package com.joeberkovitz.moccasin.model
             }
         }
         
-        public function removeChild(child:MoccasinModel):void
+        private function removeChild(child:MoccasinModel):void
         {
             var index:int = _children.getItemIndex(child);
             if (index >= 0)
@@ -139,7 +147,7 @@ package com.joeberkovitz.moccasin.model
             }
         }
         
-        public function removeChildAt(index:uint):void
+        private function removeChildAt(index:uint):void
         {
             var child:MoccasinModel = getChildAt(index);
 
@@ -154,7 +162,16 @@ package com.joeberkovitz.moccasin.model
             dispatchModelEvent(new ModelEvent(ModelEvent.MODEL_CHANGE, ModelEvent.REMOVE_CHILD_MODEL, this, child, index));
         }
         
-        public function removeAllChildren():void
+        public function removeValueChild(valueChild:Object):void
+        {
+            var index:int = valueChildren.getItemIndex(valueChild);
+            if (index >= 0)
+            {
+                valueChildren.removeItemAt(index);
+            }
+        }
+
+        private function removeAllChildren():void
         {
             while (numChildren > 0)
             {

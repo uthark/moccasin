@@ -4,6 +4,9 @@ package com.joeberkovitz.moccasin.event
     
     import flash.events.Event;
     
+    /**
+     * Event representing a structural change to the model's parent/child relationships.
+     */
     public class ModelEvent extends Event
     {
         public static const MODEL_CHANGE:String = "modelChange";

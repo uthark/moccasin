@@ -8,6 +8,12 @@ package com.joeberkovitz.moccasin.view
     import flash.filters.BitmapFilter;
     import flash.filters.GlowFilter;
     
+    /**
+     * Abstract class providing a range of functionality for selectable views and objects,
+     * supporting mouse-based selection and rollover feedback.
+     * @author joeb
+     * 
+     */
     public class SelectableView extends MoccasinView
     {
         private var _rolled:Boolean = false;
@@ -19,12 +25,18 @@ package com.joeberkovitz.moccasin.view
             addEventListener(MouseEvent.ROLL_OUT, removeRollHighlight);
         }
         
-        override public function initialize():void
+        /**
+         * Use a SelectionMediator to provide handling of selection gestures.
+         */
+        override protected function initialize():void
         {
             super.initialize();
             new SelectionMediator().handleViewEvents(this);
         }
 
+        /**
+         * Determine whether this object is selected or not by consulting the document's selection.
+         */
         override public function get selected():Boolean
         {
             if (context.document == null || context.document.selection == null)
@@ -32,18 +44,7 @@ package com.joeberkovitz.moccasin.view
                 return false;
             }
             
-            if (context.document.selection.includes(model))
-            {
-                // Highlight this note if it is included within the current selection, with
-                // one special exception: if this notation is subsidiary to some other ValueNotation (e.g. a Note),
-                // and the selection isn't an ObjectSelection, then a parent view will be taking care of the selection and
-                // it will look and act wrong to doubly highlight the note as well as the note set
-                // to which it belongs.
-                //
-                return (context.document.selection is ObjectSelection);
-            }
-            
-            return false;
+            return context.document.selection.includes(model);
         }
 
         override public function updateStatus():void

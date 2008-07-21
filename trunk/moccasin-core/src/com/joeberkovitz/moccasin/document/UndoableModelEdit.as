@@ -2,9 +2,11 @@ package com.joeberkovitz.moccasin.document
 {
     import com.joeberkovitz.moccasin.event.ModelEvent;
     
+    /**
+     * An undoable edit representing a structural change to the model as represented by a ModelEvent.
+     */
     public class UndoableModelEdit implements IUndoableEdit
     {
-        // Set of edits that constitute the group 
         private var _event:ModelEvent;
         
         public function UndoableModelEdit(e:ModelEvent)

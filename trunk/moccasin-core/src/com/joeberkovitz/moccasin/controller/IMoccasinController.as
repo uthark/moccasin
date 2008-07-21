@@ -11,6 +11,9 @@ package com.joeberkovitz.moccasin.controller
     [Event(name="addSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     [Event(name="removeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
 
+    /**
+     * Basic controller interface for operations supported by all Moccasin apps. 
+     */
     public interface IMoccasinController extends IEventDispatcher
     {
         /**

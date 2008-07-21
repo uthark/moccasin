@@ -10,6 +10,9 @@ package com.joeberkovitz.moccasin.editor
     import mx.events.MenuEvent;
     import mx.events.PropertyChangeEvent;
     
+    /**
+     * Basic menu bar for Moccasin application functionality.
+     */
     public class EditorMenuBar extends MenuBar
     {
         private var _editor:MoccasinEditor;
@@ -153,7 +156,7 @@ package com.joeberkovitz.moccasin.editor
                 break;
                 
             case "print":
-                editor.printScore();
+                editor.printDocument();
                 break;
                 
             case "undo":

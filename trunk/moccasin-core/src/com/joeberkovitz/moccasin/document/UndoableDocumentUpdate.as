@@ -2,6 +2,10 @@ package com.joeberkovitz.moccasin.document
 {
     import com.joeberkovitz.moccasin.event.DocumentUpdateEvent;
     
+    /**
+     * An undoable edit representing a change to some property of the MoccasinDocument (as opposed
+     * to the model within that document).
+     */
     public class UndoableDocumentUpdate implements IUndoableEdit
     {
         // Set of edits that constitute the group 

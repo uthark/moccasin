@@ -89,7 +89,7 @@ package com.joeberkovitz.moccasin.document
         
         public function createClipboard():IClipboard
         {
-            // TBD
+            // TODO: implement clipboard operations
             return null;
         }
 

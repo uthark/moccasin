@@ -4,6 +4,11 @@ package com.joeberkovitz.moccasin.event
     
     import flash.events.Event;
     
+    /**
+     * A property change event with respect to a MoccasinDocument. 
+     * @author joeb
+     * 
+     */
     public class DocumentUpdateEvent extends Event
     {
         public static const DOCUMENT_UPDATE:String = "documentUpdate";

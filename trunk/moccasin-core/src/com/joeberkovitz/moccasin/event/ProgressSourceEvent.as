@@ -3,6 +3,11 @@ package com.joeberkovitz.moccasin.event
     import flash.events.Event;
     import flash.events.IEventDispatcher;
     
+    /**
+     * This event indicates the availability of an event dispatcher that subsequently
+     * may be expected to dispatch ProgressEvents that report on the progress of some
+     * asynchronous data loading operation.
+     */
     public class ProgressSourceEvent extends Event
     {
         public static const PROGRESS_START:String = "progressStart";

@@ -15,6 +15,11 @@ package com.joeberkovitz.moccasin.controller
     [Event(name="addSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     [Event(name="removeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     
+    /**
+     * The MoccasinController  
+     * @author joeb
+     * 
+     */
     public class MoccasinController extends EventDispatcher implements IMoccasinController
     {
         private var _document:MoccasinDocument;
@@ -158,21 +163,20 @@ package com.joeberkovitz.moccasin.controller
         }
         
         /**
-         * Remove all notes in the current selection. 
+         * Remove all objects in the current selection. 
          */
         public function removeSelection():void
         {
             if (selection is ObjectSelection)
             {
                 applyToSelection(function(m:MoccasinModel):void {
-                    m.parent.removeChild(m);
+                    m.parent.removeValueChild(m.value);
                 });
             }
         }
         
-         /**
-         * Apply some function to all selected note sets, including parent note sets of
-         * selected notes. 
+        /**
+         * Apply some function to all selected objects.
          */
         private function applyToSelection(f:Function):void
         {
