@@ -18,7 +18,7 @@ package com.joeberkovitz.simpleworld.view
             return model.value as ShapeModel;
         }
         
-        override public function initialize():void
+        override protected function initialize():void
         {
             super.initialize();
             new ShapeDragMediator(context).handleViewEvents(this);

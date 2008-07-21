@@ -11,7 +11,7 @@
     
     <mx:Script>
         <![CDATA[
-            import com.joeberkovitz.simpleworld.service.SimpleWorldDocumentService;
+            import com.joeberkovitz.simpleworld.service.AppDocumentService;
             import com.joeberkovitz.moccasin.service.BasicConfigurationService;
             import com.joeberkovitz.moccasin.view.ViewInfo;
             
@@ -21,7 +21,7 @@
             
             private function onCreationComplete():void
             {
-                editor.documentService = new SimpleWorldDocumentService();
+                editor.documentService = new AppDocumentService();
                 editor.configurationService = new BasicConfigurationService(null, "test.xml");
 
                 editor.initializeEditor();
@@ -33,9 +33,11 @@
     
     <mx:VBox id="editorBody" width="100%" height="100%" horizontalAlign="left">
         <mx:Canvas id="menuHeader" width="100%">
-            <sweditor:AirMenuBar id="editorMenuBar" width="100%"/>
+            <sweditor:AppMenuBar id="editorMenuBar" width="100%"/>
         </mx:Canvas>
     
-        <sweditor:SimpleWorldEditor id="editor" height="100%" width="100%" minHeight="50" minWidth="50"/>
+        <sweditor:AppEditor id="editor" height="100%" width="100%" minHeight="50" minWidth="50"/>
+        
+        <mx:HSlider id="scaleSlider" minimum="0.5" maximum="4" value="1" change="editor.setScale(scaleSlider.value)"/>
     </mx:VBox>
 </mx:WindowedApplication>

@@ -7,9 +7,9 @@ package com.joeberkovitz.simpleworld.service
     import com.joeberkovitz.moccasin.service.XmlFileWriteOperation;
     import com.joeberkovitz.moccasin.service.XmlHttpOperation;
     
-    public class SimpleWorldDocumentService implements IMoccasinDocumentService
+    public class AppDocumentService implements IMoccasinDocumentService
     {
-        public function SimpleWorldDocumentService()
+        public function AppDocumentService()
         {
         }
 

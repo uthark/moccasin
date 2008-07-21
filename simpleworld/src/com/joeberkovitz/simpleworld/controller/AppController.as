@@ -5,16 +5,16 @@ package com.joeberkovitz.simpleworld.controller
     import com.joeberkovitz.simpleworld.model.SquareModel;
     import com.joeberkovitz.simpleworld.model.WorldModel;
 
-    public class SimpleController extends MoccasinController
+    public class AppController extends MoccasinController
     {
-        public function SimpleController(document:MoccasinDocument)
+        public function AppController(document:MoccasinDocument)
         {
             super(document);
         }
         
         public function get world():WorldModel
         {
-            return document.root as WorldModel;
+            return document.root.value as WorldModel;
         }
         
         public function addObject():void

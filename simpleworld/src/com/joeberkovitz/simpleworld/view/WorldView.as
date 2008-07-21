@@ -22,7 +22,7 @@ package com.joeberkovitz.simpleworld.view
             return model.value as WorldModel;
         }
         
-        override public function initialize():void
+        override protected function initialize():void
         {
             super.initialize();
             new WorldMediator(context).handleViewEvents(this);

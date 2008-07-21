@@ -5,11 +5,11 @@ package com.joeberkovitz.simpleworld.editor
     
     import flash.events.KeyboardEvent;
     
-    public class AirEditorKeyMediator extends EditorKeyMediator
+    public class AppKeyMediator extends EditorKeyMediator
     {
-        private var _airEditor:SimpleWorldEditor;
+        private var _airEditor:AppEditor;
         
-        public function AirEditorKeyMediator(controller:IMoccasinController, editor:SimpleWorldEditor)
+        public function AppKeyMediator(controller:IMoccasinController, editor:AppEditor)
         {
             super(controller, editor);
             _airEditor = editor;

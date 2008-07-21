@@ -1,23 +1,23 @@
 package com.joeberkovitz.simpleworld.editor
 {
     import com.joeberkovitz.moccasin.editor.EditorMenuBar;
-    import com.joeberkovitz.simpleworld.controller.SimpleController;
+    import com.joeberkovitz.simpleworld.controller.AppController;
     
-    public class AirMenuBar extends EditorMenuBar
+    public class AppMenuBar extends EditorMenuBar
     {
-        public function AirMenuBar()
+        public function AppMenuBar()
         {
             super();
         }
         
-        public function get airEditor():SimpleWorldEditor
+        public function get airEditor():AppEditor
         {
-            return editor as SimpleWorldEditor;
+            return editor as AppEditor;
         }
         
-        public function get simpleController():SimpleController
+        public function get simpleController():AppController
         {
-            return editor.controller as SimpleController;
+            return editor.controller as AppController;
         }
         
         override protected function initializeMenuItems():void
