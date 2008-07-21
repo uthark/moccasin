@@ -7,7 +7,7 @@ package com.joeberkovitz.simpleworld.editor
     import com.joeberkovitz.moccasin.model.ModelRoot;
     import com.joeberkovitz.moccasin.view.MoccasinView;
     import com.joeberkovitz.moccasin.view.ViewContext;
-    import com.joeberkovitz.simpleworld.controller.SimpleController;
+    import com.joeberkovitz.simpleworld.controller.AppController;
     import com.joeberkovitz.simpleworld.model.WorldModel;
     import com.joeberkovitz.simpleworld.view.WorldView;
     
@@ -15,7 +15,7 @@ package com.joeberkovitz.simpleworld.editor
     import flash.filesystem.File;
     
 
-    public class SimpleWorldEditor extends MoccasinEditor
+    public class AppEditor extends MoccasinEditor
     {
         override public function initializeEditor():void
         {
@@ -30,12 +30,12 @@ package com.joeberkovitz.simpleworld.editor
          */
         override protected function createController():IMoccasinController
         {
-            return new SimpleController(null);
+            return new AppController(null);
         }
         
         override protected function createKeyMediator(controller:IMoccasinController):EditorKeyMediator
         {
-            return new AirEditorKeyMediator(controller, this);
+            return new AppKeyMediator(controller, this);
         }
         
         override protected function createDocumentView(context:ViewContext):MoccasinView

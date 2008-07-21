@@ -9,6 +9,9 @@ package com.joeberkovitz.simpleworld.controller
     
     import flash.events.MouseEvent;
 
+    /**
+     * Mediator for the WorldView that adds a new square at the clicked location. 
+     */
     public class WorldMediator extends DragMediator
     {
         public function WorldMediator(context:ViewContext)

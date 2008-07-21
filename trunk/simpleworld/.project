@@ -22,11 +22,4 @@
 		<nature>com.adobe.flexbuilder.project.flexnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>[source path] geometry</name>
-			<type>2</type>
-			<locationURI>RIDEMAKERZ_DIR/src/geometry</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>
