@@ -24,7 +24,8 @@ package com.joeberkovitz.moccasin.editor
 
     public class MoccasinEditor extends Canvas implements IFocusManagerComponent
     {
-        private var _document:MoccasinDocument;
+        protected var _document:MoccasinDocument;
+        
         private var _controller:IMoccasinController;
         private var _documentView:MoccasinView;
         private var _viewContext:ViewContext;
@@ -107,6 +108,7 @@ package com.joeberkovitz.moccasin.editor
         {
             _controller = createController();
             var keyMediator:EditorKeyMediator = createKeyMediator(_controller);
+            documentService = createDocumentService();
 
             // aggressively funnel keystrokes into our key mediator
             Application.application.addEventListener(KeyboardEvent.KEY_DOWN, keyMediator.handleKey);
@@ -151,6 +153,14 @@ package com.joeberkovitz.moccasin.editor
         protected function createDocumentView(context:ViewContext):MoccasinView
         {
             throw new Error("createDocumentView() must be overridden");
+        } 
+        
+        /**
+         * Abstract factory method to create this application's document service
+         */
+        protected function createDocumentService():IMoccasinDocumentService
+        {
+            throw new Error("createDocumentService() must be overridden");
         } 
         
         /**

@@ -81,51 +81,42 @@ package com.joeberkovitz.moccasin.model
             if (_value is IEventDispatcher)
             {
                 IEventDispatcher(_value).addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, handlePropertyChange);
-                if (valueChildrenProperty in _value)
+            }
+
+            if (valueChildrenProperty in _value)
+            {
+                var children:IList = valueChildren;
+                if (children != null)
                 {
-                    var children:IList = valueChildren;
-                    if (valueChildren != null)
+                    children.addEventListener(CollectionEvent.COLLECTION_CHANGE, handleCollectionChange);
+                    for each (var child:Object in children)
                     {
-                        valueChildren.addEventListener(CollectionEvent.COLLECTION_CHANGE, handleCollectionChange);
-                    }
+                        addChild(MoccasinModel.forValue(child));
+                    } 
                 }
             }
         }
         
+        /**
+         * The underlying value object that backs this MoccasinModel.
+         */
         public function get value():Object
         {
             return _value;
         }
         
-        private function get valueChildrenProperty():String
-        {
-            var cls:Object = getDefinitionByName(getQualifiedClassName(_value));
-            if ("MOCCASIN_CHILDREN_PROPERTY" in cls)
-            {
-                return cls["MOCCASIN_CHILDREN_PROPERTY"];
-            }
-            return "children";
-        }
-        
+        /**
+         * The children of our backing value object if they exist, or null if the object
+         * does not appear to maintain a set of children.
+         */
         public function get valueChildren():IList
         {
             return value[valueChildrenProperty] as IList;
         }
         
-        private function addChild(child:MoccasinModel):void
-        {
-            addChildAt(child, _children.length);
-        }
-        
-        private function addChildAt(child:MoccasinModel, index:uint):void
-        {
-            child._parent = this;
-            child.addEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
-            child.addEventListener(ModelUpdateEvent.MODEL_UPDATE, handleChildModelUpdate);
-            _children.addItemAt(child, index);
-            dispatchModelEvent(new ModelEvent(ModelEvent.MODEL_CHANGE, ModelEvent.ADD_CHILD_MODEL, this, child, index));
-        }
-        
+        /**
+         * Access the MoccasinModel at some child index. 
+         */
         public function getChildAt(index:uint):MoccasinModel
         {
             if (index < _children.length)
@@ -138,30 +129,10 @@ package com.joeberkovitz.moccasin.model
             }
         }
         
-        private function removeChild(child:MoccasinModel):void
-        {
-            var index:int = _children.getItemIndex(child);
-            if (index >= 0)
-            {
-                removeChildAt(index);
-            }
-        }
-        
-        private function removeChildAt(index:uint):void
-        {
-            var child:MoccasinModel = getChildAt(index);
-
-            // dispatch preparatory event that can cause view/selection changes prior to actual removal
-            dispatchModelEvent(new ModelEvent(ModelEvent.MODEL_CHANGE, ModelEvent.REMOVING_CHILD_MODEL, this, child, index));
-
-            child._parent = null;
-            child.removeEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
-            child.removeEventListener(ModelUpdateEvent.MODEL_UPDATE, handleChildModelUpdate);
-            _children.removeItemAt(index);
-            
-            dispatchModelEvent(new ModelEvent(ModelEvent.MODEL_CHANGE, ModelEvent.REMOVE_CHILD_MODEL, this, child, index));
-        }
-        
+        /**
+         * Utility function to remove a child value object from the value object for this MoccasinModel. 
+         * @param valueChild the value object child to be removed.
+         */
         public function removeValueChild(valueChild:Object):void
         {
             var index:int = valueChildren.getItemIndex(valueChild);
@@ -171,14 +142,10 @@ package com.joeberkovitz.moccasin.model
             }
         }
 
-        private function removeAllChildren():void
-        {
-            while (numChildren > 0)
-            {
-                removeChildAt(numChildren - 1);
-            }
-        }
-
+        /**
+         * The parent MoccasinModel of this one, determined by watching collection change events
+         * on the underlying value object tree.
+         */
         public function get parent():MoccasinModel
         {
             return _parent;
@@ -189,6 +156,9 @@ package com.joeberkovitz.moccasin.model
             _parent = m;
         }
         
+        /**
+         * The number of children in this MoccasinModel. 
+         */
         public function get numChildren():int
         {
             return _children.length;
@@ -200,6 +170,14 @@ package com.joeberkovitz.moccasin.model
         }
         
         /**
+         * Obtain a deep clone of this model that refers to a cloned underlying value object.
+         */
+        public function clone():MoccasinModel
+        {
+            return new MoccasinModel(ObjectUtil.copy(value));
+        }
+
+        /**
          * Obtain a String "path" to this model object from the score, as a way to serialize a reference to it.
          */        
         public function get path():String
@@ -209,13 +187,6 @@ package com.joeberkovitz.moccasin.model
                 return parent.pathToChild(this);
             }
             return parent.path + "/" + parent.pathToChild(this);
-        }
-        
-        private function pathToChild(m:MoccasinModel):String
-        {
-            var className:String = getQualifiedClassName(m);
-            className = className.substring(className.lastIndexOf(":") + 1);
-            return className + "-" + _children.getItemIndex(m).toString();
         }
         
         /**
@@ -234,6 +205,13 @@ package com.joeberkovitz.moccasin.model
             var descendantSpec:String = path.substring(slashIndex + 1);
             
             return resolvePathComponent(childSpec).resolvePath(descendantSpec);
+        }
+        
+        private function pathToChild(m:MoccasinModel):String
+        {
+            var className:String = getQualifiedClassName(m);
+            className = className.substring(className.lastIndexOf(":") + 1);
+            return className + "-" + _children.getItemIndex(m).toString();
         }
         
         private function resolvePathComponent(childSpec:String):MoccasinModel
@@ -320,9 +298,63 @@ package com.joeberkovitz.moccasin.model
             dispatchEvent(e);
         }
 
-        public function clone():MoccasinModel
+        /**
+         * Get the name of the class property that may hold the value's child value objects.
+         */
+        private function get valueChildrenProperty():String
         {
-            return new MoccasinModel(ObjectUtil.copy(value));
+            var cls:Object = getDefinitionByName(getQualifiedClassName(_value));
+            if ("MOCCASIN_CHILDREN_PROPERTY" in cls)
+            {
+                return cls["MOCCASIN_CHILDREN_PROPERTY"];
+            }
+            return "children";
+        }
+        
+        private function addChild(child:MoccasinModel):void
+        {
+            addChildAt(child, _children.length);
+        }
+        
+        private function addChildAt(child:MoccasinModel, index:uint):void
+        {
+            child._parent = this;
+            child.addEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
+            child.addEventListener(ModelUpdateEvent.MODEL_UPDATE, handleChildModelUpdate);
+            _children.addItemAt(child, index);
+            dispatchModelEvent(new ModelEvent(ModelEvent.MODEL_CHANGE, ModelEvent.ADD_CHILD_MODEL, this, child, index));
+        }
+
+        private function removeChild(child:MoccasinModel):void
+        {
+            var index:int = _children.getItemIndex(child);
+            if (index >= 0)
+            {
+                removeChildAt(index);
+            }
+        }
+        
+        private function removeChildAt(index:uint):void
+        {
+            var child:MoccasinModel = getChildAt(index);
+
+            // dispatch preparatory event that can cause view/selection changes prior to actual removal
+            dispatchModelEvent(new ModelEvent(ModelEvent.MODEL_CHANGE, ModelEvent.REMOVING_CHILD_MODEL, this, child, index));
+
+            child._parent = null;
+            child.removeEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
+            child.removeEventListener(ModelUpdateEvent.MODEL_UPDATE, handleChildModelUpdate);
+            _children.removeItemAt(index);
+            
+            dispatchModelEvent(new ModelEvent(ModelEvent.MODEL_CHANGE, ModelEvent.REMOVE_CHILD_MODEL, this, child, index));
+        }
+        
+        private function removeAllChildren():void
+        {
+            while (numChildren > 0)
+            {
+                removeChildAt(numChildren - 1);
+            }
         }
     }
 }

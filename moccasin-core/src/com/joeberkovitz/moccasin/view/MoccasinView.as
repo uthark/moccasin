@@ -79,7 +79,11 @@ package com.joeberkovitz.moccasin.view
          * Called to initialize the view's contents, typically by consulting its layout and constructing its children. 
          */
         protected function updateView():void
-        {            
+        {
+            for (var i:int = 0; i < model.numChildren; i++)
+            {
+                addChild(createChildView(model.getChildAt(i)));
+            }
         }
 
         /**
