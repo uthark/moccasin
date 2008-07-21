@@ -323,6 +323,8 @@ package com.joeberkovitz.moccasin.editor
             var vScroll:Number = verticalScrollPosition;
             viewLayer.scaleX = viewLayer.scaleY = viewScale;
             
+            viewInfo.displayScale = viewScale;
+
             var factor:Number = viewScale / oldScale;
             horizontalScrollPosition = (hScroll + width/2) * factor - width/2;
             verticalScrollPosition = (vScroll + height/2) * factor - height/2;
