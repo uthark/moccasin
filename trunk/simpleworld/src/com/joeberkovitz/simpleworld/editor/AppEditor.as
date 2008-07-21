@@ -2,26 +2,28 @@ package com.joeberkovitz.simpleworld.editor
 {
     import com.joeberkovitz.moccasin.controller.IMoccasinController;
     import com.joeberkovitz.moccasin.document.MoccasinDocument;
+    import com.joeberkovitz.moccasin.editor.AirMoccasinEditor;
     import com.joeberkovitz.moccasin.editor.EditorKeyMediator;
-    import com.joeberkovitz.moccasin.editor.MoccasinEditor;
     import com.joeberkovitz.moccasin.model.ModelRoot;
+    import com.joeberkovitz.moccasin.service.IMoccasinDocumentService;
+    import com.joeberkovitz.moccasin.service.MoccasinDocumentData;
     import com.joeberkovitz.moccasin.view.MoccasinView;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.AppController;
     import com.joeberkovitz.simpleworld.model.WorldModel;
+    import com.joeberkovitz.simpleworld.service.AppDocumentService;
     import com.joeberkovitz.simpleworld.view.WorldView;
     
-    import flash.events.Event;
-    import flash.filesystem.File;
-    
 
-    public class AppEditor extends MoccasinEditor
+    public class AppEditor extends AirMoccasinEditor
     {
         override public function initializeEditor():void
         {
             super.initializeEditor();
             
-            controller.document = new MoccasinDocument(new ModelRoot(new WorldModel()));
+            _document = new MoccasinDocument(new ModelRoot(new WorldModel()));
+            controller.document = _document;
+            documentData = new MoccasinDocumentData(_document.root, null);
             updateLayout();
         }
         
@@ -42,35 +44,11 @@ package com.joeberkovitz.simpleworld.editor
         {
             return new WorldView(context, controller.document.root);
         } 
-        
-        /**
-         * Open a particular score -- this has nothing to do with training. 
-         */
-        public function openFile():void
+
+        override protected function createDocumentService():IMoccasinDocumentService
         {
-            var file:File = new File();
-            file.browseForOpen("Open Document");
-            file.addEventListener(Event.SELECT, handleSelectOpen);            
-        }
+            return new AppDocumentService();
+        } 
         
-        private function handleSelectOpen(e:Event):void
-        {
-            var file:File = e.target as File;
-            loadDocument(file.url);
-        }
-        
-        public function saveAsFile():void
-        {
-            var file:File = new File();
-            file.browseForSave("Save Document As...");
-            file.addEventListener(Event.SELECT, handleSelectSaveAs);            
-        }
-        
-        private function handleSelectSaveAs(e:Event):void
-        {
-            var file:File = e.target as File;
-            documentData.documentId = file.url;
-            saveDocument();
-        }
     }
 }

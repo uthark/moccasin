@@ -30,6 +30,8 @@ package com.joeberkovitz.simpleworld.view
         
         override protected function updateView():void
         {
+            super.updateView();
+            
             graphics.beginFill(0xFFFFFF);
             graphics.drawRect(0, 0, world.width, world.height);
             graphics.endFill();
