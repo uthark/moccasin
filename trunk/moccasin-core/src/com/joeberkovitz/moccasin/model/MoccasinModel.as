@@ -44,6 +44,9 @@ package com.joeberkovitz.moccasin.model
         /** The underlying value object */
         private var _value:Object;
         
+        /** Value models: properties of the value object that are themselves models. */
+        private var _valueModels:Object;
+        
         /** A reverse-lookup weak dictionary from models to their wrappers. */
         private static var _valueMap:Dictionary = new Dictionary(true);
         
@@ -70,6 +73,7 @@ package com.joeberkovitz.moccasin.model
         {
             super();
             _children = new ArrayCollection();
+            _valueModels = {};
             _value = value;
             
             if (_value in _valueMap)
@@ -94,6 +98,16 @@ package com.joeberkovitz.moccasin.model
                         addChild(MoccasinModel.forValue(child));
                     } 
                 }
+            }
+            
+            for each (var p:String in valueModelProperties)
+            {
+                var valueModel:MoccasinModel = MoccasinModel.forValue(_value[p]);
+                _valueModels[p] = valueModel;
+
+                valueModel.parent = this; 
+                valueModel.addEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
+                valueModel.addEventListener(ModelUpdateEvent.MODEL_UPDATE, handleChildModelUpdate);
             }
         }
         
@@ -299,18 +313,34 @@ package com.joeberkovitz.moccasin.model
         }
 
         /**
+         * Get the names of the properties that hold the value's descendant models
+         */
+        private function get valueModelProperties():Array
+        {
+            return getMetadataProperty("MOCCASIN_MODEL_PROPERTIES", []);
+        }
+
+        /**
          * Get the name of the class property that may hold the value's child value objects.
          */
         private function get valueChildrenProperty():String
         {
-            var cls:Object = getDefinitionByName(getQualifiedClassName(_value));
-            if ("MOCCASIN_CHILDREN_PROPERTY" in cls)
-            {
-                return cls["MOCCASIN_CHILDREN_PROPERTY"];
-            }
-            return "children";
+            return getMetadataProperty("MOCCASIN_CHILDREN_PROPERTY", "children");
         }
         
+        /**
+         * Get the defaulted value of a metadata property expressed as a static const attached to the value object's class. 
+         */
+        private function getMetadataProperty(name:String, defaultValue:*):*
+        {
+            var cls:Object = getDefinitionByName(getQualifiedClassName(_value));
+            if (name in cls)
+            {
+                return cls[name];
+            }
+            return defaultValue;
+        }
+
         private function addChild(child:MoccasinModel):void
         {
             addChildAt(child, _children.length);
