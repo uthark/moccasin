@@ -12,7 +12,8 @@ package com.joeberkovitz.simpleworld.controller
     import flash.geom.Rectangle;
 
     /**
-     * Mediator for the WorldView that adds a new square at the clicked location. 
+     * Mediator for the WorldView that adds a new square at a clicked location, but for
+     * a drag gesture draws a marquee rectangle that selects enclosed objects.
      */
     public class WorldMediator extends DragMediator
     {
@@ -59,7 +60,7 @@ package com.joeberkovitz.simpleworld.controller
             _marquee = new Shape();
             context.editor.feedbackLayer.addChild(_marquee);
             
-            _worldStart = new Rectangle(_worldView.mouseX, _worldView.mouseY, 1, 1);
+            _worldStart = dragEndpointRect;
         }
         
         /**
@@ -67,7 +68,7 @@ package com.joeberkovitz.simpleworld.controller
          */
         override protected function handleDragMove(e:MouseEvent):void
         {
-            _worldDragRect = new Rectangle(_worldView.mouseX, _worldView.mouseY, 1, 1).union(_worldStart);
+            _worldDragRect = _worldStart.union(dragEndpointRect);
             
             _marquee.graphics.clear();
             _marquee.graphics.lineStyle(1, 0, 0.5);
@@ -87,6 +88,11 @@ package com.joeberkovitz.simpleworld.controller
                     context.controller.modifySelection(MoccasinModel.forValue(ws));
                 }
             }
+        }
+        
+        private function get dragEndpointRect():Rectangle
+        {
+            return new Rectangle(_worldView.mouseX, _worldView.mouseY, 1, 1)
         }
    }
 }
