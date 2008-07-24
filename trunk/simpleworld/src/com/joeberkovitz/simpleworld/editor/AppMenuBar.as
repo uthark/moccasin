@@ -3,6 +3,9 @@ package com.joeberkovitz.simpleworld.editor
     import com.joeberkovitz.moccasin.editor.EditorMenuBar;
     import com.joeberkovitz.simpleworld.controller.AppController;
     
+    /**
+     * Application specific menu bar.
+     */
     public class AppMenuBar extends EditorMenuBar
     {
         public function AppMenuBar()
