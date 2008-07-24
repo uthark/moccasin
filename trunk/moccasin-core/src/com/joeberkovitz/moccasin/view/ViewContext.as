@@ -4,6 +4,7 @@ package com.joeberkovitz.moccasin.view
     import com.joeberkovitz.moccasin.document.MoccasinDocument;
     import com.joeberkovitz.moccasin.editor.MoccasinEditor;
     
+    import flash.display.DisplayObject;
     import flash.display.Stage;
     import flash.events.EventDispatcher;
     

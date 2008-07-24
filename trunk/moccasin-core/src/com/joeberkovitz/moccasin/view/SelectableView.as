@@ -1,9 +1,9 @@
 package com.joeberkovitz.moccasin.view
 {
     import com.joeberkovitz.moccasin.controller.SelectionMediator;
-    import com.joeberkovitz.moccasin.document.ObjectSelection;
     import com.joeberkovitz.moccasin.model.MoccasinModel;
     
+    import flash.display.DisplayObject;
     import flash.events.MouseEvent;
     import flash.filters.BitmapFilter;
     import flash.filters.GlowFilter;
@@ -16,7 +16,21 @@ package com.joeberkovitz.moccasin.view
      */
     public class SelectableView extends MoccasinView
     {
+        // flag tracking rollover state
         private var _rolled:Boolean = false;
+        
+        // associated feedback view, if any
+        private var _feedback:DisplayObject;
+
+        /**
+         * Flag controlling whether selection is shown using a default color transform. 
+         */
+        public var useSelectionTransform:Boolean = false;
+        
+        /**
+         * Flag controlling use of rollover glow. 
+         */
+        public var useRolloverGlow:Boolean = true;
         
         public function SelectableView(context:ViewContext, model:MoccasinModel)
         {
@@ -47,11 +61,24 @@ package com.joeberkovitz.moccasin.view
             return context.document.selection.includes(model);
         }
 
-        override public function updateStatus():void
+        /**
+         * Update the appearance of this object with respect to selection and rollover.  If useSelectionTransform
+         * is set, then a default color transform will be applied to the hue of the object.
+         */
+        override protected function updateStatus():void
         {
             super.updateStatus();
-            
-            if (_rolled && model.enabled && !feedback)
+
+            // Display default selection highlighting if requested
+            //
+            if (useSelectionTransform)
+            {
+                transform.colorTransform = getColorTransform();
+            }            
+
+            // Display default rollover feedback if requested
+            //
+            if (useRolloverGlow && _rolled && !selected && model.enabled)
             {
                 var f:BitmapFilter = new GlowFilter(context.info.selectionColors[0], 0.25, 10, 10, 8);
                 filters = [f];
@@ -60,6 +87,28 @@ package com.joeberkovitz.moccasin.view
             {
                 filters = null;
             }
+            
+            // Manage creation/destruction of a specialized feedback view on a different layer.
+            //
+            if (selected && _feedback == null)
+            {
+                _feedback = createFeedbackView();
+                if (_feedback != null)
+                {
+                    context.editor.feedbackLayer.addChild(_feedback);
+                }
+            }
+            else if (!selected && _feedback != null)
+            {
+                context.editor.feedbackLayer.removeChild(_feedback);
+                _feedback = null;
+                trace(context.editor.feedbackLayer.numChildren);
+            }
+        }
+        
+        protected function createFeedbackView():DisplayObject
+        {
+            return null;
         }
         
         protected function addRollHighlight(e:MouseEvent):void
