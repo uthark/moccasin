@@ -5,6 +5,9 @@ package com.joeberkovitz.simpleworld.editor
     
     import flash.events.KeyboardEvent;
     
+    /**
+     * Application specific keystroke handler.
+     */
     public class AppKeyMediator extends EditorKeyMediator
     {
         private var _airEditor:AppEditor;

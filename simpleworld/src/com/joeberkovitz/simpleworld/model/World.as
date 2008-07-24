@@ -4,7 +4,7 @@ package com.joeberkovitz.simpleworld.model
     import mx.collections.IList;
     
     [RemoteClass]
-    public class WorldModel
+    public class World
     {
         public static const MOCCASIN_CHILDREN_PROPERTY:String = "shapes";
         

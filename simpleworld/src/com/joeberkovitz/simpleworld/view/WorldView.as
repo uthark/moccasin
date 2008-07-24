@@ -4,8 +4,8 @@ package com.joeberkovitz.simpleworld.view
     import com.joeberkovitz.moccasin.view.MoccasinView;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.WorldMediator;
-    import com.joeberkovitz.simpleworld.model.SquareModel;
-    import com.joeberkovitz.simpleworld.model.WorldModel;
+    import com.joeberkovitz.simpleworld.model.Square;
+    import com.joeberkovitz.simpleworld.model.World;
     
     import flash.utils.getQualifiedClassName;
 
@@ -17,9 +17,9 @@ package com.joeberkovitz.simpleworld.view
             initialize();
         }
         
-        public function get world():WorldModel
+        public function get world():World
         {
-            return model.value as WorldModel;
+            return model.value as World;
         }
         
         override protected function initialize():void
@@ -39,7 +39,7 @@ package com.joeberkovitz.simpleworld.view
 
         override public function createChildView(child:MoccasinModel):MoccasinView
         {
-            if (child.value is SquareModel)
+            if (child.value is Square)
             {
                 return new SquareView(context, child);
             }

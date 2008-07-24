@@ -4,7 +4,7 @@ package com.joeberkovitz.simpleworld.controller
     import com.joeberkovitz.moccasin.event.DocumentUpdateEvent;
     import com.joeberkovitz.moccasin.model.MoccasinModel;
     import com.joeberkovitz.moccasin.view.ViewContext;
-    import com.joeberkovitz.simpleworld.model.ShapeModel;
+    import com.joeberkovitz.simpleworld.model.WorldShape;
     import com.joeberkovitz.simpleworld.view.ShapeView;
     
     import flash.events.MouseEvent;
@@ -47,7 +47,7 @@ package com.joeberkovitz.simpleworld.controller
             _oldPositions = [];
             for each (var m:MoccasinModel in context.controller.selection.selectedModels)
             {
-                var sm:ShapeModel = ShapeModel(m.value);
+                var sm:WorldShape = WorldShape(m.value);
                 _oldPositions.push(new Point(sm.x, sm.y));
             }
         }
@@ -61,7 +61,7 @@ package com.joeberkovitz.simpleworld.controller
             var i:int = 0;
             for each (var m:MoccasinModel in context.controller.selection.selectedModels)
             {
-                var sm:ShapeModel = ShapeModel(m.value);
+                var sm:WorldShape = WorldShape(m.value);
                 var newPosition:Point = Point(_oldPositions[i++]).add(documentDragDelta); 
                 sm.x = newPosition.x;
                 sm.y = newPosition.y;

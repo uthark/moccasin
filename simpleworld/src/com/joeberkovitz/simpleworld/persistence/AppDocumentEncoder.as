@@ -2,10 +2,13 @@ package com.joeberkovitz.simpleworld.persistence
 {
     import com.joeberkovitz.moccasin.model.ModelRoot;
     import com.joeberkovitz.moccasin.persistence.IDocumentEncoder;
-    import com.joeberkovitz.simpleworld.model.ShapeModel;
-    import com.joeberkovitz.simpleworld.model.SquareModel;
-    import com.joeberkovitz.simpleworld.model.WorldModel;
+    import com.joeberkovitz.simpleworld.model.WorldShape;
+    import com.joeberkovitz.simpleworld.model.Square;
+    import com.joeberkovitz.simpleworld.model.World;
 
+    /**
+     * Application specific document encoder converting a top-level model into XML.
+     */
     public class AppDocumentEncoder implements IDocumentEncoder
     {
         public function AppDocumentEncoder()
@@ -14,14 +17,14 @@ package com.joeberkovitz.simpleworld.persistence
 
         public function encodeDocument(root:ModelRoot):*
         {
-            var world:WorldModel = root.value as WorldModel;
+            var world:World = root.value as World;
             var xml:XML = <world/>;
             
-            for each (var shape:ShapeModel in world.shapes)
+            for each (var shape:WorldShape in world.shapes)
             {
-                if (shape is SquareModel)
+                if (shape is Square)
                 {
-                    var square:SquareModel = shape as SquareModel;
+                    var square:Square = shape as Square;
                     xml.appendChild(<square x={square.x} y={square.y} size={square.size}/>);
                 }
             }
