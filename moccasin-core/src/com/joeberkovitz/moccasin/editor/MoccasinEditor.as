@@ -325,6 +325,18 @@ package com.joeberkovitz.moccasin.editor
             }
         }        
         
+        /**
+         * Set a view offset in scaled document coordinates. 
+         */
+        public function setViewOffset(x:Number, y:Number):void
+        {
+            documentLayer.x = feedbackLayer.x = x;
+            documentLayer.y = feedbackLayer.y = y;
+        }
+        
+        /**
+         * Set the display scale and adjust the scrollbars as needed. 
+         */
         public function setScale(s:Number):void
         {
             var oldScale:Number = viewScale;

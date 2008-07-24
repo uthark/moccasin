@@ -156,7 +156,7 @@ package com.joeberkovitz.moccasin.view
          */
         private function handleModelChange(e:ModelEvent):void
         {
-            if (e.target != model || stage == null)
+            if (e.parent != model || stage == null)
             {
                 return;
             }
