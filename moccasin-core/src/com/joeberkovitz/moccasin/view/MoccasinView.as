@@ -16,12 +16,6 @@ package com.joeberkovitz.moccasin.view
      */
     public class MoccasinView extends Sprite
     {
-        /**
-         * Flag indicating whether this view is a temporary "feedback view" that doesn't really represent
-         * a persistent model object, e.g. an object backing a drag proxy of some kind. 
-         */
-        public var feedback:Boolean = false;
-        
         private var _context:ViewContext;
         private var _model:MoccasinModel;
         
@@ -68,22 +62,27 @@ package com.joeberkovitz.moccasin.view
          */
         protected function initializeView():void
         {
-            graphics.clear();
+            createChildren();
             updateView();
             updateStatus();
         }
         
         // Abstract methods
         
-        /**
-         * Called to initialize the view's contents, typically by consulting its layout and constructing its children. 
-         */
-        protected function updateView():void
+        protected function createChildren():void
         {
             for (var i:int = 0; i < model.numChildren; i++)
             {
                 addChild(createChildView(model.getChildAt(i)));
             }
+        }
+
+        /**
+         * Called to update the view's contents, typically by consulting its layout and constructing its children. 
+         */
+        protected function updateView():void
+        {
+            graphics.clear();
         }
 
         /**
@@ -98,24 +97,16 @@ package com.joeberkovitz.moccasin.view
          * Handle a specific property change by some incremental adjustment and return true,
          * otherwise return false to reinitialize the view. 
          */
-        public function updateModelProperty(property:Object, oldValue:Object, newValue:Object):Boolean
+        protected function updateModelProperty(property:Object, oldValue:Object, newValue:Object):Boolean
         {
             return false;
         }
 
         /**
-         * Update the geometry of this object by redrawing graphics, adjusting child positions, etc. 
-         */
-        public function updateGeometry():void
-        {
-        }
-
-        /**
          * Update the status of this object with respect to selection status, etc. 
          */
-        public function updateStatus():void
+        protected function updateStatus():void
         {
-            transform.colorTransform = getColorTransform();
         }
         
         /** Flag that determines whether an element in the view appears selected or not. */
@@ -130,11 +121,7 @@ package com.joeberkovitz.moccasin.view
          */
         protected function getColorTransform():ColorTransform
         {
-            if (feedback)
-            {
-                return lightenTransform(context.info.feedbackColor); 
-            }
-            else if (selected)
+            if (selected)
             {
                 return lightenTransform(context.info.selectionColors[0]);
             }
@@ -199,7 +186,7 @@ package com.joeberkovitz.moccasin.view
  
             if (!updateModelProperty(e.property, e.oldValue, e.newValue))
             {
-                initializeView();
+                updateView();
             }
         }
     }
