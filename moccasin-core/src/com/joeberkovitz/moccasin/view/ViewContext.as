@@ -3,8 +3,6 @@ package com.joeberkovitz.moccasin.view
     import com.joeberkovitz.moccasin.controller.IMoccasinController;
     import com.joeberkovitz.moccasin.document.MoccasinDocument;
     import com.joeberkovitz.moccasin.editor.MoccasinEditor;
-    import com.ridemakerz.games.builder.editor.AppEditor;
-    import com.ridemakerz.games.util.LibraryManager;
     
     import flash.display.Bitmap;
     import flash.display.BitmapData;
