@@ -102,7 +102,7 @@ package com.joeberkovitz.moccasin.view
             {
                 context.editor.feedbackLayer.removeChild(_feedback);
                 _feedback = null;
-                trace(context.editor.feedbackLayer.numChildren);
+                trace("removed", context.editor.feedbackLayer.numChildren);
             }
         }
         
@@ -121,6 +121,11 @@ package com.joeberkovitz.moccasin.view
         protected function removeRollHighlight(e:MouseEvent):void
         {
             _rolled = false;
+            if (stage == null)
+            {
+                // Disregard roll highlight removal for off-stage views
+                return;
+            }
             updateStatus();
             e.stopPropagation();
         }
