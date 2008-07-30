@@ -102,7 +102,6 @@ package com.joeberkovitz.moccasin.view
             {
                 context.editor.feedbackLayer.removeChild(_feedback);
                 _feedback = null;
-                trace("removed", context.editor.feedbackLayer.numChildren);
             }
         }
         
