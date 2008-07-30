@@ -111,6 +111,9 @@ package com.joeberkovitz.moccasin.controller
             _context.stage.removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
             _context.stage.removeEventListener(MouseEvent.MOUSE_UP, handleMouseUp);
             e.stopPropagation();
+            
+            // force focus back to the editor
+            _context.editor.setFocus();
         }
         
         ///////////////////////

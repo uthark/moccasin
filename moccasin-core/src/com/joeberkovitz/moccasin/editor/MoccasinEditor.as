@@ -12,6 +12,7 @@ package com.joeberkovitz.moccasin.editor
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.moccasin.view.ViewInfo;
     
+    import flash.display.Stage;
     import flash.events.Event;
     import flash.events.KeyboardEvent;
     import flash.printing.PrintJob;
@@ -54,10 +55,18 @@ package com.joeberkovitz.moccasin.editor
         [Bindable]
         public var statusText:String = "";
         
+        /**
+         * UIComponent containing all views of the document model, appropriately scaled. 
+         */        
         public var documentLayer:UIComponent;
+        
+        /**
+         * Transparent layer on top of the documentLayer, scaled and offset identically.  Contains temporary
+         * visual feedback objects.
+         */        
         public var feedbackLayer:UIComponent;  // scaled feedback aligned with document view
 
-        private var viewLayer:Canvas;
+        private var viewLayer:Canvas;            // container to apply scaling and scroll offset to document and feedback layers
         private var overlayLayer:UIComponent;    // unscaled feedback for global overlays
         private var loadingPopup:LoadingPopup = null;
 
@@ -172,6 +181,15 @@ package com.joeberkovitz.moccasin.editor
         }
         
         /**
+         * Abstract factory method to create this application's view context
+         */
+        protected function createViewContext(info:ViewInfo, controller:IMoccasinController, editor:MoccasinEditor, stage:Stage):ViewContext
+        {
+            return new ViewContext(info, controller, editor, stage);
+        }
+        
+
+        /**
          * Override default key down handling in Container that would affect scroll bar position, etc.  
          */
         override protected function keyDownHandler(e:KeyboardEvent):void
@@ -211,7 +229,7 @@ package com.joeberkovitz.moccasin.editor
         }
         
         /**
-         * Handler for the completion of a document's ;pad operation.
+         * Handler for the completion of a document's load operation.
          */
         protected function documentLoaded(e:Event):void
         {
@@ -282,7 +300,7 @@ package com.joeberkovitz.moccasin.editor
                 documentLayer.removeChildAt(0);
                 
             viewInfo.displayScale = viewScale;
-            _viewContext = new ViewContext(viewInfo, _controller, this, stage);
+            _viewContext = createViewContext(viewInfo, _controller, this, stage);
             _viewContext.pointerTool = _pointerTool;
             _documentView = createDocumentView(_viewContext);
             documentLayer.addChild(_documentView);
