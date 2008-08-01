@@ -28,10 +28,14 @@ package com.joeberkovitz.moccasin.model
      * object in the underlying application model.</p>
      *   
      * <p>Any property of a value object that can trigger a view change is required to be Bindable.
-     * Also, there is a special property of a value object that is presumed to be its child value objects
-     * in the application model, and which must implement the mx.collections.IList interface.
+     * Also, there is a special property of a value object that is presumed to be the set of child value objects
+     * in the application model tree, and which must implement the mx.collections.IList interface.
      * By default, this property's name is "children", but may be overridden
      * by defining a static constant MOCCASIN_CHILDREN_PROPERTY to reference some other property name.</p>
+     * 
+     * <p>Additionally, some properties may themselves be other value objects in a 1:1 relationship with
+     * this object, that can also have child objects of their own.  The special static constant MOCCASIN_MODEL_PROPERTIES
+     * may be defined as an array of such property names.</p>
      */
     public class MoccasinModel extends EventDispatcher
     {
