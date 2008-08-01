@@ -9,6 +9,9 @@ package com.joeberkovitz.simpleworld.view
     
     import flash.utils.getQualifiedClassName;
 
+    /**
+     * View of the entire sample application's World value object.
+     */
     public class WorldView extends MoccasinView
     {
         public function WorldView(context:ViewContext, model:MoccasinModel=null)
@@ -17,17 +20,26 @@ package com.joeberkovitz.simpleworld.view
             initialize();
         }
         
+        /**
+         * The World of which this is a view.
+         */
         public function get world():World
         {
             return model.value as World;
         }
         
+        /**
+         * Initialize this object by creating the appropriate mediator to handle events.
+         */
         override protected function initialize():void
         {
             super.initialize();
             new WorldMediator(context).handleViewEvents(this);
         }
         
+        /**
+         * Update the view by drawing the backdrop for the world.
+         */
         override protected function updateView():void
         {
             super.updateView();
@@ -37,6 +49,11 @@ package com.joeberkovitz.simpleworld.view
             graphics.endFill();
         }
 
+        /**
+         * Create a child view for some child model of our model. 
+         * @param child a child MoccasinModel
+         * @return the appropriate type of view for the value object belonging to that child.
+         */
         override public function createChildView(child:MoccasinModel):MoccasinView
         {
             if (child.value is Square)

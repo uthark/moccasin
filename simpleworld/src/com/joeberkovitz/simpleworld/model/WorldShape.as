@@ -2,6 +2,9 @@ package com.joeberkovitz.simpleworld.model
 {
     import flash.geom.Rectangle;
     
+    /**
+     * Abstract value object representing some shape in the world.
+     */
     [RemoteClass]
     public class WorldShape
     {

@@ -1,10 +1,8 @@
 package com.joeberkovitz.simpleworld.controller
 {
     import com.joeberkovitz.moccasin.controller.DragMediator;
-    import com.joeberkovitz.moccasin.model.MoccasinModel;
     import com.joeberkovitz.moccasin.view.ViewContext;
-    import com.joeberkovitz.simpleworld.model.Square;
-    import com.joeberkovitz.simpleworld.view.ShapeView;
+    import com.joeberkovitz.simpleworld.view.SquareFeedback;
     
     import flash.display.DisplayObject;
     import flash.events.MouseEvent;
@@ -14,8 +12,8 @@ package com.joeberkovitz.simpleworld.controller
      */
     public class SizeDragMediator extends DragMediator
     {
-        private var _shapeView:ShapeView;
-        private var _oldSizes:Array; /* of Numbers */
+        private var _squareView:SquareFeedback;
+        private var _oldSize:Number;
         
         public function SizeDragMediator(context:ViewContext)
         {
@@ -23,40 +21,29 @@ package com.joeberkovitz.simpleworld.controller
         }
         
         /**
-         * When asked to work with a ShapeView, take note of the view and add a listener for mouseDown.
+         * When asked to work with a SquareFeedback, take note of the view and add a listener for mouseDown.
          */
-        public function handleViewEvents(view:ShapeView):void
+        public function handleViewEvents(view:SquareFeedback, handle:DisplayObject):void
         {
-            _shapeView = view;
-            view.addEventListener(MouseEvent.MOUSE_DOWN, handleMouseDown);
+            _squareView = view;
+            handle.addEventListener(MouseEvent.MOUSE_DOWN, handleMouseDown);
         }
         
         /**
-         * At the start of a drag, capture the sizes of all selected shapes so that we
-         * can resize them all by the same delta later on.
+         * At the start of a drag, capture the size the selected shape.
          */
         override protected function handleDragStart(e:MouseEvent):void
         {
-            context.controller.document.undoHistory.openGroup("Resize Shapes");
-            _oldSizes = [];
-            for each (var m:MoccasinModel in context.controller.selection.selectedModels)
-            {
-                var sq:Square = Square(m.value);
-                _oldSizes.push(sq.size);
-            }
+            context.controller.document.undoHistory.openGroup("Resize Square");
+            _oldSize = _squareView.square.size;
         }
         
         /**
-         * For each move during the drag, resize the models appropriately.
+         * For each move during the drag, resize the model appropriately.
          */
         override protected function handleDragMove(e:MouseEvent):void
         {
-            var i:int = 0;
-            for each (var m:MoccasinModel in context.controller.selection.selectedModels)
-            {
-                var sq:Square = Square(m.value);
-                sq.size = _oldSizes[i++] + Math.max(documentDragDelta.x, documentDragDelta.y);
-            }
+            _squareView.square.size = _oldSize + Math.max(documentDragDelta.x, documentDragDelta.y);
         }
     }
 }

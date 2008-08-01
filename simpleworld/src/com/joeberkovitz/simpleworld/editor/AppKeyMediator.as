@@ -6,7 +6,8 @@ package com.joeberkovitz.simpleworld.editor
     import flash.events.KeyboardEvent;
     
     /**
-     * Application specific keystroke handler.
+     * Application specific keystroke handler.  This is currently just a skeleton; there
+     * are no application-specific keystrokes.
      */
     public class AppKeyMediator extends EditorKeyMediator
     {
