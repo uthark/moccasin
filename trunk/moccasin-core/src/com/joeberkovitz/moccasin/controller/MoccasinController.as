@@ -17,9 +17,9 @@ package com.joeberkovitz.moccasin.controller
     [Event(name="removeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     
     /**
-     * The MoccasinController  
-     * @author joeb
-     * 
+     * The MoccasinController is an abstract superclass of application controllers.  Its role is to
+     * isolate other parts of the architecture from the implementation of modifications to the model,
+     * and to act as a central dispatch point for common handling of modifications. 
      */
     public class MoccasinController extends EventDispatcher implements IMoccasinController
     {
@@ -31,21 +31,36 @@ package com.joeberkovitz.moccasin.controller
             this.document = document;
         }
         
+        /**
+         * The root model object of for the document.
+         */
         public function get root():ModelRoot
         {
             return _document.root;
         }
         
+        /**
+         * The IClipboard instance representing the clipboard state, or null if there is none.
+         */        
         public function get clipboard():IClipboard
         {
             return _clipboard;
         }
+
         
+        /**
+         * The ISelection instance representing the current selection within the document, or null
+         * if nothing is selected.
+         */
         public function get selection():ISelection
         {
             return _document.selection;
         }
         
+        /**
+         * The MoccasinDocument which holds the model root, selection state and undo history for
+         * the application.
+         */
         [Bindable("documentChange")]
         public function get document():MoccasinDocument
         {
@@ -69,6 +84,9 @@ package com.joeberkovitz.moccasin.controller
             dispatchEvent(new ControllerEvent(ControllerEvent.DOCUMENT_CHANGE));
         }
         
+        /**
+         * Copy the current selection to the clipboard.
+         */
         public function copyClipboard():void
         {
             if (_document.selection != null && !_document.selection.empty)
@@ -77,6 +95,9 @@ package com.joeberkovitz.moccasin.controller
             }
         }
         
+        /**
+         * Cut the current selection from the document and place it in the clipboard.
+         */
         public function cutClipboard():void
         {
             if (_document.selection != null && !_document.selection.empty)
@@ -86,6 +107,10 @@ package com.joeberkovitz.moccasin.controller
             }
         }
         
+        /**
+         * Paste the clipboard contents into the document.  This is a template implementation
+         * which requires extension for more complex document models and selection types.
+         */
         public function pasteClipboard():void
         {
             if (_clipboard is CollectionClipboard)
@@ -95,23 +120,41 @@ package com.joeberkovitz.moccasin.controller
                 {
                     var m2:MoccasinModel = transformPastedModel(m.clone());
                     pastedModels.push(m2);
-                    root.valueChildren.addItem(m2.value);
+                    addPastedModel(m2);
                 }
                 
                 document.selection = new ObjectSelection(root, pastedModels);
             }
         }
         
+        /**
+         * Template method for adding model objects cloned from the clipboard to the document.
+         */
+        protected function addPastedModel(model:MoccasinModel):void
+        {
+            root.valueChildren.addItem(model.value);
+        }
+        
+        /**
+         * Template method for transforming model objects cloned from the clipboard.  The
+         * default implementation does not modify the object.
+         */
         protected function transformPastedModel(model:MoccasinModel):MoccasinModel
         {
             return model;
         }
         
+        /**
+         * Undo the most recent event in the undo history.
+         */
         public function undo():void
         {
             _document.undoHistory.undo();
         }
         
+        /**
+         * Redo the most recent event in the undo history.
+         */
         public function redo():void
         {
             _document.undoHistory.redo();
