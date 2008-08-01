@@ -11,16 +11,13 @@
     </path>
 
     <!-- Project specific targets -->
-    <target name="build" depends="init,air-application"/>
+    <target name="build" depends="init,air-application" description="Build the sample application"/>
 
     <target name="stage">
     </target>
 
-    <target name="launch" depends="stage,air-application-stage">
+    <target name="launch" depends="stage,air-application-stage" description="Run the sample application">
         <copy todir="${build.mxmlc.dir}" file="${src.flex.dir}/${project.air.desc}" />
-        <copy todir="${build.mxmlc.dir}/scores">
-            <fileset dir="${src.flex.dir}/scores" includes="**/*"/>
-        </copy>
         <adl descriptor="${build.mxmlc.dir}/${project.air.desc}" dir="${build.mxmlc.dir}"/>
     </target>
 </project>
