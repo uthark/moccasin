@@ -1,4 +1,4 @@
-<project name="moccasin-core">
+<project name="moccasin-core" default="build">
     <!-- Project specific overrides -->
 
     <!-- Common properties and targets -->
@@ -9,5 +9,5 @@
     </path>
 
     <!-- Project specific targets -->
-    <target name="build" depends="init,flex-library" description="Build the library"/>
+    <target name="build" depends="init,air-library" description="Build the library"/>
 </project>
