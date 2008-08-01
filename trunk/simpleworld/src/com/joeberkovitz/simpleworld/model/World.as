@@ -3,6 +3,9 @@ package com.joeberkovitz.simpleworld.model
     import mx.collections.ArrayCollection;
     import mx.collections.IList;
     
+    /**
+     * Value object representing a set of shapes in a 2-dimensional world.
+     */
     [RemoteClass]
     public class World
     {

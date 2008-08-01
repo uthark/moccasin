@@ -2,6 +2,9 @@ package com.joeberkovitz.simpleworld.model
 {
     import flash.geom.Rectangle;
         
+    /**
+     * Value object representing a Square in the world. 
+     */
     [RemoteClass]
     public class Square extends WorldShape
     {

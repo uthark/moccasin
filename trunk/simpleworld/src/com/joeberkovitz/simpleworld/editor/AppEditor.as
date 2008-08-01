@@ -16,7 +16,8 @@ package com.joeberkovitz.simpleworld.editor
     
 
     /**
-     * Application specific subclass of the main AirMoccasinEditor.
+     * Application specific subclass of the generic AirMoccasinEditor.  Its main function
+     * is to instantiate concrete subclasses of various components of the Moccasin architecture.
      */
     public class AppEditor extends AirMoccasinEditor
     {

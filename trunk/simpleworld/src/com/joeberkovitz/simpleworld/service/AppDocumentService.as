@@ -6,6 +6,8 @@ package com.joeberkovitz.simpleworld.service
     
     /**
      * Application specific document service responsible for document persistence. 
+     * This overrides the abstract AIR file-based persistence service by providing
+     * an XML decoder and encoder.
      */
     public class AppDocumentService extends FileDocumentService
     {

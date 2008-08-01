@@ -8,6 +8,7 @@
     xmlns:sweditor="com.joeberkovitz.simpleworld.editor.*"
 >
     
+    <!-- SIMPLEWORLD: a sample application for the Moccasin open source graphical editing framework. -->
     
     <mx:Script>
         <![CDATA[
@@ -17,27 +18,30 @@
             
             private function handleInvoke(e:InvokeEvent):void
             {
+                // This would be a logical place to handle command-line arguments, such as the filename of a document.
             }
             
             private function onCreationComplete():void
             {
+                // Create application-specific persistence service
                 editor.documentService = new AppDocumentService();
-                editor.configurationService = new BasicConfigurationService(null, "test.xml");
+                
+                // Create a configuration service to provide startup defaults to the editor
+                editor.configurationService = new BasicConfigurationService(null, null);
 
+                // initialize the editor and its menu bar
                 editor.initializeEditor();
-
                 editorMenuBar.editor = editor;
             }
         ]]>
     </mx:Script>
     
     <mx:VBox id="editorBody" width="100%" height="100%" horizontalAlign="left">
-        <mx:Canvas id="menuHeader" width="100%">
-            <sweditor:AppMenuBar id="editorMenuBar" width="100%"/>
-        </mx:Canvas>
-    
+        <sweditor:AppMenuBar id="editorMenuBar" width="100%"/>
         <sweditor:AppEditor id="editor" height="100%" width="100%" minHeight="50" minWidth="50"/>
-        
-        <mx:HSlider id="scaleSlider" minimum="0.5" maximum="4" value="1" change="editor.setScale(scaleSlider.value)"/>
+        <mx:HBox>
+            <mx:Label text="Zoom:"/>
+            <mx:HSlider id="scaleSlider" minimum="0.5" maximum="4" value="1" change="editor.setScale(scaleSlider.value)"/>
+        </mx:HBox>
     </mx:VBox>
 </mx:WindowedApplication>

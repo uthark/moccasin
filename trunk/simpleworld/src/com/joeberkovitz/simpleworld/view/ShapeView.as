@@ -14,17 +14,31 @@ package com.joeberkovitz.simpleworld.view
     {
         private var _allowDrag:Boolean;
         
+        /**
+         * Create a view of a WorldShape. 
+         * 
+         * @param context the ViewContext shared by all views in this document view
+         * @param model a MoccasinModel whose value object is the shape to be displayed
+         * @param allowDrag an optional flag controlling the draggability of this view.
+         * 
+         */
         public function ShapeView(context:ViewContext, model:MoccasinModel, allowDrag:Boolean = true)
         {
             super(context, model);
             _allowDrag = allowDrag;
         }
         
+        /**
+         * The shape that this view presents.
+         */
         public function get shape():WorldShape
         {
             return model.value as WorldShape;
         }
         
+        /**
+         * Initialize this view by adding a mediator for drag handling, if specified.
+         */
         override protected function initialize():void
         {
             super.initialize();
@@ -34,6 +48,9 @@ package com.joeberkovitz.simpleworld.view
             }
         }
         
+        /**
+         * Update this view by adjusting its position.
+         */
         override protected function updateView():void
         {
             super.updateView();
