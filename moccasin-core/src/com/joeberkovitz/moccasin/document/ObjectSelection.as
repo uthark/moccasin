@@ -6,6 +6,9 @@ package com.joeberkovitz.moccasin.document
     
     import flash.utils.Dictionary;
     
+    /**
+     * A simple type of selection consisting of an unordered set of selected model objects.
+     */
     public class ObjectSelection implements ISelection
     {
         private var _root:ModelRoot;
@@ -89,8 +92,7 @@ package com.joeberkovitz.moccasin.document
         
         public function createClipboard():IClipboard
         {
-            // TODO: implement clipboard operations
-            return null;
+            return new CollectionClipboard(selectedModels);
         }
 
         /** return true if empty */

@@ -1,5 +1,6 @@
 package com.joeberkovitz.moccasin.controller
 {
+    import com.joeberkovitz.moccasin.document.CollectionClipboard;
     import com.joeberkovitz.moccasin.document.IClipboard;
     import com.joeberkovitz.moccasin.document.ISelection;
     import com.joeberkovitz.moccasin.document.MoccasinDocument;
@@ -87,10 +88,23 @@ package com.joeberkovitz.moccasin.controller
         
         public function pasteClipboard():void
         {
-            if (_clipboard != null)
+            if (_clipboard is CollectionClipboard)
             {
-                //pasteAt(_clipboard, selection);
+                var pastedModels:Array = [];
+                for each (var m:MoccasinModel in CollectionClipboard(_clipboard).models)
+                {
+                    var m2:MoccasinModel = transformPastedModel(m.clone());
+                    pastedModels.push(m2);
+                    root.valueChildren.addItem(m2.value);
+                }
+                
+                document.selection = new ObjectSelection(root, pastedModels);
             }
+        }
+        
+        protected function transformPastedModel(model:MoccasinModel):MoccasinModel
+        {
+            return model;
         }
         
         public function undo():void
