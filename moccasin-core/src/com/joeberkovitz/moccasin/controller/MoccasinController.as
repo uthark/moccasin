@@ -71,12 +71,21 @@ package com.joeberkovitz.moccasin.controller
         {
             if (_document != null)
             {
+                // When a document is replaced by another, kill its selection first to get rid
+                // of any selection feedback that may be out there.
+                _document.selection = null;
+                
                 _document.removeEventListener(SelectEvent.ADD_SELECTION, handleSelectEvent);
                 _document.removeEventListener(SelectEvent.REMOVE_SELECTION, handleSelectEvent);
             }
+            
             _document = d;
+            
             if (_document != null)
             {
+                // A new document always has no selection.
+                _document.selection = null;
+                
                 _document.addEventListener(SelectEvent.ADD_SELECTION, handleSelectEvent, false, 0, true);
                 _document.addEventListener(SelectEvent.REMOVE_SELECTION, handleSelectEvent, false, 0, true);
             }
