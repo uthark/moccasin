@@ -11,7 +11,7 @@ package com.joeberkovitz.moccasin.editor
     public class AirMoccasinEditor extends MoccasinEditor
     {
         /**
-         * Open a particular score -- this has nothing to do with training. 
+         * Open a particular document selected by the user.
          */
         public function openFile():void
         {
@@ -26,6 +26,9 @@ package com.joeberkovitz.moccasin.editor
             loadDocument(file.url);
         }
         
+        /**
+         * Save the current document as some specified filename.
+         */
         public function saveAsFile():void
         {
             var file:File = new File();

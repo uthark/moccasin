@@ -12,7 +12,7 @@ package com.joeberkovitz.moccasin.controller
         /**
          * Inform this mediator of the view, notation and layout for which it is to mediate events
          *  
-         * @param view a ScoreObjectView
+         * @param view a MoccasinView
          * 
          */
         function handleViewEvents(view:MoccasinView):void

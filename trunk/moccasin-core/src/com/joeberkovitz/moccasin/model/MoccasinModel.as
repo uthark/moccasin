@@ -196,7 +196,7 @@ package com.joeberkovitz.moccasin.model
         }
 
         /**
-         * Obtain a String "path" to this model object from the score, as a way to serialize a reference to it.
+         * Obtain a String "path" to this model object from the document, as a way to serialize a reference to it.
          */        
         public function get path():String
         {

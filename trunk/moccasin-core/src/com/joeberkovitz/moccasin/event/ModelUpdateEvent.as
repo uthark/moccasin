@@ -6,6 +6,7 @@ package com.joeberkovitz.moccasin.event
     
     /**
      * Event representing a property change on some value object associated with a MoccasinModel.
+     * Dispatched by MoccasinModel automatically.
      */
     public class ModelUpdateEvent extends Event
     {

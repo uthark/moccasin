@@ -17,7 +17,7 @@ package com.joeberkovitz.moccasin.controller
     public interface IMoccasinController extends IEventDispatcher
     {
         /**
-         * The ScoreDocument that manages this controller's Score. 
+         * The MoccasinDocument that manages this controller's root model. 
          */
         [Bindable("documentChange")]
         function get document():MoccasinDocument;
@@ -39,7 +39,7 @@ package com.joeberkovitz.moccasin.controller
         function copyClipboard():void;
         
         /**
-         * Copy the current selection to the clipboard and then remove this selection from the score. 
+         * Copy the current selection to the clipboard and then remove this selection from the document. 
          */
         function cutClipboard():void;
         

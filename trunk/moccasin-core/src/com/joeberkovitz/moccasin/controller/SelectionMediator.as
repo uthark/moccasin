@@ -41,12 +41,9 @@ package com.joeberkovitz.moccasin.controller
             
             var model:MoccasinModel = _view.model;
 
-            // TODO: add hook for appropriate drag mediators
-            // If there was a click on a value notation (or something under one) and no
-            // modifiers were pressed, then start a potential transposition drag operation.
+            // TODO: add hook for appropriate drag mediators, e.g.
             //
-            //
-            //      new XYZDragMediator(_view.context, notation, "Transpose").handleMouseDown(e);
+            //      new XYZDragMediator(_view.context, model, "XYZ Operation").handleMouseDown(e);
 
             if (e.ctrlKey)
             {

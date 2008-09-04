@@ -3,7 +3,7 @@ package com.joeberkovitz.moccasin.service
     import com.joeberkovitz.moccasin.model.ModelRoot;
     
     /**
-     * Interface definition for a service that handles the loading and saving of scores. 
+     * Interface definition for a service that handles the loading and saving of documents. 
      */
     public interface IMoccasinDocumentService
     {
@@ -19,7 +19,7 @@ package com.joeberkovitz.moccasin.service
         /**
          * Return an operation that will save a document from the given data.  The result of
          * this operation, when completed, is a new MoccasinDocumentData instance that may contain additional
-         * descriptive information about the score such as its ID.
+         * descriptive information about the document such as its ID.
          *  
          * @param documentData a MoccasinDocumentData object describing a persisted document.
          */

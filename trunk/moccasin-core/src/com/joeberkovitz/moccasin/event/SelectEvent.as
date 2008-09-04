@@ -6,7 +6,8 @@ package com.joeberkovitz.moccasin.event
     
     /**
      * Event indicating the incremental addition or removal of objects from the selection associated
-     * with some document.
+     * with some document.  This event is not so much listened for, but plays a role in representing
+     * selection changes within the UndoHistory.
      */
     public class SelectEvent extends Event
     {

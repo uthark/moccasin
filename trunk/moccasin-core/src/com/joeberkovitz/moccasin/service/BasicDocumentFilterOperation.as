@@ -28,8 +28,8 @@ package com.joeberkovitz.moccasin.service
          */
         override public function get result():*
         {
-            var score:ModelRoot = decoder.decodeDocument(operation.result);
-            var data:MoccasinDocumentData = new MoccasinDocumentData(score, documentId);
+            var root:ModelRoot = decoder.decodeDocument(operation.result);
+            var data:MoccasinDocumentData = new MoccasinDocumentData(root, documentId);
             data.documentDescriptor = new MoccasinDocumentDescriptor();
             return data;
         }

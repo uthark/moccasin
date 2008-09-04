@@ -23,37 +23,66 @@ package com.joeberkovitz.moccasin.editor
     import mx.managers.IFocusManagerComponent;
     import mx.managers.PopUpManager;
 
+    /**
+     * MoccasinEditor is the top-level UI component in the Moccasin framework.  An application need only
+     * include and initialize the editor properly in order to utilize Moccasin.  An instance of this object
+     * contains:
+     * 
+     * <ul>
+     *   <li>an instance of MoccasinDocument containing the current selection state and undo history
+     *   <li>an MVC triad based on the root model object in that document
+     *   <li>a family of superimposed layers for feedback and overlays on top of the base view of the model
+     *   <li>service objects and document state for managing persistence
+     * </ul>
+     * 
+     * Note that menu bars, tool bars, and so forth are completely separate from the editor.   
+     */
     public class MoccasinEditor extends Canvas implements IFocusManagerComponent
     {
-        protected var _document:MoccasinDocument;
+        /**
+         * Flag indicating that the editor is completely loaded.  
+         */
+        [Bindable]
+        public var complete:Boolean = false;
         
+        /**
+         * ViewInfo object representing the viewing state of this editor.
+         */        
+        [Bindable]
+        public var viewInfo:ViewInfo = new ViewInfo();
+        
+        /**
+         * Magnification scale in use for this editor's view. 
+         */        
+        [Bindable]
+        public var viewScale:Number = 1;
+
+        /**
+         * Configuration service instance used by this editor. 
+         */
+        [Bindable]
+        public var configurationService:IConfigurationService = null;
+        
+        /**
+         * Document service used by this editor to load and save documents. 
+         */        
+        [Bindable]
+        public var documentService:IMoccasinDocumentService = null;
+
+        /**
+         * Service-related document state retrieved from the service layer. 
+         */        
+        [Bindable]
+        public var documentData:MoccasinDocumentData = null;
+        
+        protected var _document:MoccasinDocument;
         private var _controller:IMoccasinController;
         private var _documentView:MoccasinView;
         private var _viewContext:ViewContext;
 
-        // current pointer tool to be used by ViewContext         
+        // Current pointer tool to be used by ViewContext -- not in use at the moment
+        // but will be handy for apps with notion of different cursor tools.      
         private var _pointerTool:String = ViewContext.SELECT_TOOL;
-        
-        [Bindable]
-        public var complete:Boolean = false;
-        
-        [Bindable]
-        public var viewInfo:ViewInfo = new ViewInfo();
-        
-        [Bindable]
-        public var viewScale:Number = 1;
-
-        [Bindable]
-        public var configurationService:IConfigurationService = null;
-        
-        [Bindable]
-        public var documentService:IMoccasinDocumentService = null;
-
-        [Bindable]
-        public var documentData:MoccasinDocumentData = null;
-        
-        [Bindable]
-        public var statusText:String = "";
         
         /**
          * UIComponent containing all views of the document model, appropriately scaled. 
@@ -92,6 +121,14 @@ package com.joeberkovitz.moccasin.editor
         }
         
         /**
+         * The ViewContext shared by all views of model objects in this editor.
+         */
+        public function get viewContext():ViewContext
+        {
+            return _viewContext;
+        }
+        
+        /**
          * Name of a cursor mode that affects how mouse gestures are interpreted. 
          */
         [Bindable]
@@ -126,6 +163,11 @@ package com.joeberkovitz.moccasin.editor
             viewLayer.scaleX = viewLayer.scaleY = viewScale;
             
             setFocus();
+            
+            if (configurationService.documentUri != null)
+            {
+                loadDocument(configurationService.documentUri);
+            }
         }
         
         /**
@@ -198,22 +240,9 @@ package com.joeberkovitz.moccasin.editor
 
         private function adjustCursor(ctrlKey:Boolean):void
         {
-/*             var stagePt:Point = new Point(stage.mouseX, stage.mouseY);
-            if (hitTestPoint(stagePt.x, stagePt.y)
-                && (ctrlKey || _pointerTool == ViewContext.ENTRY_TOOL))
-            {
-                var p:Point = overlayLayer.globalToLocal(stagePt);
-                entryToolCursor.x = p.x;
-                entryToolCursor.y = p.y;
-                entryToolCursor.visible = true;
-                Mouse.hide();
-            }
-            else
-            {
-                entryToolCursor.visible = false;
-                Mouse.show();
-            }
- */        }
+            // Placeholder for code to dynamically adjust cursor appearance
+            // based on mouse position.
+        }
         
         /**
          * Load a document, given its ID. 
@@ -269,9 +298,8 @@ package com.joeberkovitz.moccasin.editor
         {
         }
         
-            
         /**
-         * Adjust the document's current layout.
+         * Adjust the document's current layout and recreate its view from scratch.
          */
         public function updateLayout():void
         {
@@ -279,7 +307,7 @@ package com.joeberkovitz.moccasin.editor
         }
         
         /**
-         * Print the current score document on the printer. 
+         * Print the current document on the printer. 
          */
         public function printDocument():void
         {
@@ -294,6 +322,10 @@ package com.joeberkovitz.moccasin.editor
             return [];
         }
         
+        /**
+         * Recreate the current top-level view and position it within the editor as meeded/ 
+         * 
+         */
         private function validateDocumentLayout():void
         {
             while (documentLayer.numChildren > 0)
@@ -304,10 +336,10 @@ package com.joeberkovitz.moccasin.editor
             _viewContext.pointerTool = _pointerTool;
             _documentView = createDocumentView(_viewContext);
             documentLayer.addChild(_documentView);
-            updateScoreDimensions();
+            updateDimensions();
         }
         
-        private function updateScoreDimensions():void
+        private function updateDimensions():void
         {
             documentLayer.height = _documentView.height;
             documentLayer.width = _documentView.width;
@@ -330,7 +362,7 @@ package com.joeberkovitz.moccasin.editor
         }
         
         /**
-         * Override to force the notation layer to a vertically centered position if it occupies
+         * Override to force the document layer to a vertically centered position if it occupies
          * less than the full visible height of this component.  
          */
         override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void

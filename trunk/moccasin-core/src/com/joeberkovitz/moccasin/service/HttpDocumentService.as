@@ -34,16 +34,8 @@ package com.joeberkovitz.moccasin.service
         private var _decoder:IDocumentDecoder;
         private var _encoder:IDocumentEncoder;
         
-        public function HttpDocumentService(app:Application, decoder:IDocumentDecoder, encoder:IDocumentEncoder)
+        public function HttpDocumentService(decoder:IDocumentDecoder, encoder:IDocumentEncoder)
         {
-            if (app != null)
-            {
-                hostPrefix = app.parameters["hostPrefix"];
-            }
-            else
-            {
-                hostPrefix = "";
-            }
             _decoder = decoder;
             _encoder = encoder;
         }
