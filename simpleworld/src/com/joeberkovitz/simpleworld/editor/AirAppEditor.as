@@ -2,8 +2,8 @@ package com.joeberkovitz.simpleworld.editor
 {
     import com.joeberkovitz.moccasin.controller.IMoccasinController;
     import com.joeberkovitz.moccasin.document.MoccasinDocument;
+    import com.joeberkovitz.moccasin.editor.AirMoccasinEditor;
     import com.joeberkovitz.moccasin.editor.EditorKeyMediator;
-    import com.joeberkovitz.moccasin.editor.MoccasinEditor;
     import com.joeberkovitz.moccasin.model.ModelRoot;
     import com.joeberkovitz.moccasin.service.IMoccasinDocumentService;
     import com.joeberkovitz.moccasin.service.MoccasinDocumentData;
@@ -11,15 +11,14 @@ package com.joeberkovitz.simpleworld.editor
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.AppController;
     import com.joeberkovitz.simpleworld.model.World;
-    import com.joeberkovitz.simpleworld.service.AppDocumentService;
+    import com.joeberkovitz.simpleworld.service.AirAppDocumentService;
     import com.joeberkovitz.simpleworld.view.WorldView;
     
 
     /**
-     * Application specific subclass of the generic MoccasinEditor.  Its main function
-     * is to instantiate concrete subclasses of various components of the Moccasin architecture.
+     * AIR version of the AppEditor/
      */
-    public class AppEditor extends MoccasinEditor
+    public class AirAppEditor extends AirMoccasinEditor
     {
         override public function initializeEditor():void
         {
@@ -60,8 +59,7 @@ package com.joeberkovitz.simpleworld.editor
          */
         override protected function createDocumentService():IMoccasinDocumentService
         {
-            return new AppDocumentService();
+            return new AirAppDocumentService();
         } 
-        
     }
 }

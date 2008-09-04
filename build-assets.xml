@@ -2,4 +2,5 @@
     <dirname property="moccasin.assets.dir" file="${ant.file.moccasin.assets}"/>
 
     <import file="moccasin-core/build-assets.xml"/>
+    <import file="simpleworld/build-assets.xml"/>
 </project>

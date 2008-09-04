@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties version="1">
+<includeClasses>
+<classEntry path="com.joeberkovitz.simpleworld.controller.AppController"/>
+<classEntry path="com.joeberkovitz.simpleworld.controller.ShapeDragMediator"/>
+<classEntry path="com.joeberkovitz.simpleworld.controller.SizeDragMediator"/>
+<classEntry path="com.joeberkovitz.simpleworld.controller.WorldMediator"/>
+<classEntry path="com.joeberkovitz.simpleworld.editor.AirAppEditor"/>
+<classEntry path="com.joeberkovitz.simpleworld.editor.AirAppMenuBar"/>
+<classEntry path="com.joeberkovitz.simpleworld.editor.AppEditor"/>
+<classEntry path="com.joeberkovitz.simpleworld.editor.AppKeyMediator"/>
+<classEntry path="com.joeberkovitz.simpleworld.editor.AppMenuBar"/>
+<classEntry path="com.joeberkovitz.simpleworld.model.Square"/>
+<classEntry path="com.joeberkovitz.simpleworld.model.World"/>
+<classEntry path="com.joeberkovitz.simpleworld.model.WorldShape"/>
+<classEntry path="com.joeberkovitz.simpleworld.persistence.AppDocumentDecoder"/>
+<classEntry path="com.joeberkovitz.simpleworld.persistence.AppDocumentEncoder"/>
+<classEntry path="com.joeberkovitz.simpleworld.service.AirAppDocumentService"/>
+<classEntry path="com.joeberkovitz.simpleworld.service.AppDocumentService"/>
+<classEntry path="com.joeberkovitz.simpleworld.view.ShapeView"/>
+<classEntry path="com.joeberkovitz.simpleworld.view.SquareFeedback"/>
+<classEntry path="com.joeberkovitz.simpleworld.view.SquareView"/>
+<classEntry path="com.joeberkovitz.simpleworld.view.WorldView"/>
+</includeClasses>
+<includeResources/>
+<namespaceManifests/>
+</flexLibProperties>

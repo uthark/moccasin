@@ -6,36 +6,39 @@ package com.joeberkovitz.simpleworld.editor
     /**
      * Application specific menu bar.
      */
-    public class AppMenuBar extends EditorMenuBar
+    public class AirAppMenuBar extends AppMenuBar
     {
-        public function AppMenuBar()
+        public function AirAppMenuBar()
         {
             super();
         }
         
-        public function get simpleController():AppController
+        public function get airEditor():AirAppEditor
         {
-            return editor.controller as AppController;
+            return editor as AirAppEditor;
         }
         
         override protected function initializeMenuItems():void
         {
             super.initializeMenuItems();
             
-            menuBarDefinition +=
-                <menuitem id="simpleWorld" label="SimpleWorld">
-                    <menuitem id="addSquare" label="Add Square"/>
-                </menuitem>;
+            var fileMenu:XML = menuBarDefinition.(@id == "file")[0];
+            fileMenu.insertChildBefore(fileMenu.menuitem.(@id == "save"), <menuitem id="open" label="Open..."/>);
+            fileMenu.insertChildAfter(fileMenu.menuitem.(@id == "save"), <menuitem id="saveAs" label="Save As..."/>);
         }
         
         override protected function handleCommand(commandName:String):void
         {
             switch(commandName)
             {
-            case "addSquare":
-                simpleController.document.undoHistory.openGroup("Add Square");
-                simpleController.addObject();           
-               
+            case "open":
+                airEditor.openFile();
+                break;
+                
+            case "saveAs":
+                airEditor.saveAsFile();
+                break;
+
             default:
                 super.handleCommand(commandName);
             }
