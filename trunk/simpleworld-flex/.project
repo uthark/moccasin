@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>simpleworld</name>
+	<name>simpleworld-flex</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -12,14 +12,19 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>com.adobe.flexbuilder.project.flexlibnature</nature>
+		<nature>com.adobe.flexbuilder.project.flexnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
 	<linkedResources>
 		<link>
-			<name>[source path] src</name>
+			<name>[source path] moccasin-core-src</name>
 			<type>2</type>
-			<locationURI>WORK_DIR/moccasin/moccasin-core/src</locationURI>
+			<locationURI>MOCCASIN_DIR/moccasin-core/src</locationURI>
+		</link>
+		<link>
+			<name>[source path] simpleworld-src</name>
+			<type>2</type>
+			<locationURI>MOCCASIN_DIR/simpleworld/src</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

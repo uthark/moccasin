@@ -2,6 +2,7 @@ package com.joeberkovitz.simpleworld.editor
 {
     import com.joeberkovitz.moccasin.controller.IMoccasinController;
     import com.joeberkovitz.moccasin.editor.EditorKeyMediator;
+    import com.joeberkovitz.moccasin.editor.MoccasinEditor;
     
     import flash.events.KeyboardEvent;
     
@@ -11,12 +12,10 @@ package com.joeberkovitz.simpleworld.editor
      */
     public class AppKeyMediator extends EditorKeyMediator
     {
-        private var _airEditor:AppEditor;
         
-        public function AppKeyMediator(controller:IMoccasinController, editor:AppEditor)
+        public function AppKeyMediator(controller:IMoccasinController, editor:MoccasinEditor)
         {
             super(controller, editor);
-            _airEditor = editor;
         }
         
         override public function handleKey(e:KeyboardEvent):void

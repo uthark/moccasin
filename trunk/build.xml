@@ -6,6 +6,8 @@
     <filelist id="children.filelist" dir=".">
         <file name="moccasin-core"/>
         <file name="simpleworld"/>
+        <file name="simpleworld-flex"/>
+        <file name="simpleworld-air"/>
     </filelist>
 
     <filelist id="testChildren.filelist" dir=".">
