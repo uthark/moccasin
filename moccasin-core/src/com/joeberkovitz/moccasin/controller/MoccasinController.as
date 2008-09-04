@@ -255,7 +255,7 @@ package com.joeberkovitz.moccasin.controller
 
         /**
          * Handle all SelectEvents by redispatching, for convenience to our clients which would
-         * rather not be bothered tracking changes in the ScoreDocument. 
+         * rather not be bothered tracking changes in the MoccasinDocument. 
          */
         private function handleSelectEvent(e:SelectEvent):void
         {

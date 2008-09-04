@@ -30,20 +30,14 @@ package com.joeberkovitz.moccasin.editor
             switch (ch)
             {
             case String.fromCharCode(0x03):   // Ctrl-C
-                controller.copyClipboard();
-                break;
-                
             case "c":
                 if (e.ctrlKey)
                 {
                     controller.copyClipboard();
                     break;
                 }
-            case String.fromCharCode(0x16):
-                controller.document.undoHistory.openGroup("Paste");
-                controller.pasteClipboard();
-                break;
                 
+            case String.fromCharCode(0x16):  // Ctrl-V
             case "v":
                 if (e.ctrlKey)
                 {
@@ -52,11 +46,7 @@ package com.joeberkovitz.moccasin.editor
                 }
                 break;
                 
-            case String.fromCharCode(0x18):
-                controller.document.undoHistory.openGroup("Cut");
-                controller.cutClipboard();
-                break;
-                
+            case String.fromCharCode(0x18):  // Ctrl-X
             case "x":
                 if (e.ctrlKey)
                 {
@@ -65,10 +55,7 @@ package com.joeberkovitz.moccasin.editor
                 }
                 break;
                 
-            case String.fromCharCode(0x19):
-                controller.redo();
-                break;
-                
+            case String.fromCharCode(0x19):   // Ctrl-Y
             case "y":
                 if (e.ctrlKey)
                 {
@@ -76,10 +63,7 @@ package com.joeberkovitz.moccasin.editor
                 }
                 break;
                 
-            case String.fromCharCode(0x1A):
-                controller.undo();
-                break;
-                
+            case String.fromCharCode(0x1A):   // Ctrl-X
             case "z":
                 if (e.ctrlKey)
                 {
@@ -87,12 +71,13 @@ package com.joeberkovitz.moccasin.editor
                 }
                 break;
                 
-            case String.fromCharCode(0x08):  // Delete, backspace or Ctrl-H
+            case String.fromCharCode(0x08):  // Delete/backspace
+            case String.fromCharCode(0x7F):
                 controller.document.undoHistory.openGroup("Delete");
                 controller.removeSelection();
                 break;
                 
-            case String.fromCharCode(0x1B):   // Escape
+            case String.fromCharCode(0x1B):   // Esc
                 controller.document.undoHistory.openGroup("Clear Selection");
                 controller.clearSelection();
                 break;

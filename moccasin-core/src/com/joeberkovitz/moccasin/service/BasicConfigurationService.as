@@ -2,12 +2,15 @@ package com.joeberkovitz.moccasin.service
 {
     import mx.core.Application;
 
+    /**
+     * A bare-bones implementation of IConfigurationService that gets the job done in a simple world. 
+     */
     public class BasicConfigurationService implements IConfigurationService
     {
         private var _parameters:Object;
-        private var _scoreUri:String;
+        private var _documentUri:String;
         
-        public function BasicConfigurationService(app:Application, scoreUri:String)
+        public function BasicConfigurationService(app:Application, documentUri:String)
         {
             if (app != null)
             {
@@ -17,12 +20,12 @@ package com.joeberkovitz.moccasin.service
             {
                 _parameters = { hostPrefix: "", filePrefix: "" };
             }
-            _scoreUri = scoreUri;
+            _documentUri = documentUri;
         }
         
         public function get documentUri():String
         {
-            return _scoreUri;
+            return _documentUri;
         }
 
         public function get assetLocation():String

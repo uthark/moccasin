@@ -5,7 +5,8 @@ package com.joeberkovitz.moccasin.event
     import flash.events.Event;
     
     /**
-     * Event representing a structural change to the model's parent/child relationships.
+     * Event representing a structural change to a model's parent/child relationships.
+     * Dispatched by MoccasinModel in response to model topology changes.
      */
     public class ModelEvent extends Event
     {

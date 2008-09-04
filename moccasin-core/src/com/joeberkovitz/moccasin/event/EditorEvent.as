@@ -2,9 +2,12 @@ package com.joeberkovitz.moccasin.event
 {
     import flash.events.Event;
     
+    /**
+     * Event dispatched by a MoccasinEditor to indicate significant changes in its content or view.
+     */
     public class EditorEvent extends Event
     {
-        public static const SCORE_LAYOUT_CHANGE:String = "scoreLayoutChange";
+        public static const DOCUMENT_LAYOUT_CHANGE:String = "documentLayoutChange";
         
         public function EditorEvent(type:String)
         {

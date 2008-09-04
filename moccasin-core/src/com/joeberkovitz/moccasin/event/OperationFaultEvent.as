@@ -3,6 +3,9 @@ package com.joeberkovitz.moccasin.event
     import flash.events.ErrorEvent;
     import flash.events.Event;
     
+    /**
+     * General-purpose wrapper event around different kinds of error, used in the service layer.
+     */
     public class OperationFaultEvent extends Event
     {
         public static const FAULT:String = "fault"

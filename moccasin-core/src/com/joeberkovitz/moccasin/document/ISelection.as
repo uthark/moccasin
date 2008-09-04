@@ -4,8 +4,8 @@ package com.joeberkovitz.moccasin.document
     
     /**
      * Interface exposed by any object representing a selection of some kind.  Some applications
-     * may have rule-based or geometric selections that are defined in terms of more than just a
-     * set of objects (i.e. ObjectSelection).  
+     * have rule-based or geometric selections that are defined in terms of more than just a
+     * set of objects.  
      * 
      */
     public interface ISelection
@@ -47,7 +47,7 @@ package com.joeberkovitz.moccasin.document
 
         /**
          * Create and return an IClipboard instance reflecting the content of this selection
-         * within the Score to which it applies. 
+         * within the MoccasinModel to which it applies. 
          */
         function createClipboard():IClipboard;
     }

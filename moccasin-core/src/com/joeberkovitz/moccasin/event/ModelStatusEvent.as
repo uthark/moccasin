@@ -4,7 +4,9 @@ package com.joeberkovitz.moccasin.event
     
     /**
      * Event indicating that the dispatcher's selection status has changed in some way
-     * that may require a refresh of any interested view objects.
+     * that may require a refresh of any interested view objects.  This event is dispatched
+     * off of selected model objects by implementations of ISelection, in response to the
+     * dispatchChangeStatus() method.
      */
     public class ModelStatusEvent extends Event
     {

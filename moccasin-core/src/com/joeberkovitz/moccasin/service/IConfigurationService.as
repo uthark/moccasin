@@ -12,7 +12,7 @@ package com.joeberkovitz.moccasin.service
         function get assetLocation():String;
      
         /**
-         * The URI of the score to be initially loaded. 
+         * The URI of the document to be initially loaded. 
          */
         function get documentUri():String;
         

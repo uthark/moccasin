@@ -23,7 +23,7 @@ package com.joeberkovitz.moccasin.editor
             <>
                 <menuitem id="file" label="File">
                     <menuitem id="save" label="Save"/>
-                    <menuitem id="print" label="Print..."/>
+<!--                <menuitem id="print" label="Print..."/>  -->
                 </menuitem>
                 <menuitem id="edit" label="Edit">
                     <menuitem id="undo" label="Undo"/>
