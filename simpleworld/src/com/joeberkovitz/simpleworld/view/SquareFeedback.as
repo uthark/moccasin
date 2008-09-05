@@ -1,6 +1,7 @@
 package com.joeberkovitz.simpleworld.view
 {
     import com.joeberkovitz.moccasin.model.MoccasinModel;
+    import com.joeberkovitz.moccasin.view.SelectionHandle;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.SizeDragMediator;
     import com.joeberkovitz.simpleworld.model.Square;
@@ -33,7 +34,7 @@ package com.joeberkovitz.simpleworld.view
             super.createChildren();
 
             // create the resize handle
-            _sizeHandle = new Sprite();
+            _sizeHandle = new SelectionHandle(context);
             addChild(_sizeHandle);
         }
 
@@ -45,12 +46,8 @@ package com.joeberkovitz.simpleworld.view
             graphics.lineStyle(1, 0x999999);
             graphics.drawRect(0, 0, square.size, square.size);
 
-            // draw the resizing handle
-            _sizeHandle.graphics.clear();
-            _sizeHandle.graphics.lineStyle(1, 0);
-            _sizeHandle.graphics.beginFill(0xFFFFFF);
-            _sizeHandle.graphics.drawRect(square.size - 3, square.size - 3, 6, 6);
-            _sizeHandle.graphics.endFill();
+            // reposition the resizing handle
+            _sizeHandle.x = _sizeHandle.y = square.size;
         }
     }
 }

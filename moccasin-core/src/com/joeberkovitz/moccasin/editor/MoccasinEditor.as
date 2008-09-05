@@ -2,6 +2,7 @@ package com.joeberkovitz.moccasin.editor
 {
     import com.joeberkovitz.moccasin.controller.IMoccasinController;
     import com.joeberkovitz.moccasin.document.MoccasinDocument;
+    import com.joeberkovitz.moccasin.event.EditorEvent;
     import com.joeberkovitz.moccasin.event.OperationFaultEvent;
     import com.joeberkovitz.moccasin.event.ProgressSourceEvent;
     import com.joeberkovitz.moccasin.service.IConfigurationService;
@@ -337,6 +338,8 @@ package com.joeberkovitz.moccasin.editor
             _documentView = createDocumentView(_viewContext);
             documentLayer.addChild(_documentView);
             updateDimensions();
+
+            dispatchEvent(new EditorEvent(EditorEvent.DOCUMENT_LAYOUT_CHANGE));
         }
         
         private function updateDimensions():void
@@ -400,6 +403,8 @@ package com.joeberkovitz.moccasin.editor
             var factor:Number = viewScale / oldScale;
             horizontalScrollPosition = (hScroll + width/2) * factor - width/2;
             verticalScrollPosition = (vScroll + height/2) * factor - height/2;
+            
+            dispatchEvent(new EditorEvent(EditorEvent.DISPLAY_SCALE_CHANGE));
         }
     }
 }
