@@ -20,12 +20,22 @@ package com.joeberkovitz.moccasin.service
      */
     public class AbstractOperation extends EventDispatcher implements IOperation
     {
+        private var _displayName:String;
+
         /**
          * A name for this operation to be shown by the Controller to be shown
          * to indicate its progress or status.
          */
         [Bindable]
-        public var displayName:String;
+        public function get displayName():String
+        {
+            return _displayName;
+        }
+
+        public function set displayName(value:String):void
+        {
+            _displayName = value;
+        }
         
         /**
          * Initiate this Operation.  An event may be dispatched during
