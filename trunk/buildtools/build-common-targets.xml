@@ -340,7 +340,8 @@
             depends="init,asdoc-check"
             unless="asdoc.uptodate"
             description="create AS docs">
-        <asdoc src.dir="${src.flex.dir}" as.path="${src.flex.dir}" dest.dir="${build.asdoc.dir}" />
+        <asdoc src.dir="${src.flex.dir}" as.path="${src.flex.dir}" dest.dir="${build.asdoc.dir}" 
+               config="${air.config}"/>
     </target>
 
     <!-- up to date check for asdoc -->
