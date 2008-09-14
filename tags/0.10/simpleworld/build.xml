@@ -1,0 +1,15 @@
+<project name="simpleworld" default="build">
+    <!-- Project specific overrides -->
+
+    <!-- Common properties and targets -->
+    <import file="../build-imports.xml"/>
+
+    <!-- Project specific targets -->
+    <!-- Build path -->
+    <path id="flex.lib.path">
+        <pathelement location="${moccasin-core.swc}"/>
+    </path>
+
+    <!-- Project specific targets -->
+    <target name="build" depends="init,air-library" description="Build the sample application library"/>
+</project>
