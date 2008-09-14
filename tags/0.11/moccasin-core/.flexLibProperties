@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties version="1">
+<includeClasses>
+<classEntry path="com.joeberkovitz.moccasin.document.UndoableSelectionChange"/>
+<classEntry path="com.joeberkovitz.moccasin.document.UndoableEditGroup"/>
+<classEntry path="com.joeberkovitz.moccasin.service.MoccasinDocumentDescriptor"/>
+<classEntry path="com.joeberkovitz.moccasin.document.ISelection"/>
+<classEntry path="com.joeberkovitz.moccasin.model.MoccasinModel"/>
+<classEntry path="com.joeberkovitz.moccasin.service.IOperation"/>
+<classEntry path="com.joeberkovitz.moccasin.service.BasicDocumentFilterOperation"/>
+<classEntry path="com.joeberkovitz.moccasin.controller.SelectionMediator"/>
+<classEntry path="com.joeberkovitz.moccasin.controller.MoccasinController"/>
+<classEntry path="com.joeberkovitz.moccasin.controller.DragMediator"/>
+<classEntry path="com.joeberkovitz.moccasin.document.UndoableModelUpdate"/>
+<classEntry path="com.joeberkovitz.moccasin.editor.AirMoccasinEditor"/>
+<classEntry path="com.joeberkovitz.moccasin.service.IMoccasinDocumentService"/>
+<classEntry path="com.joeberkovitz.moccasin.document.UndoableDocumentUpdate"/>
+<classEntry path="com.joeberkovitz.moccasin.event.DocumentUpdateEvent"/>
+<classEntry path="com.joeberkovitz.moccasin.model.ModelRoot"/>
+<classEntry path="com.joeberkovitz.moccasin.document.UndoHistory"/>
+<classEntry path="com.joeberkovitz.moccasin.document.ObjectSelection"/>
+<classEntry path="com.joeberkovitz.moccasin.editor.LoadingPopup"/>
+<classEntry path="com.joeberkovitz.moccasin.controller.IMoccasinMediator"/>
+<classEntry path="com.joeberkovitz.moccasin.editor.EditorMenuBar"/>
+<classEntry path="com.joeberkovitz.moccasin.controller.IMoccasinController"/>
+<classEntry path="com.joeberkovitz.moccasin.event.OperationFaultEvent"/>
+<classEntry path="com.joeberkovitz.moccasin.document.UndoableModelEdit"/>
+<classEntry path="com.joeberkovitz.moccasin.event.ControllerEvent"/>
+<classEntry path="com.joeberkovitz.moccasin.service.XmlFileWriteOperation"/>
+<classEntry path="com.joeberkovitz.moccasin.view.MoccasinView"/>
+<classEntry path="com.joeberkovitz.moccasin.event.ModelStatusEvent"/>
+<classEntry path="com.joeberkovitz.moccasin.document.CollectionClipboard"/>
+<classEntry path="com.joeberkovitz.moccasin.document.IUndoableEdit"/>
+<classEntry path="com.joeberkovitz.moccasin.service.MoccasinDocumentData"/>
+<classEntry path="com.joeberkovitz.moccasin.event.SelectEvent"/>
+<classEntry path="com.joeberkovitz.moccasin.service.IConfigurationService"/>
+<classEntry path="com.joeberkovitz.moccasin.service.FilterOperation"/>
+<classEntry path="com.joeberkovitz.moccasin.event.ProgressSourceEvent"/>
+<classEntry path="com.joeberkovitz.moccasin.service.XmlHttpOperation"/>
+<classEntry path="com.joeberkovitz.moccasin.persistence.IDocumentDecoder"/>
+<classEntry path="com.joeberkovitz.moccasin.service.AbstractOperation"/>
+<classEntry path="com.joeberkovitz.moccasin.document.MoccasinDocument"/>
+<classEntry path="com.joeberkovitz.moccasin.event.ModelUpdateEvent"/>
+<classEntry path="com.joeberkovitz.moccasin.service.HttpDocumentService"/>
+<classEntry path="com.joeberkovitz.moccasin.editor.EditorKeyMediator"/>
+<classEntry path="com.joeberkovitz.moccasin.service.BasicConfigurationService"/>
+<classEntry path="com.joeberkovitz.moccasin.view.SelectableView"/>
+<classEntry path="com.joeberkovitz.moccasin.editor.MoccasinEditor"/>
+<classEntry path="com.joeberkovitz.moccasin.view.ViewContext"/>
+<classEntry path="com.joeberkovitz.moccasin.persistence.IDocumentEncoder"/>
+<classEntry path="com.joeberkovitz.moccasin.event.EditorEvent"/>
+<classEntry path="com.joeberkovitz.moccasin.event.ModelEvent"/>
+<classEntry path="com.joeberkovitz.moccasin.service.FileDocumentService"/>
+<classEntry path="com.joeberkovitz.moccasin.document.IClipboard"/>
+<classEntry path="com.joeberkovitz.moccasin.view.ViewInfo"/>
+<classEntry path="com.joeberkovitz.moccasin.event.UndoEvent"/>
+</includeClasses>
+<includeResources/>
+<namespaceManifests/>
+</flexLibProperties>

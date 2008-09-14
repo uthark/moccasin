@@ -1,0 +1,25 @@
+<project name="simpleworld-air" default="build">
+    <!-- Project specific overrides -->
+    <property name="project.name" value="simpleworld" />
+
+    <!-- Common properties and targets -->
+    <import file="../build-imports.xml"/>
+
+    <!-- Project specific targets -->
+    <!-- Build path -->
+    <path id="flex.lib.path">
+        <pathelement location="${moccasin-core.swc}"/>
+        <pathelement location="${simpleworld.swc}"/>
+    </path>
+
+    <!-- Project specific targets -->
+    <target name="build" depends="init,air-application" description="Build the sample application"/>
+
+    <target name="stage">
+    </target>
+
+    <target name="launch" depends="stage,air-application-stage" description="Run the sample application">
+        <copy todir="${build.mxmlc.dir}" file="${src.flex.dir}/${project.air.desc}" />
+        <adl descriptor="${build.mxmlc.dir}/${project.air.desc}" dir="${build.mxmlc.dir}"/>
+    </target>
+</project>
