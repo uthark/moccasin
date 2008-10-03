@@ -23,7 +23,7 @@ package com.joeberkovitz.simpleworld.service
         
         override public function saveDocument(documentData:MoccasinDocumentData):IOperation
         {
-            Alert.show("Save not supported");
+            Alert.show("Save only supported in Simpleworld AIR Demo");
             return new AbstractOperation(); 
         }
     }
