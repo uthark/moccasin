@@ -10,6 +10,9 @@ package com.joeberkovitz.moccasin.view
      */
     public class SelectionHandle extends AbstractHandle
     {
+        /** Thickness of border drawn in rollover state. */
+        public var highlightThickness:Number = 2;
+        
         public function SelectionHandle(context:ViewContext)
         {
             super(context);
@@ -18,7 +21,7 @@ package com.joeberkovitz.moccasin.view
         override protected function updateGraphics():void
         {
             graphics.clear();
-            graphics.lineStyle(1, 0);
+            graphics.lineStyle(rolled ? (highlightThickness / context.info.displayScale) : 1, 0);
             graphics.beginFill(0xFFFFFF);
             graphics.drawRect(-handleSize/2, -handleSize/2, handleSize, handleSize);
             graphics.endFill();
