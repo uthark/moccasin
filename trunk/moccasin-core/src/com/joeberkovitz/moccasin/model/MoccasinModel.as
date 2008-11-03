@@ -56,9 +56,15 @@ package com.joeberkovitz.moccasin.model
         
         /**
          * Either retrieve or create the distinguished MoccasinModel for the given value object.
+         * If the value object is null, then null is returned also.
          */
         public static function forValue(value:Object):MoccasinModel
         {
+            if (value == null)
+            {
+                return null;
+            }
+            
             var proxy:MoccasinModel = _valueMap[value];
             if (proxy == null)
             {
@@ -106,15 +112,32 @@ package com.joeberkovitz.moccasin.model
             
             for each (var p:String in valueModelProperties)
             {
-                var valueModel:MoccasinModel = MoccasinModel.forValue(_value[p]);
-                _valueModels[p] = valueModel;
+                var propValue:Object = _value[p];
+                setValueModelProperty(p, propValue);
+            }
+        }
 
+        private function setValueModelProperty(p:String, propValue:Object):void
+        {
+            var oldValueModel:MoccasinModel = _valueModels[p] as MoccasinModel;
+            if (oldValueModel != null)
+            {
+                oldValueModel.parent = null;
+                oldValueModel.removeEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
+                oldValueModel.removeEventListener(ModelUpdateEvent.MODEL_UPDATE, handleChildModelUpdate);
+            }
+
+            var valueModel:MoccasinModel = MoccasinModel.forValue(propValue);
+            _valueModels[p] = valueModel;
+
+            if (valueModel != null)
+            {
                 valueModel.parent = this; 
                 valueModel.addEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
                 valueModel.addEventListener(ModelUpdateEvent.MODEL_UPDATE, handleChildModelUpdate);
             }
-        }
-        
+        }        
+
         /**
          * The underlying value object that backs this MoccasinModel.
          */
