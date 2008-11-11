@@ -116,6 +116,15 @@ package com.joeberkovitz.moccasin.model
                 setValueModelProperty(p, propValue);
             }
         }
+        
+        /**
+         * Get the MoccasinModel for the named value model property. 
+         * @param p a property name of the underlying value object.
+         */
+        public function getValueModel(p:String):MoccasinModel
+        {
+            return _valueModels[p] as MoccasinModel;
+        }
 
         private function setValueModelProperty(p:String, propValue:Object):void
         {
