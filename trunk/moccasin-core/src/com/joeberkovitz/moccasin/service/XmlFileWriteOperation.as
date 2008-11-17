@@ -43,6 +43,7 @@ package com.joeberkovitz.moccasin.service
             if (data is XML)
             {
                 out.writeUTFBytes((data as XML).toXMLString());
+                out.writeUTFBytes("\n");
             }
             else if (data is String)
             {
