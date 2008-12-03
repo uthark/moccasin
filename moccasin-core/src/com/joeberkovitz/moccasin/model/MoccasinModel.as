@@ -283,6 +283,27 @@ package com.joeberkovitz.moccasin.model
         {
             if (e.kind == PropertyChangeEventKind.UPDATE)
             {
+                // If the changed property points to a MoccasinModel, then remove old listeners on the
+                // old value and add new listeners on the new.
+                // 
+                if (valueModelProperties.indexOf(e.property) >= 0)
+                {
+                    var oldValueModel:MoccasinModel = MoccasinModel.forValue(e.oldValue);
+                    if (oldValueModel != null)
+                    {
+                        oldValueModel.parent = null;
+                        oldValueModel.removeEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
+                        oldValueModel.removeEventListener(ModelUpdateEvent.MODEL_UPDATE, handleChildModelUpdate);
+                    }
+                    var valueModel:MoccasinModel = MoccasinModel.forValue(e.newValue);        
+                    if (valueModel != null)
+                    {
+                        valueModel.parent = this; 
+                        valueModel.addEventListener(ModelEvent.MODEL_CHANGE, handleChildModelChange);
+                        valueModel.addEventListener(ModelUpdateEvent.MODEL_UPDATE, handleChildModelUpdate);
+                    }
+                }
+                
                 var e2:ModelUpdateEvent =
                     new ModelUpdateEvent(ModelUpdateEvent.MODEL_UPDATE,
                                          e.property, e.oldValue, e.newValue, this);
