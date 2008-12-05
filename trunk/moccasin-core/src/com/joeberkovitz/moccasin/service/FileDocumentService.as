@@ -3,10 +3,6 @@ package com.joeberkovitz.moccasin.service
     import com.joeberkovitz.moccasin.persistence.IDocumentDecoder;
     import com.joeberkovitz.moccasin.persistence.IDocumentEncoder;
     
-    import flash.net.URLRequestMethod;
-    
-    import mx.core.Application;
-    
     /**
      * Simple implementation of IMoccasinDocumentService that persists data using the filesystem.
      */
@@ -37,5 +33,14 @@ package com.joeberkovitz.moccasin.service
         {
             return new XmlFileWriteOperation(documentData.documentId, _encoder.encodeDocument(documentData.root));
         }
+
+        /**
+         * @inheritDoc 
+         */
+        public function getAssetURL(assetUri:String):String
+        {
+            return assetUri;
+        }
+        
     }
 }

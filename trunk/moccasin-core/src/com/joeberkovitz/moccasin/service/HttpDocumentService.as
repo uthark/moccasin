@@ -5,8 +5,6 @@ package com.joeberkovitz.moccasin.service
     
     import flash.net.URLRequestMethod;
     
-    import mx.core.Application;
-    
     /**
      * Simple implementation of IMoccasinDocumentService that persists data using XML/HTTP.
      * 
@@ -67,6 +65,14 @@ package com.joeberkovitz.moccasin.service
             {
                 return new XmlHttpOperation(hostPrefix + saveLocation + documentData.documentId, documentXml);
             }
+        }
+        
+        /**
+         * @inheritDoc 
+         */        
+        public function getAssetURL(assetUri:String):String
+        {
+            return hostPrefix + loadLocation + assetUri;
         }
     }
 }
