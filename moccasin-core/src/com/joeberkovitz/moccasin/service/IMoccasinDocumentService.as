@@ -24,5 +24,13 @@ package com.joeberkovitz.moccasin.service
          * @param documentData a MoccasinDocumentData object describing a persisted document.
          */
         function saveDocument(documentData:MoccasinDocumentData):IOperation;
+
+        /**
+         * Return a URL that can load some asset from the given assetUri when executed.
+         * 
+         * @param assetUri the relative URI of an asset to be loaded
+         * @return a physical URL that can be loaded to retrieve this asset
+         */
+        function getAssetURL(assetUri:String):String;
     }
 }
