@@ -6,16 +6,16 @@ package com.joeberkovitz.moccasin.view
     import com.joeberkovitz.moccasin.model.MoccasinModel;
     
     import flash.display.DisplayObject;
-    import flash.display.Sprite;
-    import flash.geom.ColorTransform;
     import flash.utils.getQualifiedClassName;
+    
+    import mx.containers.Canvas;
 
     /**
-     * MoccasinView is the superclass of all DisplayObject-based views in Moccasin.  It provides
-     * basic hookups to the events that drive view refresh based on model changes,
-     * and a very basic implementation of selection feedback based on color transforms. 
+     * MoccasinCanvas is the superclass of all Flex UIComponent-based view objects in Moccasin.  Using MoccasinCanvas
+     * at the top of the view hierarchy requires that it and/or MoccasinComponent be used as the superclass for all descendant views as well,
+     * unless UIComponent instances are "spliced in" to allow MoccasinView-derived views.
      */
-    public class MoccasinView extends Sprite implements IMoccasinView
+    public class MoccasinCanvas extends Canvas implements IMoccasinView
     {
         private var _context:ViewContext;
         private var _model:MoccasinModel;
@@ -26,10 +26,24 @@ package com.joeberkovitz.moccasin.view
          * @param model the MoccasinModel that this view presents.
          * 
          */
-        public function MoccasinView(context:ViewContext, model:MoccasinModel)
+        public function MoccasinCanvas(context:ViewContext, model:MoccasinModel)
         {
             _context = context;
             _model = model;
+            
+            // Do not clip content for items that cross the bounds of this Canvas.  Also
+            // prevents unhealthy scrollbars!
+            //
+            clipContent = false;
+
+            if (model != null)
+            {
+                model.addEventListener(ModelStatusEvent.STATUS_CHANGE, handleStatusChange, false, 0, true);
+                model.addEventListener(ModelEvent.MODEL_CHANGE, handleModelChange, false, 0, true);
+                model.addEventListener(ModelUpdateEvent.MODEL_UPDATE, handleModelUpdate, false, 0, true);
+                updateStatus();
+            }
+            updateView();
         }
         
         public function get context():ViewContext
@@ -41,51 +55,7 @@ package com.joeberkovitz.moccasin.view
         {
             return _model;
         }
-
-        /**
-         * Call this function in every constructor after the object is built out, to set up the view and
-         * add event listeners. 
-         */
-        protected function initialize():void
-        {
-            initializeView();
-            if (model != null)
-            {
-                model.addEventListener(ModelStatusEvent.STATUS_CHANGE, handleStatusChange, false, 0, true);
-                model.addEventListener(ModelEvent.MODEL_CHANGE, handleModelChange, false, 0, true);
-                model.addEventListener(ModelUpdateEvent.MODEL_UPDATE, handleModelUpdate, false, 0, true);
-            }
-        }
         
-        /**
-         * Called by  
-         * 
-         */
-        protected function initializeView():void
-        {
-            createChildren();
-            updateView();
-            updateStatus();
-        }
-        
-        // Abstract methods
-        
-        protected function createChildren():void
-        {
-            for (var i:int = 0; i < model.numChildren; i++)
-            {
-                addChild(createChildView(model.getChildAt(i)) as DisplayObject);
-            }
-        }
-
-        /**
-         * Called to update the view's contents, typically by consulting its layout and constructing its children. 
-         */
-        protected function updateView():void
-        {
-            graphics.clear();
-        }
-
         /**
          * Factory method to create the appropriate MoccasinView for a new child model.
          */
@@ -110,39 +80,27 @@ package com.joeberkovitz.moccasin.view
         {
         }
         
-        /** Flag that determines whether an element in the view appears selected or not. */
-        public function get selected():Boolean
-        {
-            return false;
-        }
-
         /**
-         * A ColorTransform dependent on this object's status; used to affect how it looks
-         * depending on whether it's selected, a feedback object, or just plain normal.
+         * Update the view of this object with respect to its model 
          */
-        protected function getColorTransform():ColorTransform
+        protected function updateView():void
         {
-            if (selected)
+        }
+        
+        /**
+         * Override Flex child-creation hook to create child views of this MoccasinCanvas.
+         */
+        override protected function createChildren():void
+        {
+            super.createChildren();
+            
+            // Preemptively create all child views
+            for (var i:int = 0; i < model.numChildren; i++)
             {
-                return lightenTransform(context.info.selectionColors[0]);
-            }
-            else
-            {
-                return new ColorTransform();
+                addChild(createChildView(model.getChildAt(i)) as DisplayObject);
             }
         }
         
-        public static function lightenTransform(color:uint):ColorTransform
-        {
-            return new ColorTransform(1, 1, 1, 1,
-                                      color >> 16, (color >> 8) & 0xFF, color & 0xFF);
-        }
-
-        public static function darkenTransform(color:uint):ColorTransform
-        {
-            return new ColorTransform((color >> 16) / 255.0, ((color >> 8) & 0xFF) / 255.0, (color & 0xFF) / 255.0);
-        }
-
         private function handleStatusChange(e:ModelStatusEvent):void
         {
             if (stage != null)

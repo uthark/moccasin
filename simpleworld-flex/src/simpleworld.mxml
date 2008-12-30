@@ -18,7 +18,8 @@
             private function onCreationComplete():void
             {
                 // Create a configuration service to provide startup defaults to the editor
-                editor.configurationService = new BasicConfigurationService(this, parameters["hostPrefix"] + "document1.xml");
+                var hostPrefix:String = ("hostPrefix" in parameters) ? parameters["hostPrefix"] : "";
+                editor.configurationService = new BasicConfigurationService(this, hostPrefix + "document1.xml");
 
                 // initialize the editor and its menu bar
                 editor.initializeEditor();
