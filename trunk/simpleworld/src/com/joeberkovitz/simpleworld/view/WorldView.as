@@ -1,6 +1,7 @@
 package com.joeberkovitz.simpleworld.view
 {
     import com.joeberkovitz.moccasin.model.MoccasinModel;
+    import com.joeberkovitz.moccasin.view.IMoccasinView;
     import com.joeberkovitz.moccasin.view.MoccasinView;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.WorldMediator;
@@ -54,7 +55,7 @@ package com.joeberkovitz.simpleworld.view
          * @param child a child MoccasinModel
          * @return the appropriate type of view for the value object belonging to that child.
          */
-        override public function createChildView(child:MoccasinModel):MoccasinView
+        override public function createChildView(child:MoccasinModel):IMoccasinView
         {
             if (child.value is Square)
             {
