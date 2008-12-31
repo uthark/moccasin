@@ -57,10 +57,6 @@ package com.joeberkovitz.moccasin.view
             }
         }
         
-        /**
-         * Called by  
-         * 
-         */
         protected function initializeView():void
         {
             createChildren();

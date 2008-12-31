@@ -9,6 +9,7 @@ package com.joeberkovitz.moccasin.view
     import flash.utils.getQualifiedClassName;
     
     import mx.core.UIComponent;
+    import mx.events.FlexEvent;
 
     /**
      * MoccasinComponent is the superclass of all Flex UIComponent-based view objects in Moccasin
@@ -30,15 +31,28 @@ package com.joeberkovitz.moccasin.view
             _context = context;
             _model = model;
             
+            
+            // Set up follow-on initialization of view after construction, but before rendering
+            addEventListener(FlexEvent.PREINITIALIZE, handlePreinitialize);
+        }
+        
+        protected function handlePreinitialize(e:FlexEvent):void
+        {
+            initializeView();
             if (model != null)
             {
                 model.addEventListener(ModelStatusEvent.STATUS_CHANGE, handleStatusChange, false, 0, true);
                 model.addEventListener(ModelEvent.MODEL_CHANGE, handleModelChange, false, 0, true);
                 model.addEventListener(ModelUpdateEvent.MODEL_UPDATE, handleModelUpdate, false, 0, true);
-                updateStatus();
             }
-            updateView();
         }
+        
+        protected function initializeView():void
+        {
+            updateView();
+            updateStatus();
+        }
+        
         
         public function get context():ViewContext
         {
