@@ -2,8 +2,8 @@ package com.joeberkovitz.moccasin.editor
 {
     import com.joeberkovitz.moccasin.document.UndoHistory;
     import com.joeberkovitz.moccasin.event.ControllerEvent;
+    import com.joeberkovitz.moccasin.event.SelectEvent;
     import com.joeberkovitz.moccasin.event.UndoEvent;
-    import com.joeberkovitz.moccasin.model.ModelRoot;
     
     import mx.collections.XMLListCollection;
     import mx.controls.MenuBar;
@@ -58,12 +58,14 @@ package com.joeberkovitz.moccasin.editor
             {
                 _editor.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE, handleEditorPropertyChange);
                 _editor.controller.removeEventListener(ControllerEvent.DOCUMENT_CHANGE, handleDocumentChange);
+                _editor.controller.removeEventListener(SelectEvent.CHANGE_SELECTION, handleChangeSelection);
             }
             _editor = e;
             if (editor != null)
             {
                 _editor.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, handleEditorPropertyChange);
                 _editor.controller.addEventListener(ControllerEvent.DOCUMENT_CHANGE, handleDocumentChange);
+                _editor.controller.addEventListener(SelectEvent.CHANGE_SELECTION, handleChangeSelection);
             }
             if (editor.controller.document != null)
             {
@@ -79,6 +81,11 @@ package com.joeberkovitz.moccasin.editor
         protected function handleEditorPropertyChange(e:PropertyChangeEvent):void
         {
             // need to conditionalize on various properties
+        }
+        
+        protected function handleChangeSelection(e:SelectEvent):void
+        {
+            // override to provide context sensitive menu
         }
         
         protected function updateMenuItems():void

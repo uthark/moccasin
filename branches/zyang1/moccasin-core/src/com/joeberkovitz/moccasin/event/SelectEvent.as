@@ -6,13 +6,20 @@ package com.joeberkovitz.moccasin.event
     
     /**
      * Event indicating the incremental addition or removal of objects from the selection associated
-     * with some document.  This event is not so much listened for, but plays a role in representing
-     * selection changes within the UndoHistory.
+     * with some document.
+     * 
+     * <ul>
+     *   <li>ADD_SELECTION and REMOVE_SELECTION are not so much listened for, but plays a role in 
+     *       representing selection changes within the UndoHistory
+     *   <li>CHANGE_SELECTION supplements ADD & REMOVE_SELECTION. It is more useful for application
+     *       developers for it always contains the current selection after a change
+     * </ul>
      */
     public class SelectEvent extends Event
     {
         public static const ADD_SELECTION:String = "addSelection";
         public static const REMOVE_SELECTION:String = "removeSelection";
+        public static const CHANGE_SELECTION:String = "changeSelection";
         
         public var selection:ISelection;
         
