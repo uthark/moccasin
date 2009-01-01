@@ -1,7 +1,7 @@
 package com.joeberkovitz.moccasin.controller
 {
     import com.joeberkovitz.moccasin.model.MoccasinModel;
-    import com.joeberkovitz.moccasin.view.MoccasinView;
+    import com.joeberkovitz.moccasin.view.IMoccasinView;
     
     import flash.events.MouseEvent;
     import flash.utils.getTimer;
@@ -12,7 +12,7 @@ package com.joeberkovitz.moccasin.controller
      */
     public class SelectionMediator implements IMoccasinMediator
     {
-        private var _view:MoccasinView;
+        private var _view:IMoccasinView;
 
         private var _lastClickMillis:Number = 0;
         
@@ -20,7 +20,7 @@ package com.joeberkovitz.moccasin.controller
         {
         }
 
-        public function handleViewEvents(view:MoccasinView):void
+        public function handleViewEvents(view:IMoccasinView):void
         {
             _view = view;
                   

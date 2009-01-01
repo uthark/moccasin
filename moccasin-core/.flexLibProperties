@@ -7,11 +7,13 @@
 <classEntry path="com.joeberkovitz.moccasin.document.ISelection"/>
 <classEntry path="com.joeberkovitz.moccasin.model.MoccasinModel"/>
 <classEntry path="com.joeberkovitz.moccasin.service.IOperation"/>
+<classEntry path="com.joeberkovitz.moccasin.view.AbstractHandle"/>
 <classEntry path="com.joeberkovitz.moccasin.service.BasicDocumentFilterOperation"/>
 <classEntry path="com.joeberkovitz.moccasin.controller.SelectionMediator"/>
 <classEntry path="com.joeberkovitz.moccasin.controller.MoccasinController"/>
 <classEntry path="com.joeberkovitz.moccasin.controller.DragMediator"/>
 <classEntry path="com.joeberkovitz.moccasin.document.UndoableModelUpdate"/>
+<classEntry path="com.joeberkovitz.moccasin.view.SelectionHandle"/>
 <classEntry path="com.joeberkovitz.moccasin.editor.AirMoccasinEditor"/>
 <classEntry path="com.joeberkovitz.moccasin.service.IMoccasinDocumentService"/>
 <classEntry path="com.joeberkovitz.moccasin.document.UndoableDocumentUpdate"/>
@@ -43,6 +45,7 @@
 <classEntry path="com.joeberkovitz.moccasin.event.ModelUpdateEvent"/>
 <classEntry path="com.joeberkovitz.moccasin.service.HttpDocumentService"/>
 <classEntry path="com.joeberkovitz.moccasin.editor.EditorKeyMediator"/>
+<classEntry path="com.joeberkovitz.moccasin.view.MoccasinCanvas"/>
 <classEntry path="com.joeberkovitz.moccasin.service.BasicConfigurationService"/>
 <classEntry path="com.joeberkovitz.moccasin.view.SelectableView"/>
 <classEntry path="com.joeberkovitz.moccasin.editor.MoccasinEditor"/>

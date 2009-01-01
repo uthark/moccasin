@@ -9,10 +9,11 @@ package com.joeberkovitz.moccasin.editor
     import com.joeberkovitz.moccasin.service.IMoccasinDocumentService;
     import com.joeberkovitz.moccasin.service.IOperation;
     import com.joeberkovitz.moccasin.service.MoccasinDocumentData;
-    import com.joeberkovitz.moccasin.view.MoccasinView;
+    import com.joeberkovitz.moccasin.view.IMoccasinView;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.moccasin.view.ViewInfo;
     
+    import flash.display.DisplayObject;
     import flash.display.Stage;
     import flash.events.Event;
     import flash.events.KeyboardEvent;
@@ -78,7 +79,7 @@ package com.joeberkovitz.moccasin.editor
         
         protected var _document:MoccasinDocument;
         private var _controller:IMoccasinController;
-        private var _documentView:MoccasinView;
+        private var _documentView:IMoccasinView;
         private var _viewContext:ViewContext;
 
         // Current pointer tool to be used by ViewContext -- not in use at the moment
@@ -89,6 +90,11 @@ package com.joeberkovitz.moccasin.editor
          * UIComponent containing all views of the document model, appropriately scaled. 
          */        
         public var documentLayer:UIComponent;
+        
+        /**
+         * Flag indicating whether Flex component hierarchy should be used for document views.
+         */
+        public var flexDocumentView:Boolean = false;
         
         /**
          * Transparent layer on top of the documentLayer, scaled and offset identically.  Contains temporary
@@ -116,7 +122,7 @@ package com.joeberkovitz.moccasin.editor
         /**
          * Top level view of document's root model.
          */
-        public function get documentView():MoccasinView
+        public function get documentView():IMoccasinView
         {
             return _documentView;
         }
@@ -181,7 +187,7 @@ package com.joeberkovitz.moccasin.editor
             viewLayer = new Canvas();
             addChild(viewLayer);
             
-            documentLayer = new UIComponent();
+            documentLayer = createDocumentLayer();
             viewLayer.addChild(documentLayer);
 
             feedbackLayer = new UIComponent();
@@ -200,9 +206,27 @@ package com.joeberkovitz.moccasin.editor
         }
         
         /**
+         * Factory method to create a document layer to contain the top level IMoccasinView. 
+         */
+        protected function createDocumentLayer():UIComponent
+        {
+            if (flexDocumentView)
+            {
+                var canvas:Canvas = new Canvas();
+                canvas.percentWidth = canvas.percentHeight = 100;
+                canvas.clipContent = false;
+                return canvas;
+            }
+            else
+            {
+                return new UIComponent();
+            }
+        }
+        
+        /**
          * Abstract factory method to create this application's top level view.
          */
-        protected function createDocumentView(context:ViewContext):MoccasinView
+        protected function createDocumentView(context:ViewContext):IMoccasinView
         {
             throw new Error("createDocumentView() must be overridden");
         } 
@@ -336,7 +360,7 @@ package com.joeberkovitz.moccasin.editor
             _viewContext = createViewContext(viewInfo, _controller, this, stage);
             _viewContext.pointerTool = _pointerTool;
             _documentView = createDocumentView(_viewContext);
-            documentLayer.addChild(_documentView);
+            documentLayer.addChild(_documentView as DisplayObject);
             updateDimensions();
 
             dispatchEvent(new EditorEvent(EditorEvent.DOCUMENT_LAYOUT_CHANGE));
