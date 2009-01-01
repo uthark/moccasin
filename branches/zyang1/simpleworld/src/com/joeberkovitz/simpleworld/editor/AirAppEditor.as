@@ -7,7 +7,7 @@ package com.joeberkovitz.simpleworld.editor
     import com.joeberkovitz.moccasin.model.ModelRoot;
     import com.joeberkovitz.moccasin.service.IMoccasinDocumentService;
     import com.joeberkovitz.moccasin.service.MoccasinDocumentData;
-    import com.joeberkovitz.moccasin.view.MoccasinView;
+    import com.joeberkovitz.moccasin.view.IMoccasinView;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.AppController;
     import com.joeberkovitz.simpleworld.model.World;
@@ -49,7 +49,7 @@ package com.joeberkovitz.simpleworld.editor
         /**
          * Override base class to create application-specific top-level view of model. 
          */
-        override protected function createDocumentView(context:ViewContext):MoccasinView
+        override protected function createDocumentView(context:ViewContext):IMoccasinView
         {
             return new WorldView(context, controller.document.root);
         } 
