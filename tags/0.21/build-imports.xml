@@ -1,0 +1,13 @@
+<project name="moccasin.imports">
+    <!--
+          ant.file.[projectname] is a built-in property that contains
+          the current file's full path. Each file must have a name
+          and each name must be unique for a project.
+    -->
+    <dirname property="moccasin.imports.dir" file="${ant.file.moccasin.imports}"/>
+
+    <property file="${moccasin.imports.dir}/build-user.properties" />
+    <import file="buildtools/build-common-imports.xml" />
+
+    <import file="build-assets.xml" />
+</project>

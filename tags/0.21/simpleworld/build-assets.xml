@@ -1,0 +1,7 @@
+<project name="simpleworld.assets">
+    <dirname property="simpleworld.assets.dir" file="${ant.file.simpleworld.assets}"/>
+
+    <!-- Define binaries exported by this library. -->
+    <property name="simpleworld.build.dir" location="${simpleworld.assets.dir}/${build.dir}"/>
+    <property name="simpleworld.swc" location="${simpleworld.assets.dir}/${build.dir}/simpleworld.swc"/>
+</project>

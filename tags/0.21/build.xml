@@ -1,0 +1,45 @@
+<project name="Antennae" default="build" basedir=".">
+
+    <!-- ======================================================== -->
+    <!-- Properties relating to distribution creation             -->
+    <!-- ======================================================== -->
+    <property name="version" value="0.21"/>
+    <property name="dist.dir" value="moccasin-${version}"/>
+
+    <import file="buildtools/build-master-targets.xml" />
+    <import file="build-imports.xml" />
+
+    <filelist id="children.filelist" dir=".">
+        <file name="moccasin-core"/>
+        <file name="simpleworld"/>
+        <file name="simpleworld-flex"/>
+        <file name="simpleworld-air"/>
+    </filelist>
+
+    <filelist id="testChildren.filelist" dir=".">
+    </filelist>
+
+    <!-- ======================================================== -->
+    <!-- dist: Create a new distribution.                         -->
+    <!-- ======================================================== -->
+    <target name="dist" depends="build,copy-dist,zip-dist"/>
+
+    <!-- ======================================================== -->
+    <!-- copy-dist: copy distribution to a new distribution dir.  -->
+    <!-- ======================================================== -->
+    <target name="copy-dist">
+        <delete dir="../${dist.dir}"/>
+        <mkdir dir="../${dist.dir}"/>
+        <copy todir="../${dist.dir}">
+            <fileset dir="." excludes="**/.svn,build-user.properties"/>
+        </copy>
+    </target>
+
+    <!-- ======================================================== -->
+    <!-- zip-dist: create the final distribution ZIP file.        -->
+    <!-- ======================================================== -->
+    <target name="zip-dist">
+        <zip destfile="../moccasin-${version}.zip" basedir=".." includes="${dist.dir}/**"/>
+    </target>
+
+</project>
