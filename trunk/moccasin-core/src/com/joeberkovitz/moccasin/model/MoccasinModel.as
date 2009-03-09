@@ -68,7 +68,7 @@ package com.joeberkovitz.moccasin.model
             var proxy:MoccasinModel = _valueMap[value];
             if (proxy == null)
             {
-                proxy = new MoccasinModel(value);
+                proxy = MoccasinModelFactory.instance.createModel(value);
                 _valueMap[value] = proxy;
             }
             return proxy;
