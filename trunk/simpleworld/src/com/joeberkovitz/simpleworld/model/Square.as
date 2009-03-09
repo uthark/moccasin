@@ -10,6 +10,9 @@ package com.joeberkovitz.simpleworld.model
     {
         [Bindable]
         public var size:Number;
+        
+        [Bindable]
+        public var color:uint;
  
  
         override public function get bounds():Rectangle

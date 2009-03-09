@@ -1,6 +1,7 @@
 package com.joeberkovitz.simpleworld.controller
 {
     import com.joeberkovitz.moccasin.controller.MoccasinController;
+    import com.joeberkovitz.moccasin.document.ISelection;
     import com.joeberkovitz.moccasin.document.MoccasinDocument;
     import com.joeberkovitz.moccasin.model.MoccasinModel;
     import com.joeberkovitz.simpleworld.model.Square;
@@ -34,7 +35,17 @@ package com.joeberkovitz.simpleworld.controller
             var square:Square = new Square();
             square.x = square.y = 100;
             square.size = 25;
+            square.color = 0;
             world.shapes.addItem(square);
+        }
+        
+        public function changeSquareColor():void
+        {
+            var sel:ISelection = document.selection;
+            for each (var m:MoccasinModel in sel.selectedModels)
+            {
+                Square(m.value).color = 0xff0000;
+            }
         }
 
         /**

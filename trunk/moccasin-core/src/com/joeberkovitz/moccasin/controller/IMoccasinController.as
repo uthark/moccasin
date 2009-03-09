@@ -10,6 +10,7 @@ package com.joeberkovitz.moccasin.controller
     [Event(name="documentChange",type="com.joeberkovitz.moccasin.event.ControllerEvent")]
     [Event(name="addSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     [Event(name="removeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
+    [Event(name="changeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
 
     /**
      * Basic controller interface for operations supported by all Moccasin apps. 
@@ -62,12 +63,23 @@ package com.joeberkovitz.moccasin.controller
          * Select exactly one model. 
          */
         function selectSingleModel(m:MoccasinModel):void;
-
+        
+        /**
+         * Select mocassin models.
+         */
+        function selectModels(ms:Array):void;
+        
         /**
          * Extend an existing selection to include/exclude a model. 
          * @param n the model object whose selected status is to be modified.
          */
         function modifySelection(m:MoccasinModel):void;
+        
+        /**
+         * Extend an existing selection to include/exclude multiple models. 
+         * @param n the array of model objects whose selected status are to be modified.
+         */
+        function modifyMultiSelection(ms:Array):void;
 
         /**
          * Deselect all selected objects. 

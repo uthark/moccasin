@@ -33,7 +33,7 @@ package com.joeberkovitz.simpleworld.view
             super.updateView();
             
             // draw the square itself.
-            graphics.beginFill(0);
+            graphics.beginFill(square.color);
             graphics.drawRect(0, 0, square.size, square.size);
             graphics.endFill();
         }

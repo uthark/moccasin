@@ -11,6 +11,7 @@ package com.joeberkovitz.moccasin.document
     
     [Event(name="addSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     [Event(name="removeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
+    [Event(name="changeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     [Event(name="documentUpdate",type="com.joeberkovitz.moccasin.event.DocumentUpdateEvent")]
      
     /**
@@ -100,6 +101,9 @@ package com.joeberkovitz.moccasin.document
                     dispatchSelectEvent(SelectEvent.REMOVE_SELECTION, oldSelection);
                     dispatchSelectEvent(SelectEvent.ADD_SELECTION, newSelection);
                 }
+                
+                var selEvent:SelectEvent = new SelectEvent(SelectEvent.CHANGE_SELECTION, newSelection); 
+                dispatchEvent(selEvent);
             }
         }
         
