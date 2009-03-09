@@ -3,7 +3,7 @@
     <!-- ======================================================== -->
     <!-- Properties relating to distribution creation             -->
     <!-- ======================================================== -->
-    <property name="version" value="0.11"/>
+    <property name="version" value="0.21"/>
     <property name="dist.dir" value="moccasin-${version}"/>
 
     <import file="buildtools/build-master-targets.xml" />
@@ -31,7 +31,7 @@
         <delete dir="../${dist.dir}"/>
         <mkdir dir="../${dist.dir}"/>
         <copy todir="../${dist.dir}">
-            <fileset dir="." excludes="**/.svn"/>
+            <fileset dir="." excludes="**/.svn,build-user.properties"/>
         </copy>
     </target>
 

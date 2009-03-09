@@ -1,0 +1,27 @@
+Moccasin 0.21 Release Notes
+
+- Add Moccasin capability for both Flex component-based and Flash
+  Sprite-based view hierarchies, by abstracting IMoccasinView interface
+  and offering multiple view superclasses extending Canvas and
+  UIComponent.
+
+- Added a rollover state to handles
+
+- Accounted for possibility of null value models in a MoccasinModel,
+  and for potential changes to Moccasin value properties
+
+- Added getValueModel() function to MoccasinModel to obtain named
+  value model properties
+
+- Add value model property change listeners
+
+- Fix bug in initialization order for MoccasinCanvas, in which
+  updateView() was being called before a subclass constructor could
+  fully initialize the state of the object.
+
+- Added MoccasinModelFactory extension point for model-wrapping
+  behavior, so that additional "smarts" can be added in a
+  MoccasinModel subclass if desired.
+
+- Added SelectEvent for easier application handling of selection
+  changes.
