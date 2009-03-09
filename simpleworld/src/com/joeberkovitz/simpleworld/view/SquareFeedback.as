@@ -5,8 +5,6 @@ package com.joeberkovitz.simpleworld.view
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.SizeDragMediator;
     import com.joeberkovitz.simpleworld.model.Square;
-    
-    import flash.display.Sprite;
 
     /**
      * Feedback variation of a SquareView that displays associated resizing handle in the editor's
@@ -14,7 +12,7 @@ package com.joeberkovitz.simpleworld.view
      */
     public class SquareFeedback extends ShapeView
     {
-        private var _sizeHandle:Sprite;
+        private var _sizeHandle:SelectionHandle;
         
         public function SquareFeedback(context:ViewContext, model:MoccasinModel=null)
         {
