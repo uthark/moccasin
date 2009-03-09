@@ -11,10 +11,13 @@ package com.joeberkovitz.moccasin.controller
     import com.joeberkovitz.moccasin.model.ModelRoot;
     
     import flash.events.EventDispatcher;
+    
+    import mx.collections.ArrayCollection;
 
     [Event(name="documentChange",type="com.joeberkovitz.moccasin.event.ControllerEvent")]
     [Event(name="addSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     [Event(name="removeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
+    [Event(name="changeSelection",type="com.joeberkovitz.moccasin.event.SelectEvent")]
     
     /**
      * The MoccasinController is an abstract superclass of application controllers.  Its role is to
@@ -77,6 +80,7 @@ package com.joeberkovitz.moccasin.controller
                 
                 _document.removeEventListener(SelectEvent.ADD_SELECTION, handleSelectEvent);
                 _document.removeEventListener(SelectEvent.REMOVE_SELECTION, handleSelectEvent);
+                _document.removeEventListener(SelectEvent.CHANGE_SELECTION, handleSelectEvent);
             }
             
             _document = d;
@@ -88,6 +92,7 @@ package com.joeberkovitz.moccasin.controller
                 
                 _document.addEventListener(SelectEvent.ADD_SELECTION, handleSelectEvent, false, 0, true);
                 _document.addEventListener(SelectEvent.REMOVE_SELECTION, handleSelectEvent, false, 0, true);
+                _document.addEventListener(SelectEvent.CHANGE_SELECTION, handleSelectEvent, false, 0, true);
             }
             
             dispatchEvent(new ControllerEvent(ControllerEvent.DOCUMENT_CHANGE));
@@ -189,6 +194,15 @@ package com.joeberkovitz.moccasin.controller
         {
             document.selection = new ObjectSelection(root, [m]);
         }
+        
+        /**
+         * Select multiple objects in the document 
+         * @param ms array of objects to be selected.
+         */
+        public function selectModels(ms:Array):void
+        {
+            document.selection = new ObjectSelection(root, ms);
+        }
 
         /**
          * Extend an existing selection to include a model object 
@@ -216,6 +230,37 @@ package com.joeberkovitz.moccasin.controller
                         _document.select(new ObjectSelection(root, [m]));
                     }
                 }
+            }
+        }
+
+        /**
+         * Extend an existing selection to include multiple model objects 
+         * @param ms the array of objects whose selected status is to be modified.
+         */
+        public function modifyMultiSelection(ms:Array):void
+        {
+            if (selection == null || selection.empty)
+            {
+                selectModels(ms);
+            }
+            else
+            {
+                var selModels:ArrayCollection = new ArrayCollection();
+                var unselModels:ArrayCollection = new ArrayCollection();
+                if (selection is ObjectSelection)
+                {
+                    for each (var m:MoccasinModel in ms)
+                    {
+                        if (selection.contains(m))
+                            unselModels.addItem(m);
+                        else
+                            selModels.addItem(m);
+                    }
+                }
+                if (selModels.length!=0)
+                    _document.select(new ObjectSelection(root, selModels.source));
+                if (unselModels.length!=0)
+                    _document.deselect(new ObjectSelection(root, unselModels.source));
             }
         }
 

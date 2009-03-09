@@ -10,6 +10,8 @@ package com.joeberkovitz.simpleworld.controller
     import flash.display.Shape;
     import flash.events.MouseEvent;
     import flash.geom.Rectangle;
+    
+    import mx.collections.ArrayCollection;
 
     /**
      * Mediator for the WorldView that adds a new square at a clicked location, but for
@@ -44,6 +46,7 @@ package com.joeberkovitz.simpleworld.controller
             square.x = e.localX;
             square.y = e.localY;
             square.size = 25;
+            square.color = 0;
             _worldView.world.shapes.addItem(square);
 
             context.controller.selectSingleModel(MoccasinModel.forValue(square));
@@ -80,14 +83,18 @@ package com.joeberkovitz.simpleworld.controller
             context.editor.feedbackLayer.removeChild(_marquee);
             _marquee = null;
             
-            context.controller.clearSelection();
+            if (!e.ctrlKey)
+                context.controller.clearSelection();
+            
+            var selectedShapes:Array = [];
             for each (var ws:WorldShape in _worldView.world.shapes)
             {
                 if (ws.bounds.intersects(_worldDragRect))
                 {
-                    context.controller.modifySelection(MoccasinModel.forValue(ws));
+                	selectedShapes.push(MoccasinModel.forValue(ws));
                 }
             }
+            context.controller.modifyMultiSelection(selectedShapes);
         }
         
         private function get dragEndpointRect():Rectangle
