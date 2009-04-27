@@ -3,7 +3,9 @@ package com.joeberkovitz.simpleworld.controller
     import com.joeberkovitz.moccasin.controller.MoccasinController;
     import com.joeberkovitz.moccasin.document.ISelection;
     import com.joeberkovitz.moccasin.document.MoccasinDocument;
+    import com.joeberkovitz.moccasin.document.ObjectSelection;
     import com.joeberkovitz.moccasin.model.MoccasinModel;
+    import com.joeberkovitz.simpleworld.model.Line;
     import com.joeberkovitz.simpleworld.model.Square;
     import com.joeberkovitz.simpleworld.model.World;
     import com.joeberkovitz.simpleworld.model.WorldShape;
@@ -30,24 +32,53 @@ package com.joeberkovitz.simpleworld.controller
         /**
          * Add a new square to the world. 
          */
-        public function addObject():void
+        public function addObject():Square
         {
             var square:Square = new Square();
             square.x = square.y = 100;
             square.size = 25;
             square.color = 0;
             world.shapes.addItem(square);
+            document.selection = new ObjectSelection(root, [MoccasinModel.forValue(square)]);
+            return square;
         }
         
-        public function changeSquareColor():void
+        /**
+         * Add a new line to the world. 
+         */
+        public function addLine():Line
+        {
+            var line:Line = new Line();
+            line.x = line.y = 0;
+            line.width = line.height = 100;
+            world.shapes.addItem(line);
+            document.selection = new ObjectSelection(root, [MoccasinModel.forValue(line)]);
+            return line;
+        }
+        
+        public function changeColor():void
         {
             var sel:ISelection = document.selection;
             for each (var m:MoccasinModel in sel.selectedModels)
             {
-                Square(m.value).color = 0xff0000;
+                WorldShape(m.value).color = 0xff0000;
             }
         }
+        
+        public function convertToOutlines():void
+        {
+            
+        }
 
+        public function rotateSquare(angle:Number):void
+        {
+            var sel:ISelection = document.selection;
+            for each (var m:MoccasinModel in sel.selectedModels)
+            {
+                Square(m.value).angle += angle;
+            }
+        }
+        
         /**
          * Transform pasted model objects appropriately, in this case offsetting them so that they
          * appear distinctly from the originals (if present).

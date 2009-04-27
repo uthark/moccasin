@@ -12,6 +12,7 @@
     
     <mx:Script>
         <![CDATA[
+            import com.joeberkovitz.moccasin.event.EditorEvent;
             import com.joeberkovitz.simpleworld.service.AppDocumentService;
             import com.joeberkovitz.moccasin.service.BasicConfigurationService;
             import com.joeberkovitz.moccasin.view.ViewInfo;

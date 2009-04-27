@@ -9,6 +9,9 @@ package com.joeberkovitz.simpleworld.model
     public class WorldShape
     {
         [Bindable]
+        public var color:uint;
+        
+        [Bindable]
         public var x:Number;
 
         [Bindable]

@@ -5,6 +5,7 @@ package com.joeberkovitz.simpleworld.view
     import com.joeberkovitz.moccasin.view.MoccasinView;
     import com.joeberkovitz.moccasin.view.ViewContext;
     import com.joeberkovitz.simpleworld.controller.WorldMediator;
+    import com.joeberkovitz.simpleworld.model.Line;
     import com.joeberkovitz.simpleworld.model.Square;
     import com.joeberkovitz.simpleworld.model.World;
     
@@ -60,6 +61,10 @@ package com.joeberkovitz.simpleworld.view
             if (child.value is Square)
             {
                 return new SquareView(context, child);
+            }
+            else if (child.value is Line)
+            {
+                return new LineView(context, child);
             }
             else
             {

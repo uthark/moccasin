@@ -2,27 +2,27 @@ package com.joeberkovitz.simpleworld.view
 {
     import com.joeberkovitz.moccasin.model.MoccasinModel;
     import com.joeberkovitz.moccasin.view.ViewContext;
-    import com.joeberkovitz.simpleworld.model.Square;
+    import com.joeberkovitz.simpleworld.model.Line;
     
     import flash.display.DisplayObject;
 
     /**
-     * View of a Square value object in the world. 
+     * View of a Line. 
      */
-    public class SquareView extends ShapeView
+    public class LineView extends ShapeView
     {
-        public function SquareView(context:ViewContext, model:MoccasinModel=null)
+        public function LineView(context:ViewContext, model:MoccasinModel=null)
         {
             super(context, model);
             initialize();
         }
         
         /**
-         * The Square object associated with this view's MoccasinModel.
+         * The Line object associated with this view's MoccasinModel.
          */
-        public function get square():Square
+        public function get line():Line
         {
-            return model.value as Square;
+            return model.value as Line;
         }
         
         /**
@@ -31,13 +31,10 @@ package com.joeberkovitz.simpleworld.view
         override protected function updateView():void
         {
             super.updateView();
-            
-            rotation = square.angle * 180 / Math.PI;
-            
-            // draw the square itself.
-            graphics.beginFill(square.color);
-            graphics.drawRect(-square.size/2, -square.size/2, square.size, square.size);
-            graphics.endFill();
+
+            graphics.lineStyle(3, line.color);
+            graphics.moveTo(0, 0);
+            graphics.lineTo(line.width, line.height);
         }
         
         /**
@@ -45,7 +42,7 @@ package com.joeberkovitz.simpleworld.view
          */        
         override protected function createFeedbackView():DisplayObject
         {
-            return new SquareFeedback(context, model);
+            return new LineFeedback(context, model);
         }
     }
 }

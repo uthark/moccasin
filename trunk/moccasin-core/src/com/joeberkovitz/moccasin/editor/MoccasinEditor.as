@@ -24,6 +24,10 @@ package com.joeberkovitz.moccasin.editor
     import mx.core.UIComponent;
     import mx.managers.IFocusManagerComponent;
     import mx.managers.PopUpManager;
+    
+    [Event(type="com.joeberkovitz.moccasin.event.EditorEvent",name="documentChanged")]
+    [Event(type="com.joeberkovitz.moccasin.event.EditorEvent",name="documentLayoutChange")]
+    [Event(type="com.joeberkovitz.moccasin.event.EditorEvent",name="displayScaleChange")]
 
     /**
      * MoccasinEditor is the top-level UI component in the Moccasin framework.  An application need only
@@ -287,11 +291,33 @@ package com.joeberkovitz.moccasin.editor
          */
         protected function documentLoaded(e:Event):void
         {
-            documentData = MoccasinDocumentData(IOperation(e.target).result);
-            
-            _document = new MoccasinDocument(documentData.root);
+            loadFromDocumentData(MoccasinDocumentData(IOperation(e.target).result));
+        }
+        
+        /**
+         * Load the contents of this editor from the given MoccasinDocumentData object. 
+         */
+        protected function loadFromDocumentData(data:MoccasinDocumentData):void
+        {
+            documentData = data;
+            moccasinDocument = new MoccasinDocument(documentData.root);
+        }
+        
+        /**
+         * The MoccasinDocument being viewed by this editor. 
+         */
+        public function get moccasinDocument():MoccasinDocument
+        {
+            return _document;
+        }
+        
+        public function set moccasinDocument(d:MoccasinDocument):void
+        { 
+            _document = d;
             _controller.document = _document;
             updateLayout();
+            
+            dispatchEvent(new EditorEvent(EditorEvent.DOCUMENT_CHANGED));
         }
         
         /**
