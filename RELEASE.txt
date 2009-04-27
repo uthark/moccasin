@@ -1,3 +1,11 @@
+Moccasin 0.23 Release Notes
+
+- Enhanced example application to include Lines as well as Squares.
+
+- added EditorEvent.DOCUMENT_CHANGED event, dispatched by
+  MoccasinEditor after a new document is set up for editing.
+
+
 Moccasin 0.21 Release Notes
 
 - Add Moccasin capability for both Flex component-based and Flash
