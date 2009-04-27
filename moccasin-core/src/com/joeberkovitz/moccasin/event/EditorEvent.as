@@ -7,6 +7,7 @@ package com.joeberkovitz.moccasin.event
      */
     public class EditorEvent extends Event
     {
+        public static const DOCUMENT_CHANGED:String = "documentChanged";
         public static const DOCUMENT_LAYOUT_CHANGE:String = "documentLayoutChange";
         public static const DISPLAY_SCALE_CHANGE:String = "displayScaleChange";
         

@@ -24,11 +24,7 @@ package com.joeberkovitz.simpleworld.editor
         override public function initializeEditor():void
         {
             super.initializeEditor();
-            
-            _document = new MoccasinDocument(new ModelRoot(new World()));
-            controller.document = _document;
-            documentData = new MoccasinDocumentData(_document.root, null);
-            updateLayout();
+            loadFromDocumentData(new MoccasinDocumentData(new ModelRoot(new World()), null));
         }
         
         /**

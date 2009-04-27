@@ -28,7 +28,9 @@ package com.joeberkovitz.simpleworld.editor
             menuBarDefinition +=
                 <menuitem id="simpleWorld" label="SimpleWorld">
                     <menuitem id="addSquare" label="Add Square"/>
-                    <menuitem id="setColor" label="Change Square Color" enabled="false" />
+                    <menuitem id="rotateSquare" label="Rotate Square" />
+                    <menuitem id="setColor" label="Change Color" enabled="false" />
+                    <!-- <menuitem id="addLine" label="Add Line"/> -->
                 </menuitem>;
         }
         
@@ -41,16 +43,6 @@ package com.joeberkovitz.simpleworld.editor
                 colorMenu[0].@enabled="false";
             else
             {
-                // Disable setColor menu item if the selection is not type Square
-                for each (var m:MoccasinModel in evt.selection.selectedModels)
-                {
-                    if (!m.value is Square)
-                    {
-                        colorMenu[0].@enabled="false";
-                        return;
-                    }
-                }
-                
                 colorMenu[0].@enabled="true";
             }
         }
@@ -64,10 +56,21 @@ package com.joeberkovitz.simpleworld.editor
                 simpleController.addObject();
                 break;
             case "setColor":
-                simpleController.document.undoHistory.openGroup("Change Square Color");
-                simpleController.changeSquareColor();
+                simpleController.document.undoHistory.openGroup("Change Color");
+                simpleController.changeColor();
                 break;
-            default:
+            case "rotateSquare":
+                simpleController.document.undoHistory.openGroup("Rotate Square");
+                simpleController.rotateSquare(Math.PI / 8);
+                break;
+/* 
+            case "addLine":
+                simpleController.document.undoHistory.openGroup("Add Line");
+                simpleController.addLine();
+                break;
+
+ */
+             default:
                 super.handleCommand(commandName);
             }
         }
