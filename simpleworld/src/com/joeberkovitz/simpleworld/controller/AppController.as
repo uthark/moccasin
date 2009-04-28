@@ -9,6 +9,8 @@ package com.joeberkovitz.simpleworld.controller
     import com.joeberkovitz.simpleworld.model.Square;
     import com.joeberkovitz.simpleworld.model.World;
     import com.joeberkovitz.simpleworld.model.WorldShape;
+    
+    import flash.geom.Point;
 
     /**
      * Application specific subclass of MoccasinController.  This class is responsible
@@ -65,9 +67,35 @@ package com.joeberkovitz.simpleworld.controller
             }
         }
         
-        public function convertToOutlines():void
+        public function createConnections():void
         {
+            if (!document.selection)
+            {
+                return;
+            }
+            var selectedModels:Array = document.selection.selectedModels.slice();
+            var lines:Array = [];
+            for (var i:int = 0; i < selectedModels.length; i++)
+            {
+                var square:Square = selectedModels[i].value as Square;
+                if (square)
+                {
+                    for (var j:int = i+1; j < selectedModels.length; j++)
+                    {
+                        var square2:Square = selectedModels[j].value as Square;
+                        if (square2)
+                        {
+                            var line:Line = new Line();
+                            line.p1 = new Point(square.x, square.y);
+                            line.p2 = new Point(square2.x, square2.y);
+                            world.shapes.addItem(line);
+                            lines.push(MoccasinModel.forValue(line));
+                        }
+                    }
+                }
+            }
             
+            document.selection = new ObjectSelection(root, lines);
         }
 
         public function rotateSquare(angle:Number):void

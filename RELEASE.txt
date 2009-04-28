@@ -1,4 +1,4 @@
-Moccasin 0.23 Release Notes
+Moccasin 0.24 Release Notes
 
 - Enhanced example application to include Lines as well as Squares.
 
