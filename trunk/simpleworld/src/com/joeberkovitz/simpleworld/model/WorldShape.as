@@ -12,10 +12,10 @@ package com.joeberkovitz.simpleworld.model
         public var color:uint;
         
         [Bindable]
-        public var x:Number;
+        public var x:Number = 0;
 
         [Bindable]
-        public var y:Number;
+        public var y:Number = 0;
         
         public function get bounds():Rectangle
         {

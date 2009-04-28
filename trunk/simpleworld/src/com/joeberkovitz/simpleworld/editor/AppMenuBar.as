@@ -30,7 +30,8 @@ package com.joeberkovitz.simpleworld.editor
                     <menuitem id="addSquare" label="Add Square"/>
                     <menuitem id="rotateSquare" label="Rotate Square" />
                     <menuitem id="setColor" label="Change Color" enabled="false" />
-                    <!-- <menuitem id="addLine" label="Add Line"/> -->
+                    <menuitem id="addLine" label="Add Line"/>
+                    <menuitem id="addConnections" label="Connect Squares" />
                 </menuitem>;
         }
         
@@ -70,7 +71,12 @@ package com.joeberkovitz.simpleworld.editor
                 break;
 
  */
-             default:
+            case "addConnections":
+                simpleController.document.undoHistory.openGroup("Connect Squares");
+                simpleController.createConnections();
+                break;
+                
+            default:
                 super.handleCommand(commandName);
             }
         }

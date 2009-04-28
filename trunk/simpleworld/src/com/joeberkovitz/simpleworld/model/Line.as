@@ -10,10 +10,10 @@ package com.joeberkovitz.simpleworld.model
     public class Line extends WorldShape
     {
         [Bindable]
-        public var width:Number;
+        public var width:Number = 0;
         
         [Bindable]
-        public var height:Number;
+        public var height:Number = 0;
         
         public function get p1():Point
         {
